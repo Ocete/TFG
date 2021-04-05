@@ -1,9 +1,13 @@
-main.pdf: main.tex imports/titlepage.tex
+main.pdf: main.tex imports/titlepage.tex clean
 	pdflatex --shell-escape main.tex
 	bibtex main
 	pdflatex --shell-escape main.tex
 	pdflatex --shell-escape main.tex
 
 clean:
-	rm main.pdf *.aux *.blg *.log *.bbl *.toc *.out
+	-rm main.pdf *.aux *.blg *.log *.bbl *.toc *.out *.bcf *.xml
+	rm -rf _minted-main
+
+pdf_clean:
+	-rm *.aux *.blg *.log *.bbl *.toc *.out *.bcf *.xml
 	rm -rf _minted-main

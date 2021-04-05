@@ -99,14 +99,19 @@ manychapters,pdfspacing]{classicthesis}
 \input{preliminares/resumen}
 
 \input{chapters/chapter1}
-\input{chapters/chapter1}
+%\input{chapters/chapter2}
 
-% Añade sección de referencias al final del documento.
-% Selecciona un estilo de cita.
+% ----------------------- %
+% BIBLIOGRAFÍA
+% ----------------------- %
+
+% Estilo de cita.
 \bibliographystyle{alpha}
 
-% En research.bib están las entradas de los artículos que citamos.
-% Podemos cambiar el nombre del archivo aquí.
-\bibliography{preliminares/research}   
+% Añadimos la bibliografía al índice
+\phantomsection
+\addcontentsline{toc}{chapter}{Bibliography}
+
+\bibliography{preliminares/library}
 
 \end{document}

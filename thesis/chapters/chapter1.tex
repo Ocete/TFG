@@ -1,78 +1,54 @@
 \ctparttext{
 	\color{black}
 	\begin{center}
-		Esta es una descripción de la parte de matemáticas.
-		Nótese que debe escribirse antes del título
+		TODO: cambiar la descripción de la parte (antes del titulo)
 	\end{center}
 }
 
 \part{Parte de matemáticas}
 
-\chapter{Sección primera}
+\chapter{The Genome Assembly Problem}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc finibus
-augue a tellus volutpat, quis cursus mi egestas. Suspendisse cursus
-eleifend lacus non consectetur. Proin nibh nisl, tincidunt eu
-tincidunt et, auctor vitae mi. Mauris tincidunt finibus enim, sit amet
-facilisis mi imperdiet in. Pellentesque pellentesque felis sed
-condimentum congue. Nunc at mauris et velit tempor gravida faucibus
-sed velit. Sed risus justo, feugiat non accumsan vitae, commodo a
-mauris. Vestibulum ac tortor ligula. Donec pulvinar neque ac purus
-varius dapibus. Donec fermentum bibendum ultrices. Quisque dictum,
-purus quis semper lacinia, justo nibh cursus orci, vitae sagittis
-mauris ex aliquet odio. Nullam vel lacus eu tellus dictum tempus in
-vel sapien. Morbi pulvinar tincidunt tincidunt. Cras eros tortor,
-commodo at tempus a, ultrices vel magna. Nulla eget mauris
-arcu. Vivamus aliquet sem odio, non faucibus ante iaculis non.
+The genome of an organism is all its genetic material \cite{Roth2019}. The deoxyribonucleic acid (DNA) is the carrier of that genetic information. It consists of two long chains twisted to form a double helix \cite{Alberts2007}. Each of these chains is composed of a series of nucleotides or bases: adenine (A), guanine (G), cytosine (C), and thymine (T). Since these bases are matched in pairs in the DNA double helix, those are called base pairs (bp).
 
-Aenean aliquet metus nisi, eu congue nulla egestas nec. Etiam pretium
-cursus orci a venenatis. Pellentesque placerat feugiat tortor tempus
-laoreet. Sed at rutrum leo. Aenean magna nulla, egestas quis efficitur
-a, consequat id ligula. Nulla facilisi. Duis orci urna, bibendum vel
-mollis non, commodo vitae tellus. Integer luctus ex sed nibh
-convallis, id malesuada metus facilisis.
+A genome sequence is the complete list of nucleotides of every chromosome of an organism. With today's technology, automated sequence machines can read up to 1000 bp at a time \cite{Slatko2011} while the human genome contains 3 Mbp, so we can't just read the whole genome. This is where genome assembly comes in.
 
-\begin{theorem}
-En las condiciones dadas anteriormente se tiene
-\[
-g(t) = \int^b_a K(t,s)f(s)\ \diff s.
-\]
-\end{theorem}
+Genome assembly refers to the process of, given a large number of short DNA reads, stitch them together to form a large representation of the original chromosome where the reads came from. The two main techniques used to reconstruct these sequences are the ab initio reference-free alignment and the de novo reference-based assembly.
 
-Vivamus sit amet sodales elit, in tempus nulla. Nullam euismod rhoncus
-quam, ac fringilla massa fermentum vehicula. Maecenas vestibulum purus
-non pellentesque congue. Sed nec massa purus. Mauris et quam
-dignissim, mollis lacus id, tristique diam. Vestibulum molestie
-vehicula tellus quis dignissim. Curabitur accumsan augue ut dictum
-semper. Proin tristique quam nulla, vel placerat tortor feugiat
-vel. Vestibulum quis ultricies enim, in vestibulum ante.
+\section{Ab initio reference-based alignment}
 
-\chapter{Sección segunda}
-Vivamus fringilla egestas nulla ac lobortis. Etiam viverra est risus,
-in fermentum nibh euismod quis. Vivamus suscipit arcu sed quam dictum
-suscipit. Maecenas pulvinar massa pulvinar fermentum
-pellentesque. Morbi eleifend nec velit ut suscipit. Nam vitae
-vestibulum dui, vel mollis dolor. Integer quis nibh sapien.
+In this method, the DNA reads are matched against a known trusted reference of the same organism. This is essentially a pattern matching problem, where we find the index of a given sub-string in a larger string. However, after the reconstruction is complete the result is compared to the reference in order to identify implications; therefore introducing bias based on the reference \cite{Sarkar2020}.
 
-Nullam laoreet augue at erat consectetur fermentum. In interdum
-aliquam condimentum. Etiam luctus viverra tellus, a consequat justo
-venenatis id. Curabitur a scelerisque erat. Nulla et ante eget lacus
-varius accumsan. Suspendisse odio nisl, convallis ac orci nec,
-efficitur semper enim. Pellentesque eros ipsum, luctus et viverra
-maximus, auctor at est. In hac habitasse platea dictumst. Etiam
-ultricies suscipit diam, eget dignissim tellus. Proin justo orci,
-volutpat placerat libero a, gravida interdum nisi.
+In the naive approach, the short sub-string is compared to the reference starting at the first index. If the end of the sub-string is reached with a positive, a match is obtained. Otherwise, the sub-string is shifted a single position and we compare again. Heuristic methods that improve on this idea are based on shifting a greater number of spaces after a mismatch.
 
-\begin{corollary}
-Se obtiene el siguiente resultado
-\[\begin{tikzcd}
-a\rar{f} \dar[swap]{g} & b \dar{h} \\
-c\rar{k} & d
-\end{tikzcd}\]
-\end{corollary}
-\begin{proof}
-  Vivamus sit amet sodales elit, in tempus nulla. Nullam euismod
-  rhoncus quam, ac fringilla massa fermentum vehicula. Maecenas
-  vestibulum purus non pellentesque congue. Sed nec massa purus.
-  Quod erat demostrandum.
-\end{proof}
+Different number of strategies have been developed in this direction. For instance, the classic Boyer-Moore and Knuth-Pratt-Morris algorithms \cite{Holmes1999}. However, these in particular are not adequate for genome assembly since these are exact string matching algorithms and DNA reads usually need approximate matches due to reads errors. Other algorithms worth mentioning are the Needleman-Wunsch algorithm \cite{Needleman1970} and the Smith-Waterman algorithm \cite{Smith1981}, for global and local alignment respectively. These are dynamic programming algorithms designed specifically with DNA reads in mind. 
+
+State of the art algorithms trades off accuracy for speed and memory. The approximation and errors introduced prevents the application of this technique to critical areas such as personalized medicine. Given enough computational power, the de novo method yields better results.
+
+\section{De novo reference-free assembly}
+
+This method is reference-free, being based only on DNA reads. Thus, it has no reference bias but it is more computationally complex. It is usually used the first time a species DNA is read.
+
+In this technique, multiple copies of the same DNA are made before slicing it. After chopping each copy at random places the data is redundant and the different reads overlap, making the assembly easier.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
