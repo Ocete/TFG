@@ -307,10 +307,13 @@ def create_test(length, read_length, fixed_overlap):
 	reads = chop_solution(sol, read_length, fixed_overlap)
 	return (sol, reads)
 
-def print_test_results(test_number, expected_sol, sol):
+def print_test_results(test_number, expected_sol, sol, print_all=False):
 	sucess = expected_sol == sol
 	if not sucess:
 		print('Test {} results: Failure \nExpected: {} \nObtained: {}'.format(
+				test_number, expected_sol, sol))
+	elif print_all:
+		print('Test {} results: Sucess \nExpected: {} \nObtained: {}'.format(
 				test_number, expected_sol, sol))
 	else:
 		print('Test {} results: Sucess'.format(test_number))
@@ -322,14 +325,15 @@ EXPERIMENTS
 def run_test_1():
 	expected_sol = 'ATGGCGTGCAATGGCGTGC'
 	reads = ['ATGGCGTGCA','GCGTGCAATG','TGCAATGGCG','AATGGCGTGC']
+	#reads = ['ATGGCGTGCA', 'CGTGCAATGG', 'CAATGGCGTG', 'GGCGTGC']
 
 	sol = deNovo_on_DWave(reads)
-	print_test_results(1, expected_sol, sol)
+	print_test_results(1, expected_sol, sol, print_all=True)
 
 def run_test_2():
 	sol = 'ATGGCGTGCAATGGCGTGC'
 	expected_reads = ['ATGGCGTGCA','GCGTGCAATG','TGCAATGGCG','AATGGCGTGC']
-	reads = chop_solution(sol, read_length=10, fixed_overlap=7)
+	reads = chop_solution(sol, read_length=10, fixed_overlap=6)
 	print_test_results(2, expected_reads, reads)
 
 def run_test_3(n_tests=10):
@@ -349,9 +353,40 @@ def run_test_3(n_tests=10):
 	print('Mean time for length=10, read_length=10, fixed_overlap=7: {}'.format(
 		total_time / n_tests))
 
+def run_test_4():
+	tests_params = [
+		(19, 10, 7),
+		(300, 100, 50),
+		(1000, 150, 70),
+		(10000, 150, 70),
+		(100000, 150, 70),
+		(1000000, 150, 70)
+	]
+
+	print('Result\t length\t read_length\t overlap\t creation time\t\t\t solving time')
+
+	for length, read_length, fixed_overlap in tests_params:
+
+		start = time.time()
+		expected_sol, reads = create_test(length=length, 
+										read_length=read_length,
+										fixed_overlap=fixed_overlap)
+		creation_time = time.time() - start
+
+		start = time.time()
+		sol = deNovo_on_DWave(reads)
+		solving_time = time.time() - start
+
+		result = 'Sucess' if expected_sol == sol else 'Failure'
+
+		print('{}\t {}\t {}\t\t {}\t\t {}\t\t {}'.format(
+				result, length, read_length, fixed_overlap,
+				creation_time, solving_time))
+
 #run_test_1()
 #run_test_2()
-run_test_3()
+#run_test_3()
+run_test_4()
 
 # quboDict = quboFile_to_quboDict("denovo_001.qubo")
 # print(quboDict)
