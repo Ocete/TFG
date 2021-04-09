@@ -74,4 +74,14 @@ Minimum Energy Configurations from D-Wave	===>
 
 Tiempo en ordenador cuántico: Aproximadamente `0.005` segundos.
 
-# Conclusiones
+# Test 2
+
+En el primer test me di cuenta de que la reconstrucción de las solcuiones no era correcta (tomaba siempre las lecturas en el orden lexicográfico: 0, 1, 2, 3... Y como no se barajaban, se obtenía la respuesta correcta).
+
+Una vez subsanado el problema me he dado cuenta de que no siempre tomamos como solución la que empieza por la primera lectura. Recordemos que la solución al QUBO transformado a TSP es un ciclo y no un camino, luego el punto de corte para convertir el ciclo en un camino es determinante. Dos ideas que merece la pena explorar:
+
+- Una vez tenemos el ciclo, cortar por el lado del grafo que tiene mayor energía. Así deberíamos obtener el gen original.
+
+- En vez de buscar un punto de corte, constuir la solución como esté y calcular la [distancia Levenshtein](https://en.wikipedia.org/wiki/Levenshtein_distance#:~:text=Informally%2C%20the%20Levenshtein%20distance%20between,considered%20this%20distance%20in%201965.) (o cualquier otra que nos sirva para calcular distancia entre strings, si existe alguna que compare teniendo en cuenta que principio y final están unidos mejor que mejor), para medir como de cercanas son las solucines.
+
+En el paper de QuASer asumen que las lecturas proceden de un gen circular, asi que quizás este punto no merezca tanto la pena.

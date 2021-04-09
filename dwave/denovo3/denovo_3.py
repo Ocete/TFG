@@ -76,6 +76,7 @@ def get_node_in_instant(t, response, N):
 		if response['n{}t{}'.format(i, t)] == 1:
 			return i
 	print('Error building gen in instant {}'.format(t))
+	return -1
 
 
 def	stitch(str1, str2):
@@ -102,7 +103,8 @@ def rebuild_gen_from_response(response, reads):
 	reads_order = []
 	for i in range(N):
 		t = get_node_in_instant(i, response, N)
-		reads_order.append(reads[i])
+		if t == -1: return ''
+		reads_order.append(reads[t])
 
 	result = reads_order[0]
 	for str2 in reads_order[1:]:
@@ -179,6 +181,7 @@ def reads_to_tspAdjM(reads, max_mismatch = 0):
 
 """
 Convert adjacency matrix of pair-wise overlap for TSP to QUBO matrix of TSP
+Parameters: self-bias, multi-locaiton and repetition.
 """
 def tspAdjM_to_quboAdjM(tspAdjM, p0, p1, p2):
 	n_reads = len(tspAdjM)
@@ -233,7 +236,7 @@ def solve_qubo_exact(Q, print_solutions=False, all=False):
 	response = solver.sample_qubo(Q)
 	minE = min(response.data(['sample', 'energy']), key=lambda x: x[1])
 
-	sol = {}
+	min_energy = {}
 	for sample, energy in response.data(['sample', 'energy']):
 		if energy == minE[1]:
 			sol = sample
@@ -244,6 +247,20 @@ def solve_qubo_exact(Q, print_solutions=False, all=False):
 			print('{} --> {}'.format(sample, energy))
 
 	return sol
+
+"""
+Solve de novo assembly on D-Wave annealer
+"""
+def deNovo_on_DWave_exact(reads, print_solutions=False):
+	tspAdjM = reads_to_tspAdjM(reads)
+	quboAdjM = tspAdjM_to_quboAdjM(tspAdjM, -1.6, 1.6, 1.6) # self-bias, multi-location, repetation
+	quboDict = quboAdjM_to_quboDict(quboAdjM)
+
+	sol = solve_qubo_exact(quboDict, print_solutions)
+	gen = rebuild_gen_from_response(sol, reads)
+	return gen
+
+
 
 """
 Solve an Ising model using dimod exact solver
@@ -299,7 +316,7 @@ def solve_ising_dwave(hii,Jij):
 """
 Solve a QUBO  model using D-Wave solver
 """
-def solve_qubo_dwave(Q, num_reads):
+def solve_qubo_dwave(Q, num_reads=1000):
 	# Create the solver (connecting to D-Wave) and the Sampler
 	config_file='../dwave.conf'
 	client = Client.from_config(config_file, profile='ocete')
@@ -313,19 +330,17 @@ def solve_qubo_dwave(Q, num_reads):
 	Q_embeded = embed_qubo(Q, embed, adjdict)
 
 	# Obtain the response from the solver. This is the actual D-Wave execution!
-	response_qpt = dwsampler.sample_qubo(Q_embeded, num_reads=10)
+	start = time.time()
+	response_qpt = dwsampler.sample_qubo(Q_embeded, num_reads=num_reads)
+	qpu_time = time.time() - start
 	client.close()
 
 	# Transform the response from the embeded graph to our original architecture
 	bqm = dimod.BinaryQuadraticModel.from_qubo(Q)
 	unembedded = unembed_sampleset(response_qpt, embed, bqm, chain_break_method=majority_vote)
 
-	# Order the solutions by lower energy and format the solutions to quboDict format
-	solutions_list = sorted(unembedded.record, key=lambda x: +x[1])
-	formated_sol_list = []
-	for sol, energy, num_appereances in solutions_list:
-		formated_sol_list = (rebuild_quboDict_from_vector(sol, num_reads), energy, num_appereances)
-	return formated_sol_list
+	# Order the solutions by lower energy
+	return unembedded, qpu_time
 
 
 """
@@ -341,26 +356,82 @@ def deNovo_on_DWave_QA(reads, print_solutions=False):
 	quboDict = quboAdjM_to_quboDict(quboAdjM)
 	#print('quboDict: {}'.format(quboDict))
 
-	solutions_list = solve_qubo_dwave(quboDict, len(reads))
-	print('solutions_list: {}'.format(solutions_list))
+	embeded_solutions_list, qpu_time = solve_qubo_dwave(quboDict, len(reads))
+	#print('solutions_list: {}'.format(solutions_list))
 
+	# Sort the solutions from lowest energy and format them to quboDict format
+	unformated_solutions_list = sorted(embeded_solutions_list.record, key=lambda x: +x[1])
+	solutions_list = []
+	for sol, energy, num_appereances in unformated_solutions_list:
+		solutions_list = (rebuild_quboDict_from_vector(sol, len(reads)), energy, num_appereances)
+
+	# Print some solutions if requested
+	if print_solutions:
+		print("Maximum Sampled Configurations from D-Wave\t===>")
+		solnsMaxSample = sorted(embeded_solutions_list.record, key=lambda x: -x[2])
+		for sol in solnsMaxSample[:10]:
+			print(sol)
+		print("Minimum Energy Configurations from D-Wave\t===>")
+		solnsMinEnergy = sorted(embeded_solutions_list.record, key=lambda x: +x[1])
+		for sol in solnsMinEnergy[:10]:
+			print(sol)
+
+	# Use the lowest energy solution to rebuild the gen
 	gen = rebuild_gen_from_response(solutions_list[0], reads)
-	return gen
+	return gen, qpu_time
 
 """
 	--------------------------------- EXPERIMENTS ---------------------------------
 """
 
+def run_test_0():
+	expected_sol = 'ATGGCGTGCAATGGCGTGC'
+	reads = ['ATGGCGTGCA','GCGTGCAATG','TGCAATGGCG','AATGGCGTGC']
+	#reads = ['ATGGCGTGCA', 'CGTGCAATGG', 'CAATGGCGTG', 'GGCGTGC']
+
+	sol = deNovo_on_DWave_exact(reads)
+	print_test_results(1, expected_sol, sol, print_all=True)
+
 def run_test_1():
 	expected_sol = 'ATGGCGTGCAATGGCGTGC'
 	reads = ['ATGGCGTGCA','GCGTGCAATG','TGCAATGGCG','AATGGCGTGC']
-	reads = ['ATGGCGTGCA', 'CGTGCAATGG', 'CAATGGCGTG', 'GGCGTGC']
 
-	sol = deNovo_on_DWave_QA(reads)
+	sol = deNovo_on_DWave_QA(reads, print_solutions=True)
 	print_test_results(1, expected_sol, sol, print_all=True)
 
-run_test_1()
+def run_test_2():
+	tests_params = [
+		(19, 10, 7),
+		(19, 10, 7),
+		(19, 10, 7),
+		(19, 10, 7),
+		(19, 10, 7)
+	]
 
+	print('Result\t length\t read_length\t overlap\t creation time\t\t\t solving time\t\t\t qpu time')
+
+	for length, read_length, fixed_overlap in tests_params:
+
+		start = time.time()
+		expected_sol, reads = create_test(length=length, 
+										read_length=read_length,
+										fixed_overlap=fixed_overlap)
+		creation_time = time.time() - start
+
+		start = time.time()
+		sol, qpu_time = deNovo_on_DWave_QA(reads, print_solutions=True)
+		solving_time = time.time() - start
+
+		result = 'Sucess' if expected_sol == sol else 'Failure'
+
+		print('{}\t {}\t {}\t\t {}\t\t {}\t\t {}\t\t {}'.format(
+				result, length, read_length, fixed_overlap,
+				creation_time, solving_time, qpu_time))
+		if (length < 100):
+			print('Expected: {} \nObtained: {}'.format(expected_sol, sol))
+
+#run_test_1()
+run_test_0()
 # quboDict = quboFile_to_quboDict("denovo_001.qubo")
 # print(quboDict)
 # solve_qubo_exact(quboDict, all=True)
