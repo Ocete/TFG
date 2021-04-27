@@ -1,0 +1,57 @@
+%\ctparttext{\color{black}\begin{center}
+%		Esta es una descripción de la parte de informática.
+%\end{center}}
+
+%\part{Parte de informática}
+\chapter{Introduction to Quantum Computing}
+
+In this chapter we aim to provide a general overview ot the quantum computing fundamentals.
+
+TODO: Add ref to Nielch. ; Cita necesaria para la compilación del latex: 
+\cite{Smith1981}.
+
+\section{The Quantum Bit}
+
+
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{tfg cuantica}
+\author{ocetebt }
+\date{April 2021}
+
+\begin{document}
+	
+	%\ctparttext{\color{black}\begin{center}
+	%		Esta es una descripción de la parte de informática.
+	%\end{center}}
+	
+	%\part{Parte de informática}
+	%\chapter{Introduction to Quantum Computing}
+	
+	In this chapter we aim to provide a general overview to the quantum computing fundamentals required to understand. This development will be based on %TODO: añadir cita al Niel. La siguiente cita necesaria para la compilación del latex: 
+	%\cite{Smith1981}.
+	
+	\section{Intuitive notions}
+	
+	\subsection{The Quantum Bit}
+	
+	The bit is the minimum measure of information on classical computation and classical information theory. Everything is this areas is built from scratch based on bits. Likewise, quantum computing and quantum information theory  are built upon the \textbf{qubit}. In this section we introduce the qubit and its basic properties.
+	
+	We will describe the qubit as a mathematical object, independent of its physical implementation. By describing them as mathematical entities we will be able to explore its properties mathematically without having to worry of the physics underneath. This let's us construct the quantum computing and quantum information theories without independent of the implementation. The physical realization of qubits will be described later on.
+	
+	So, what is a qubit? Just like the classical bit, a qubit has a state. For the bit, the two only possible states are either 0 or 1. A qubit can take the states $|0\rangle$ and $|1\rangle$ -corresponding to the classical states 0 and 1- or it can be in a \emph{linear combination} of them:
+	
+	$$ \psi = \alpha |0\rangle + \beta |1\rangle $$
+	
+	Where $\alpha$ and $\beta$ are complex numbers. This is often called \emph{superposition}. The $| \cdot \rangle$ is called the Dirac notation, usually used in quantum physics. So, although we will formalize them later on we can describe a qubit as a vector in a two-dimensional complex vector space, where $|0\rangle$ and $|1\rangle$ form an orthonormal basis called the \emph{computation basis}. $|0\rangle$ and $|1\rangle$ will be called \emph{computational basis states}.
+	
+	In classical computation, we may know the state of a bit by consulting it. That is, what can simply retrieve that information from the bit. The first difficulty we find in quantum computing is that once we \emph{measure} a qubit it collapses to either $|0\rangle$ with probability $|\alpha|^2$, or the $|1\rangle$ with probability $|\beta|^2$. Thus, $|\alpha|^2 + |\beta|^2 = 1$ because we either measure $|0\rangle$ or $|1\rangle$. After a qubit has collapsed to a state, we will measure that state (and not the other one) for every measurement we perform afterwards.
+	
+	The superposition and collapsing concepts might be counter-intuitive, so let's look at them with an analogy. We could describe a coin being tossed as the following qubit:
+	
+	$$ \psi = \frac{1}{\sqrt{2}} |0\rangle + \frac{1}{\sqrt{2}} |1\rangle $$
+	
+	
+\end{document}
