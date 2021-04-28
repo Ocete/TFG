@@ -21,6 +21,16 @@ TODO: Add ref to Nielch. ; Cita necesaria para la compilación del latex:
 \author{ocetebt }
 \date{April 2021}
 
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+% TODO: quitar esto de aqui
+\usepackage{graphicx}
+
+\title{tfg cuantica}
+\author{ocetebt }
+\date{April 2021}
+
 \begin{document}
 	
 	%\ctparttext{\color{black}\begin{center}
@@ -47,11 +57,25 @@ TODO: Add ref to Nielch. ; Cita necesaria para la compilación del latex:
 	
 	Where $\alpha$ and $\beta$ are complex numbers. This is often called \emph{superposition}. The $| \cdot \rangle$ is called the Dirac notation, usually used in quantum physics. So, although we will formalize them later on we can describe a qubit as a vector in a two-dimensional complex vector space, where $|0\rangle$ and $|1\rangle$ form an orthonormal basis called the \emph{computation basis}. $|0\rangle$ and $|1\rangle$ will be called \emph{computational basis states}.
 	
-	In classical computation, we may know the state of a bit by consulting it. That is, what can simply retrieve that information from the bit. The first difficulty we find in quantum computing is that once we \emph{measure} a qubit it collapses to either $|0\rangle$ with probability $|\alpha|^2$, or the $|1\rangle$ with probability $|\beta|^2$. Thus, $|\alpha|^2 + |\beta|^2 = 1$ because we either measure $|0\rangle$ or $|1\rangle$. After a qubit has collapsed to a state, we will measure that state (and not the other one) for every measurement we perform afterwards.
+	In classical computation, we may know the state of a bit by consulting it. That is, what can simply retrieve that information from the bit. The first difficulty we find in quantum computing is that once we \emph{measure} a qubit it \emph{collapses} to either $|0\rangle$ with probability $|\alpha|^2$, or to $|1\rangle$ with probability $|\beta|^2$. Thus, $|\alpha|^2 + |\beta|^2 = 1$. The measure obtained is gather after the qubit has collapsed to either one of this state, so the outcome may only be either $|0\rangle$ or $|1\rangle$.
 	
-	The superposition and collapsing concepts might be counter-intuitive, so let's look at them with an analogy. We could describe a coin being tossed as the following qubit:
+	The superposition concept might be counter-intuitive, so let's look at them with an analogy. We can think of a coin being tossed as the following qubit:
 	
 	$$ \psi = \frac{1}{\sqrt{2}} |0\rangle + \frac{1}{\sqrt{2}} |1\rangle $$
+	
+	This does not represent a coin that has landed on its side, somehow fifty percent heads and fifty percent tails. It is a a spinning coin that has not landed yet. But upon measuring it, we make the coin land and see the result: either heads or tails and neither of the states in between. This example also describes the qubit collapse: once the coin has landed, we will see the same result every time we look at it -obviously-, just like every time a qubit is measured after the first measurement, the outcome will be the same since it has already collapsed. We will return to this state, which is usually denoted as $|+\rangle$.
+	
+	Given this behaviour, it is worth pointing out that we are not able to find $\alpha$ and $\beta$ by only measuring the qubit due to this collapsing behaviour. We can, however, initialize qubits in a certain state and alter its coefficients, thus knowing there exact value. However, once a single measurement is done, the qubit collapses and the $\alpha$ and $\beta$ values are "lost".
+	
+	At this point, the reader may ask themselves if a qubit may even physically exist, not just as a mathematical entity. Although we will study qubits mathematically and their physical implementations are discussed in Chapter [TODO: add chapter], we cannot proceed any further without providing a more accurate description of a qubit than a "coin being tossed".A possible realization of qubits are electrons in an single atom's orbit, as seen in Figure \ref{fig 1.1}. An electron in an orbit may be in the so-called ground and exited states, $|0\rangle$ and $|1\rangle$ respectively, depending on its energy. By 
+	
+	\begin{figure}[h]
+		\includegraphics[scale=.5]{atom.png}
+		\centering
+		\caption{Qubit represented by two electron orbits in an atom, [TODO]}
+		\label{fig 1.1}
+	\end{figure}
+	
 	
 	
 \end{document}
