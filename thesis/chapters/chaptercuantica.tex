@@ -31,6 +31,17 @@ TODO: Add ref to Nielch. ; Cita necesaria para la compilación del latex:
 \author{ocetebt }
 \date{April 2021}
 
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+% TODO: quitar esto de aqui
+\usepackage{graphicx}
+\usepackage{amsmath}
+
+\title{tfg cuantica}
+\author{ocetebt }
+\date{April 2021}
+
 \begin{document}
 	
 	%\ctparttext{\color{black}\begin{center}
@@ -40,42 +51,108 @@ TODO: Add ref to Nielch. ; Cita necesaria para la compilación del latex:
 	%\part{Parte de informática}
 	%\chapter{Introduction to Quantum Computing}
 	
-	In this chapter we aim to provide a general overview to the quantum computing fundamentals required to understand. This development will be based on %TODO: añadir cita al Niel. La siguiente cita necesaria para la compilación del latex: 
-	%\cite{Smith1981}.
+	In this chapter, we aim to provide a general overview to the quantum computing fundamentals required to understand the rest of the thesis. This development will be based on \ref{Nielsen2002}.
 	
 	\section{Intuitive notions}
 	
 	\subsection{The Quantum Bit}
 	
-	The bit is the minimum measure of information on classical computation and classical information theory. Everything is this areas is built from scratch based on bits. Likewise, quantum computing and quantum information theory  are built upon the \textbf{qubit}. In this section we introduce the qubit and its basic properties.
+	The bit is the minimum measure of information on classical computation and classical information theory. Everything in these fields is built from scratch based on bits. Likewise, quantum computing and quantum information theory are built upon the \textbf{qubit}. In this section we introduce the qubit and its basic properties.
 	
-	We will describe the qubit as a mathematical object, independent of its physical implementation. By describing them as mathematical entities we will be able to explore its properties mathematically without having to worry of the physics underneath. This let's us construct the quantum computing and quantum information theories without independent of the implementation. The physical realization of qubits will be described later on.
+	We will describe the qubit as a mathematical object, independent of its physical implementation. By describing them as mathematical entities we will be able to explore its properties mathematically without having to worry of the physics underneath. This let us construct the quantum computing and quantum information theories independently of the physical implementation. The physical realization of qubits will be briefly discussed on [TODO].
 	
 	So, what is a qubit? Just like the classical bit, a qubit has a state. For the bit, the two only possible states are either 0 or 1. A qubit can take the states $|0\rangle$ and $|1\rangle$ -corresponding to the classical states 0 and 1- or it can be in a \emph{linear combination} of them:
 	
-	$$ \psi = \alpha |0\rangle + \beta |1\rangle $$
+	$$ |\psi\rangle = \alpha |0\rangle + \beta |1\rangle $$
 	
-	Where $\alpha$ and $\beta$ are complex numbers. This is often called \emph{superposition}. The $| \cdot \rangle$ is called the Dirac notation, usually used in quantum physics. So, although we will formalize them later on we can describe a qubit as a vector in a two-dimensional complex vector space, where $|0\rangle$ and $|1\rangle$ form an orthonormal basis called the \emph{computation basis}. $|0\rangle$ and $|1\rangle$ will be called \emph{computational basis states}.
+	Where $\alpha$ and $\beta$ are complex numbers. This is often called \emph{superposition}. The $| \cdot \rangle$ is called the Dirac notation, usually used in quantum physics. So, although we will formalize them later on, we can describe a qubit as a vector in a two-dimensional complex vector space, where $|0\rangle$ and $|1\rangle$ form an orthonormal basis called the \emph{computational basis}. $|0\rangle$ and $|1\rangle$ will be called \emph{computational basis states}.
 	
-	In classical computation, we may know the state of a bit by consulting it. That is, what can simply retrieve that information from the bit. The first difficulty we find in quantum computing is that once we \emph{measure} a qubit it \emph{collapses} to either $|0\rangle$ with probability $|\alpha|^2$, or to $|1\rangle$ with probability $|\beta|^2$. Thus, $|\alpha|^2 + |\beta|^2 = 1$. The measure obtained is gather after the qubit has collapsed to either one of this state, so the outcome may only be either $|0\rangle$ or $|1\rangle$.
+	In classical computation, we may know the state of a bit by consulting it. That is, what can simply retrieve that information from the bit. The first difficulty we find in quantum computing is that once we \emph{measure} a qubit it \emph{collapses} to either $|0\rangle$ with probability $|\alpha|^2$, or to $|1\rangle$ with probability $|\beta|^2$. Thus, $|\alpha|^2 + |\beta|^2 = 1$. The result obtained is gather \emph{after} the qubit has collapsed to either one of these states, so the outcome may only be either $|0\rangle$ or $|1\rangle$.
 	
-	The superposition concept might be counter-intuitive, so let's look at them with an analogy. We can think of a coin being tossed as the following qubit:
+	The superposition concept might be counter-intuitive, so let us look at them with an analogy. We can think of a coin being tossed as the following qubit:
 	
-	$$ \psi = \frac{1}{\sqrt{2}} |0\rangle + \frac{1}{\sqrt{2}} |1\rangle $$
+	$$ |\psi\rangle = \frac{1}{\sqrt{2}} |0\rangle + \frac{1}{\sqrt{2}} |1\rangle $$
 	
-	This does not represent a coin that has landed on its side, somehow fifty percent heads and fifty percent tails. It is a a spinning coin that has not landed yet. But upon measuring it, we make the coin land and see the result: either heads or tails and neither of the states in between. This example also describes the qubit collapse: once the coin has landed, we will see the same result every time we look at it -obviously-, just like every time a qubit is measured after the first measurement, the outcome will be the same since it has already collapsed. We will return to this state, which is usually denoted as $|+\rangle$.
+	This does \textbf{not} represent a coin that has landed somehow on its side, but a spinning coin that has not landed yet. Upon measuring it, we make the coin land and see the result: either heads or tails, and neither of the states in between. This example also describes the qubit collapse: once the coin has landed, we will see the same result every time we look at it -obviously-, just like every time a qubit is measured after the first measurement, the outcome will be the same since it has already collapsed. We will return to this state, which is usually denoted as $|+\rangle$, later on.
 	
-	Given this behaviour, it is worth pointing out that we are not able to find $\alpha$ and $\beta$ by only measuring the qubit due to this collapsing behaviour. We can, however, initialize qubits in a certain state and alter its coefficients, thus knowing there exact value. However, once a single measurement is done, the qubit collapses and the $\alpha$ and $\beta$ values are "lost".
+	Given this behaviour, it is worth pointing out that we are not able to find $\alpha$ and $\beta$ by only measuring the qubit due to its collapsing behaviour. We can, however, initialize qubits in a certain state and apply some operations to them in order to alter its coefficients, thus knowing their exact value. However, once a single measurement is done, the qubit collapses and the $\alpha$ and $\beta$ values are "lost".
 	
-	At this point, the reader may ask themselves if a qubit may even physically exist, not just as a mathematical entity. Although we will study qubits mathematically and their physical implementations are discussed in Chapter [TODO: add chapter], we cannot proceed any further without providing a more accurate description of a qubit than a "coin being tossed".A possible realization of qubits are electrons in an single atom's orbit, as seen in Figure \ref{fig 1.1}. An electron in an orbit may be in the so-called ground and exited states, $|0\rangle$ and $|1\rangle$ respectively, depending on its energy. By 
+	One of the first qubit models ever proposed was the Schrodinger's Cat \ref{Schrodinger1935} \ref{Schrodinger1935a}. In this hypothetical experiment, a cat would be locked in a room for an hour with a device that during that hour would \emph{perhaps} trigger, killing the cat. On the other hand, with equal probability, it would not trigger at all. After the whole hour elapses, the cat would be alive and dead with equal probability, ending up in a halfway state. In this case, our computational bases would be the states alive and dead, and we achieve the state $|+\rangle$ after that hour.
+	
+	At this point, the reader may ask themselves if a qubit may even physically exist, not just as a mathematical entity. Although we will study qubits mathematically and their physical implementations are discussed in Chapter [TODO: add chapter], we cannot proceed any further without providing a more accurate description of a qubit than a "coin being tossed".A possible realization of qubits are electrons in an single atom's orbit, as seen in Figure \ref{fig 1.1}. An electron in an orbit may be in the so-called ground and exited states, $|0\rangle$ and $|1\rangle$ respectively, depending on its energy. By shining light to the electron with certain energy and for a certain amount of time, one may make the electron move from the ground state to the exited state and vice versa. But most interestingly, one may apply the light to the electron during a smaller amount of time, moving the electron somehow halfway between both states.
 	
 	\begin{figure}[h]
-		\includegraphics[scale=.5]{atom.png}
+		\includegraphics[scale=.4]{atom.png}
 		\centering
-		\caption{Qubit represented by two electron orbits in an atom, [TODO]}
+		\caption{Qubit represented by two electron orbits in an atom, \ref{Nielsen2002}.}
 		\label{fig 1.1}
 	\end{figure}
 	
+	\subsection{Multiple qubits}
 	
+	Suppose we have a pair of qubits. In the classical case, two bits can be in four possible states: 00, 01, 10 and 11. Similarly, the two qubits computational basis states are $|00\rangle$, $|01\rangle$, $|10\rangle$ and $|11\rangle$. Just like in the single qubit case, our two qubits may be in a superposition of this four states:
+	
+	
+	$$ |\psi\rangle = \alpha_{00} |00\rangle + \alpha_{01} |01\rangle + \alpha_{10} |10\rangle + \alpha_{11} |11\rangle $$
+	
+	Correspondingly, the measurement of this system will result in either 00, 01, 10 or 11. In fact, it will yield state $x$ with probability $|\alpha_x|^2$, being $\alpha_x$ the coefficient associated with the state $|x\rangle$. The condition of the probabilities adding up to one is called the \emph{normalization condition} and can be expressed as $\sum_{x \in \{0,1\}^2} |\alpha_x|^2 = 1$ for the two qubits case, where $\{0,1\}^2$ are the strings of length two where each character is either 0 or 1.
+	
+	The fundamental differences with the single qubit case start with the measurement. Of course, we can measure both qubits at the same time, but we could also measure only one of them. Upon measuring the first qubit we would obtain 0 with probability $p_0 = |\alpha_{00}|^2 + |\alpha_{01}|^2$, since these are the coefficients associated with the first qubit being 0. Furthermore, our system will collapse to:
+	
+	$$ |\psi'\rangle = \frac{ \alpha_{00} |00\rangle + \alpha_{01} |01\rangle }{ \sqrt{|\alpha_{00}|^2 + |\alpha_{01}|^2} } $$
+	
+	Note the normalization term $\sqrt{|\alpha_{00}|^2 + |\alpha_{01}|^2}$, applied so the post measurement state still satisfies the normalization condition. Naturally, after obtaining 0 in the first qubit we can still obtain either 0 or 1 in the second qubit, with probabilities 
+	
+	$$ \frac{ |\alpha_{00}|^2 }{ |\alpha_{00}|^2 + |\alpha_{01}|^2 }  \ \text{ and } \ 
+	\frac{ |\alpha_{01}|^2 }{ |\alpha_{00}|^2 + |\alpha_{01}|^2 } $$
+	
+	respectively, adding up to 1. Correspondingly, the first qubit being measured will yield 1 with probability $p_1 = |\alpha_{10}|^2 + |\alpha_{11}|^2$.
+	
+	Additionally, the first qubit independently should satisfy the normalization condition. That is, its probabilities of being 0 and 1 upon measurement must add up to 1. But those are $p_0$ and $p_1$, which add up to one because of the normalization condition for $|\psi\rangle$, as expected.
+	
+	We now introduce the \emph{Bell State} or \emph{EPR pair}:
+	
+	$$ \frac{ |00\rangle + |11\rangle }{ \sqrt 2 } $$
+	
+	Although it may seems harmless at first glance, this state has been responsible for many surprises during the development of quantum physics [TODO: reference to the EPR paradox]. Let us have a first look into it, although we will come back to it in section [TODO: añadir referencia a la seccion dodne comentamos el problema de la teletransportación cuántica].
+	
+	Upon measuring this system we may obtain state $|00\rangle$ with probability $1/2$ and state $|11\rangle$ with probability $1/2$. Suppose we measure the first qubit and obtain 0. Then, the second qubit will always yield 0 upon measurement. This means both outcomes are \emph{correlated}. This fact is known as \textbf{quantum entanglement}. It rests at the heart of the disparity between classic physics and quantum physics. It was deeply studied first by Einstein, Podolsky and Rosen (EPR) \ref{Einstein1935} and second by John Bell \ref{BELL1995}.
+	
+	Let us finally consider the more general case. In an n-qubits system our computational basis would consist of the sates $|x_1 x_2 \dotsc x_n\rangle$, where $|x_i> \in {0,1}$. As we already know, in a single qubit system we have 2 amplitudes $\alpha_0$ and $\alpha_1|$. Four for a 2 qubits system, eight for a 3 qubits system... And $2^n$ for an n qubits systems. This means that the number of amplitudes grows exponentially as we add qubits to the system. A immense increment with respect to the classical bits, were the quantity of information that our simple holds grows linearly with the numbers of bits. Of course, we already know it is not that simple. There are huge limitations on how we may access this information in the quantum realm such as how a qubit collapses upon measurement and the non-cloning theorem discussed in section [TODO]. But we can already glimpse the power the quantum computing theory versus the classical one.
+	
+	\section{Formalization }
+	
+	Toca empezar formalizando los qubits como vectores de un espacio de Hilbert antes de:
+	
+	
+	\subsection{Quantum Gates}
+	
+	Explicacion de las puertas de unico y multiples qubits
+	
+	\subsection{Quantum Circuits}
+	
+	Introduccion a los circuitos cuanticos y primeros ejemplos:
+	
+	- Circuito de copia de un qubit - intimamente relacionado con el teorema de no clonacion, no se si ponerlo aqui o no
+	- Circuito de teletransportacion - este ejemplo es importantisimo porque nos hace entender bien el entanglement y por qué la información no puede viajar a más velocidad que la luz a pesar del entanglement.
+	
+	\subsection{Quantum algorithms}
+	
+	Aqui se discuten los primeros algoritmos cuanticos (son ejemplos importantes):
+	
+	- Paralelismo cuantico: ejemplo sencillisimo que muestra la verdadera potencia de la computación cuantica, con una sola evaluacion de f(x) calculamos el valor de la función para multiples valores a la vez!
+	- Deutchs
+	- Deutchs-Jotzsa
+	- Creo que aqui merece la pena hacer una pequeña introduccion y mencion a los algorimtos mas importantes de la computación cuántica: Grover, transformada cuantica de fourier. Sin entrar en detalles, pero una mención me parece importante. En ese ambito más abtracto quizas merezca la pena realizar la comparacion P vs NP vs BQP, una pincelada y poco más.
+	
+	
+	\section{Quantum Principles}
+	
+	El culmen de la aprte teorica del trabajo es contar los principios de la cuantica, al menos los tres primeros. Con esto ya podemos saltar a los problemas QUBO.
+	
+	\section{Qubit physical realizations}
+	
+	Esto no tiene por que ser un sección propia, podría ir dentro de alguna de las anteriores, pero creo que estaría bien comentarlo también.
 	
 \end{document}
+
