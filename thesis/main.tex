@@ -69,6 +69,9 @@ manychapters,pdfspacing]{classicthesis}
 \setminted[haskell]{linenos=false,fontsize=\small}
 \renewcommand{\theFancyVerbLine}{\sffamily\textcolor[rgb]{0.5,0.5,1.0}{\oldstylenums{\arabic{FancyVerbLine}}}}
 
+% Path para las imágenes
+\graphicspath{{imgs/}}
+
 % Archivos de configuración.
 \input{imports/macros}  % En macros.tex se almacenan las opciones y comandos para escribir matemáticas.
 \input{imports/classicthesis-config} % En classicthesis-config.tex se almacenan las opciones propias de la plantilla.
@@ -99,7 +102,7 @@ manychapters,pdfspacing]{classicthesis}
 \input{preliminares/resumen}
 
 %\input{chapters/chapter1}
-\input{chapters/chapter2}
+\input{chapters/chaptercuantica}
 
 % ----------------------- %
 % BIBLIOGRAFÍA
@@ -112,6 +115,6 @@ manychapters,pdfspacing]{classicthesis}
 \phantomsection
 \addcontentsline{toc}{chapter}{Bibliography}
 
-\bibliography{preliminares/library}
+\bibliography{preliminares/library.bib}
 
 \end{document}
