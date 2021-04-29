@@ -42,7 +42,7 @@ cleardoublepage=empty,abstractoff,BCOR=5mm,paper=a4,fontsize=12pt,main=spanish]{
 \usepackage{tikz} % Diagramas conmutativos.
 \usepackage{minted} % Código fuente.
 \usepackage[T1]{fontenc}
-\usepackage{natbib}
+\usepackage[numbers]{natbib}
 
 % Plantilla classicthesis
 \usepackage[beramono,eulerchapternumbers,linedheaders,parts,a5paper,dottedtoc,
@@ -109,12 +109,14 @@ manychapters,pdfspacing]{classicthesis}
 % ----------------------- %
 
 % Estilo de cita.
-\bibliographystyle{alpha}
+\bibliographystyle{unsrtnat}
+
+%[citestyle=numeric]
 
 % Añadimos la bibliografía al índice
 \phantomsection
 \addcontentsline{toc}{chapter}{Bibliography}
 
-\bibliography{preliminares/library.bib}
+\bibliography{preliminares/library}
 
 \end{document}
