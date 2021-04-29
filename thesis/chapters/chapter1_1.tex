@@ -76,7 +76,64 @@ Let us finally consider the more general case. In an n-qubits system our computa
 
 \section{Formalization }
 
-Toca empezar formalizando los qubits como vectores de un espacio de Hilbert antes de:
+[SECTION IN PROGRESS]
+
+Let the qubit as a rigorous mathematical construction. As we have already mentioned, a single qubit will be a vector in a complex vector space, but we will need that space to have some extra properties. That is, it will be a projective Hilbert space. Let us review the necessary linear algebra.
+
+Let $V$ be a complex vector space. That is, a vector space over $\mathds{C}$. We will restrict our study to finite complex vector spaces. If $z$ is a vector in $V$, we will denote its coordinates either as $z = (z_1, z_2, \dotsc, z_n)$ or by column notation:
+
+$$z = 
+\begin{bmatrix}
+	z_1\\
+	z_2 \\
+	\dotsc \\
+	z_n
+\end{bmatrix}
+$$
+
+Since $V$ is a vector space we have two basic operations: (vector) addition and scalar multiplication.
+
+In quantum mechanics, the usual notation is the Dirac's, also know \emph{bra-ket} notation. In this context, vectors in a complex vector space are denoted as $|\varphi\rangle$ and are known as \emph{kets}. The only exception to this is the zero vector, which will be denoted as $0 = (0, \dotsc, 0)$ instead of $|0\rangle$ since $|0\rangle$ will be used as something completely different. A \emph{vector subspace} $W$ of $V$ is a subset of $W$ closed for addition and scalar multiplication.
+
+A \emph{base} of a vector space is a set of vectors $|v_1\rangle, \dotsc, |v_n\rangle$ such that they are linearly independent and any given vector $|v\rangle$ can be written as a linear combination of them: $|v\rangle = \sum_{i=1}^n \alpha_i|v_i\rangle$. The \emph{dimension} of a vector space is the number of elements in any of its bases, which is independent from the chosen base.
+
+[TODO: format]
+Given two complex vector spaces $V$ and $W$, a \emph{linear operator} is an application $M: V \rightarrow W $ that is linear in its inputs:
++
+$$ M \Big( \alpha |u\rangle + \beta |w\rangle \Big) = \alpha M (|u\rangle) + \beta M (|w\rangle) \Big $$
+
+If $V$ to $W$ have dimensions $n$ and $m$ respectively, there is a bijection between the operators from $V$ to $W$ and the $n$ by $m$ matrices. Given an operator $M$, the obtained matrix $M'$ is called the \emph{matrix representation} of the linear operator. Furthermore, $M(|u\rangle) = M' \cdot |u\rangle$, so we usually denote the linear operator and its matrix representation by the same letter, and $M(|u\rangle)$ simply as $M|u\rangle$.
+
+
+-> Gap
+
+A base $|v_1\rangle, \dotsc, |v_n\rangle$ is said to be \emph{orthonormal} if every vector is a unit vector and they are pairwise orthogonal
+
+-> Gap
+
+Definition 1: [TODO: format]
+
+Let $V$ be a complex vector space. An inner product $\langle \cdot | \cdot \rangle: V^2 \rightarrow \mathds{C}$ is a function such that
+
+1) $\langle \cdot | \cdot \rangle$ is sesquilinear. That is,
+
+1.1) $\langle \cdot | \cdot \rangle$ is conjugate symmetric. That is, for all $u,v$ in $V$, $\langle u | v \rangle = \overline{\langle v | u \rangle}$.
+
+1.2) $\langle \cdot | \cdot \rangle$ is linear on the second variable. That is, for all $u,v,w$ in $V$ and $\alpha, \beta$ in $\mathds{C}$:
+
+$$ \langle u  | \alpha v + \beta w \rangle = \alpha \langle u | v \rangle + \beta \langle u | w \rangle $$
+
+2) $\langle \cdot | \cdot \rangle$ is definite positive. That is, for all $u$ in $V$ $\langle u | u \rangle \geq 0$ and $\langle u | u \rangle = 0 \Longleftrightarrow v = 0$.
+
+Given this properties it can easily be proven that $\langle \cdot | \cdot \rangle$ is also conjugate linear on the first variable. That is, for all $u,v,w$ in $V$ and $\alpha, \beta$ in $\mathds{C}$:
+
+$$ \langle \alpha u + \beta v  | w \rangle = \overline{\alpha} \langle u | w \rangle + \overline{\beta} \langle v | w \rangle $$
+
+-> Define norm using that
+
+
+
+
 
 \subsection{Quantum Gates}
 
