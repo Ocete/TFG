@@ -74,9 +74,11 @@ Upon measuring this system we may obtain state $|00\rangle$ with probability $1/
 
 Let us finally consider the more general case. In an n-qubits system our computational basis would consist of the sates $|x_1 x_2 \dotsc x_n\rangle$, where $x_i \in \{0,1\}$. As we already know, in a single qubit system we have two amplitudes $\alpha_0$ and $\alpha_1$. We have four amplitudes for a 2-qubits system, eight for a 3-qubits system... And $2^n$ for an n-qubits system. This means that the number of amplitudes grows exponentially as we add qubits to the system. An immense increment concerning the classical case was the quantity of information that our simple holds grows linearly with the numbers of bits. Of course, we already know it is not that simple, since there are huge limitations on how we may access this information in the quantum realm such as how a qubit collapses upon measurement and the non-cloning theorem discussed in section [TODO]. But we can already glimpse the power of quantum computing versus the classical one.
 
-\section{Formalization }
+\section{Quantum Mechanics Model}
 
 [SECTION IN PROGRESS]
+
+\subsection{Bra-ket notation and linear algebra preamble}
 
 Let the qubit as a rigorous mathematical construction. As we have already mentioned, a single qubit will be a vector in a complex vector space, but we will need that space to have some extra properties. That is, it will be a projective Hilbert space. Let us review the necessary linear algebra.
 
@@ -97,42 +99,175 @@ In quantum mechanics, the usual notation is the Dirac's, also know \emph{bra-ket
 
 A \emph{base} of a vector space is a set of vectors $|v_1\rangle, \dotsc, |v_n\rangle$ such that they are linearly independent and any given vector $|v\rangle$ can be written as a linear combination of them: $|v\rangle = \sum_{i=1}^n \alpha_i|v_i\rangle$. The \emph{dimension} of a vector space is the number of elements in any of its bases, which is independent from the chosen base.
 
+\subsubsection{Linear operators}
+
 [TODO: format]
 Given two complex vector spaces $V$ and $W$, a \emph{linear operator} is an application $M: V \rightarrow W $ that is linear in its inputs:
-+
-$$ M \Big( \alpha |u\rangle + \beta |w\rangle \Big) = \alpha M (|u\rangle) + \beta M (|w\rangle) \Big $$
+
+$$ M \Big( \alpha |u\rangle + \beta |w\rangle \Big) = \alpha M (|u\rangle) + \beta M (|w\rangle) $$
 
 If $V$ to $W$ have dimensions $n$ and $m$ respectively, there is a bijection between the operators from $V$ to $W$ and the $n$ by $m$ matrices. Given an operator $M$, the obtained matrix $M'$ is called the \emph{matrix representation} of the linear operator. Furthermore, $M(|u\rangle) = M' \cdot |u\rangle$, so we usually denote the linear operator and its matrix representation by the same letter, and $M(|u\rangle)$ simply as $M|u\rangle$.
 
+We will refer to linear operators simply as \emph{operators}.
 
--> Gap
+\subsubsection{Inner product and Hilbert Spaces}
 
-A base $|v_1\rangle, \dotsc, |v_n\rangle$ is said to be \emph{orthonormal} if every vector is a unit vector and they are pairwise orthogonal
+Lets define another operation within the complex vector spaces.
 
--> Gap
+[TODO: format]
+Definition: 
 
-Definition 1: [TODO: format]
-
-Let $V$ be a complex vector space. An inner product $\langle \cdot | \cdot \rangle: V^2 \rightarrow \mathds{C}$ is a function such that
+Let $V$ be a complex vector space. An inner product $\langle \cdot | \cdot \rangle: V^2 \rightarrow \mathds{C}$ is a function such that:
 
 1) $\langle \cdot | \cdot \rangle$ is sesquilinear. That is,
 
-1.1) $\langle \cdot | \cdot \rangle$ is conjugate symmetric. That is, for all $u,v$ in $V$, $\langle u | v \rangle = \overline{\langle v | u \rangle}$.
+1.1) $\langle \cdot | \cdot \rangle$ is conjugate symmetric: for all $u,v$ in $V$, $\langle u | v \rangle = \overline{\langle v | u \rangle}$.
 
-1.2) $\langle \cdot | \cdot \rangle$ is linear on the second variable. That is, for all $u,v,w$ in $V$ and $\alpha, \beta$ in $\mathds{C}$:
+1.2) $\langle \cdot | \cdot \rangle$ is linear on the second variable: for all $u,v,w$ in $V$ and $\alpha, \beta$ in $\mathds{C}$:
 
 $$ \langle u  | \alpha v + \beta w \rangle = \alpha \langle u | v \rangle + \beta \langle u | w \rangle $$
 
-2) $\langle \cdot | \cdot \rangle$ is definite positive. That is, for all $u$ in $V$ $\langle u | u \rangle \geq 0$ and $\langle u | u \rangle = 0 \Longleftrightarrow v = 0$.
+2) $\langle \cdot | \cdot \rangle$ is definite positive. That is, for all $u$ in $V$, $\langle u | u \rangle \geq 0$ and $\langle u | u \rangle = 0 \Longleftrightarrow v = 0$.
 
 Given this properties it can easily be proven that $\langle \cdot | \cdot \rangle$ is also conjugate linear on the first variable. That is, for all $u,v,w$ in $V$ and $\alpha, \beta$ in $\mathds{C}$:
 
 $$ \langle \alpha u + \beta v  | w \rangle = \overline{\alpha} \langle u | w \rangle + \overline{\beta} \langle v | w \rangle $$
 
--> Define norm using that
+We will sometimes denote the inner product $\langle \cdot | \cdot \rangle$ as $( \cdot , \cdot )$ to simplify notation.
+
+Two vectors are said to be \emph{orthonormal} if there inner product is zero. We define the norm of a vector $|v\rangle$ by:
+
+$$\parallel |v\rangle \parallel \ = \sqrt{ \langle v|v\rangle }$$
+
+A \emph{unit vector} is a vector $|v\rangle$ such that $\parallel |v\rangle \  \parallel = 0 $. We also say that $|v\rangle$ is \emph{normalized}, and we can normalize any vector except the zero vector by dividing it by its norm.
+
+A base $|v_1\rangle, \dotsc, |v_n\rangle$ is said to be \emph{orthonormal} if every vector is a unit vector and they are pairwise orthogonal. That is, $\langle v_i|v_j\rangle = \delta_{ij}$ where
+
+\[
+\delta_{ij} = 
+\begin{cases}
+	1 & \text{if } i = j  \\
+	0 & \text{if } i \neq j
+\end{cases}
+\]
+
+An \emph{inner product space} is a vector space with an associated inner product. A \textbf{Hilbert Space} is an inner product space that is also complete. Hausdorff's Theorem states that every finite normed space is complete [TODO: ref Payá], therefore every finite inner product space over $\mathds{C}$ is a Hilbert space.
+
+Again, by Hausdorff's theorem we know that every $n$ dimensional Hilbert space is isomorphic to $\mathds{C}^n$. Thus, $\mathds{C}^n$ is the canonical $n$ dimensional Hilbert space and we will focus our study on these spaces.
+
+The canonical inner product in $\mathds{C}^n$ is:
+
+$$ \langle u|v \rangle \ = \sum_{i=1}^n \overline{u_i}v_j $$
+
+where $u = (u_1, \dotsc, u_n)$ and $v = (v_1, \dotsc, v_n)$, for every $u,v$ in $\mathds{C}^n$.
+
+[TODO: FORMAT]
+Definition: Let $\alpha = a + i \cdot b\in \mathds{C}$. We define the \emph{conjugate}, $\bar \alpha$, as $\bar \alpha = a - i \cdot b$.
+
+\subsubsection{Outer product}
+
+[TODO: Format]
+Definition: Let $V, W$ be two vector spaces and $|v\rangle \in V, |w\rangle \in W$. We define the \emph{outer product} between $|v\rangle$ and $|w\rangle$, $|w\rangle\langle v|$, as the only linear operator such that for any $|v'\rangle \in V$,
+
+$$ (|w\rangle\langle v|) \ |v'\rangle = |w\rangle\langle v|v'\rangle = \langle v|v'\rangle |w\rangle$$
+
+This identities provide a dual interpretation: the already known product of a complex value $\langle v|v'\rangle$ with a vector $|w\rangle$, and the application of the new operator, the outer product $|w\rangle\langle v|$ to the vector $|v'\rangle$. The outer product is defined so that this duality is held.
+
+Let us consider linear combinations of outer products. By definition, $\sum_i a_i |w_i\rangle\langle v_i|$ is the operator that transforms $|v'\rangle$ into $\sum_i a_i |w_i\rangle\langle v_i|v'\rangle = \sum_i a_i \langle v_i|v'\rangle |w_i\rangle$.
+
+The most important result concerning outer products is the \emph{completeness relation}:
+
+[TODO: Format]
+Proposition: (Completeness relation):
+
+Let $|i\rangle$ be any orthonormal basis of a finite vector space $V$. Then:
+
+$$ \sum_i |i\rangle\langle i | = I $$
+
+[TODO: Format]
+Proof:
+
+Let $|v\rangle \in H$. $|v\rangle$ can be expressed as $ \sum_i v_i |i\rangle$ for some complex numbers $v_i$. Notice that $\langle i|v\rangle = v_i$. Therefor:
+
+$$|v\rangle = \sum_i v_i |i\rangle = \sum_i \langle i|v\rangle |i\rangle = \sum_i |i\rangle\langle i|v\rangle = \bigg( \sum_i |i\rangle\langle i|\bigg) |v\rangle$$
+
+Since $|v\rangle$ was arbitrary, proves that $ \sum_i |i\rangle\langle i | = I $.
+
+[TODO: Format]
+Corolary: The Cauchy Swart inequality
+
+Proof: To be copied, Box 2.1, page 68, Nielsencheng.
+
+\subsubsection{Eigenvectors and eigenvalues}
+
+[TODO: Format]
+Definition: Let $V$ be a vector space and $A$ an operator on $V$. An \emph{eigenvector} is a non zero vector $|v_\lambda\rangle$ such that $A|v_\lambda\rangle = \lambda|v_\lambda\rangle$ for a complex value $\lambda$ called the associated \emph{eigenvalue}. Eigenvalues and associated eigenvectors will usually be denoted with the same letter for simplicity: $\lambda$ and $|\lambda\rangle$.
+
+We assume the reader is familiar with eigenvectors and values basic notions. For instance, that they may be calculated using the \emph{characteristic equation}: $|I - \lambda A| = 0$.
 
 
 
+
+
+TODO: Aqui lo dejaste, completa la diagonalización y la descomposición singular :) Ánimo!
+
+
+
+
+
+
+
+\subsubsection{Adjoint and unitary matrices}
+
+Another way of looking at the inner product is the \emph{adjoint}.
+
+[TODO: FORMAT]
+Definition: Let $A$ be an operator between $\mathds{C}^n$ and $\mathds{C}^m$, finite dimensional Hilbert spaces. That is, $A \in \mathcal{M}_{n{\times}m}(\mathds{C})$. Then, its \emph{adjoint} or \emph{conjugate transpose} $A^\dagger$ is defined by:
+
+$$ (A^\dagger)_{ij} = \bar A_{ji} $$
+
+If $|v\rangle$ is a vector, we can compute its adjoint by seeing it as a matrix. By convention, we will denote $|v\rangle^\dagger = \langle v|$. Adjoints of vector are usually called \emph{bras}, making given sense to the \emph{bra-ket} notation since $\langle v| \cdot |v\rangle = \langle v|v\rangle$, where $\cdot$ denotes the dot product.
+
+Some useful algebraic identities associated to adjoints are:
+
+\begin{itemize}
+	\item For any vector $|v\rangle$ and for any operator $A$, $(A|v\rangle)^\dagger = \langle v|A^\dagger$.
+	\item Given an operator $A \in \mathcal{M}_{n}(\mathds{C})$, $A^\dagger$ is the only operator such that for any two vectors $|u\rangle, |v\rangle \in \mathds{C}^n$: $( |u\rangle, A|v\rangle) = ( A^\dagger |u\rangle, |v\rangle)$
+\end{itemize}
+
+An operator $A$ is said to be \emph{Hermitian} if its adjoint is itself: $A^\dagger = A$. An operator $A$ is said to be \emph{normal} if $AA^\dagger = A^\dagger A$. Clearly, any Hermitian operator is also normal.
+
+[TODO: Format]
+Theorem (Spectral Decomposition): An operator $A$ is normal if and only if it is diagonalizable.
+
+\emph{Proof}: To be copied, Box 2.2, page 72, Nielsenchen.
+
+Corollary: Any Hermitian operator is diagonalizable.
+
+A matrix $U$ is said to be \emph{unitary} if $UU^\dagger = I$. Similarly, an operator is said to be \emph{unitary} if $UU^\dagger = I$. A unitary operator $U$ also fulfills that $U^\dagger U = I$$.
+
+Corollary: Any unitary operator is diagonalizable.
+
+Unitary matrices and operators will be important for us due to the following
+
+[TODO: FORMAT]
+Proposition: Unitary operators preserve inner product between vectors. Thus, preserving norm, too.
+
+[TODO: FORMAT]
+\emph{Proof:}
+Let $|u\rangle, |v\rangle \in \mathds{C}^n$ and $U \in \mathcal{M}_n(\mathds{C})$ be a unitary operator. Then:
+
+$$ ( U|u\rangle, U|v\rangle) = \langle u|U^\daggser U|v\rangle = \langle u|I|v\rangle = \langle u|v\rangle = ( |u\rangle, |v\rangle)$$
+
+Which proves the proposition. [TODO: FORMAT fin de la prueba]
+
+\subsubsection{Tensor product}
+
+
+
+\section{Quantum Principles}
+
+El culmen de la parte teorica del trabajo es contar los principios de la cuantica, al menos los tres primeros. Con esto ya entendemos DWave (de hecho absta con el segundo), y podemos pasar a los problemas QUBO.
 
 
 \subsection{Quantum Gates}
@@ -159,10 +294,6 @@ Aqui se discuten los primeros algoritmos cuánticos (son ejemplos importantes):
 
 - Creo que aqui merece la pena hacer una pequeña introduccion y mencion a los algoritmos mas importantes de la computación cuántica: Grover, transformada cuantica de fourier. Sin entrar en detalles, pero una mención me parece importante. En ese ambito más abtracto quizas merezca la pena realizar la comparacion P vs NP vs BQP, una pincelada y poco más.
 
-
-\section{Quantum Principles}
-
-El culmen de la parte teorica del trabajo es contar los principios de la cuantica, al menos los tres primeros. Con esto ya entendemos DWave (de hecho absta con el segundo), y podemos pasar a los problemas QUBO.
 
 \section{Qubit physical realizations}
 
