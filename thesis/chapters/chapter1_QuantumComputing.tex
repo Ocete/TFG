@@ -84,13 +84,13 @@ Let the qubit as a rigorous mathematical construction. As we have already mentio
 
 Let $V$ be a complex vector space. That is, a vector space over $\mathds{C}$. We will restrict our study to finite complex vector spaces. If $z$ is a vector in $V$, we will denote its coordinates either as $z = (z_1, z_2, \dotsc, z_n)$ or by column notation:
 
-$$z = 
-\begin{bmatrix}
+$$ z = 
+\begin{pmatrix}
 	z_1\\
 	z_2 \\
 	\dotsc \\
 	z_n
-\end{bmatrix}
+\end{pmatrix}
 $$
 
 Since $V$ is a vector space we have two basic operations: (vector) addition and scalar multiplication.
@@ -101,10 +101,11 @@ A \emph{base} of a vector space is a set of vectors $|v_1\rangle, \dotsc, |v_n\r
 
 \subsubsection{Linear operators}
 
-[TODO: format]
-Given two complex vector spaces $V$ and $W$, a \emph{linear operator} is an application $M: V \rightarrow W $ that is linear in its inputs:
-
-$$ M \Big( \alpha |u\rangle + \beta |w\rangle \Big) = \alpha M (|u\rangle) + \beta M (|w\rangle) $$
+\begin{definition}
+	Given two complex vector spaces $V$ and $W$, a \emph{linear operator} is an application $M: V \rightarrow W $ that is linear in its inputs:
+	
+	$$ M \Big( \alpha |u\rangle + \beta |w\rangle \Big) = \alpha M (|u\rangle) + \beta M (|w\rangle) $$
+\end{definition}
 
 If $V$ to $W$ have dimensions $n$ and $m$ respectively, there is a bijection between the operators from $V$ to $W$ and the $n$ by $m$ matrices. Given an operator $M$, the obtained matrix $M'$ is called the \emph{matrix representation} of the linear operator. Furthermore, $M(|u\rangle) = M' \cdot |u\rangle$, so we usually denote the linear operator and its matrix representation by the same letter, and $M(|u\rangle)$ simply as $M|u\rangle$.
 
@@ -114,20 +115,19 @@ We will refer to linear operators simply as \emph{operators}.
 
 Lets define another operation within the complex vector spaces.
 
-[TODO: format]
-Definition: 
-
-Let $V$ be a complex vector space. An inner product $\langle \cdot | \cdot \rangle: V^2 \rightarrow \mathds{C}$ is a function such that:
-
-1) $\langle \cdot | \cdot \rangle$ is sesquilinear. That is,
-
-1.1) $\langle \cdot | \cdot \rangle$ is conjugate symmetric: for all $u,v$ in $V$, $\langle u | v \rangle = \overline{\langle v | u \rangle}$.
-
-1.2) $\langle \cdot | \cdot \rangle$ is linear on the second variable: for all $u,v,w$ in $V$ and $\alpha, \beta$ in $\mathds{C}$:
-
-$$ \langle u  | \alpha v + \beta w \rangle = \alpha \langle u | v \rangle + \beta \langle u | w \rangle $$
-
-2) $\langle \cdot | \cdot \rangle$ is definite positive. That is, for all $u$ in $V$, $\langle u | u \rangle \geq 0$ and $\langle u | u \rangle = 0 \Longleftrightarrow v = 0$.
+\begin{definition}
+	Let $V$ be a complex vector space. An inner product $\langle \cdot | \cdot \rangle: V^2 \rightarrow \mathds{C}$ is a function such that:
+	
+	\quad 1) $\langle \cdot | \cdot \rangle$ is sesquilinear. That is,
+	
+	\qquad 1.1) $\langle \cdot | \cdot \rangle$ is conjugate symmetric: for all $u,v$ in $V$, $\langle u | v \rangle = \overline{\langle v | u \rangle}$.
+	
+	\qquad 1.2) $\langle \cdot | \cdot \rangle$ is linear on the second variable: for all $u,v,w$ in $V$ and $\alpha, \beta$ in $\mathds{C}$:
+	
+	$$ \langle u  | \alpha v + \beta w \rangle = \alpha \langle u | v \rangle + \beta \langle u | w \rangle $$
+	
+	\quad 2) $\langle \cdot | \cdot \rangle$ is definite positive. That is, for all $u$ in $V$, $\langle u | u \rangle \geq 0$ and $\langle u | u \rangle = 0 \Longleftrightarrow v = 0$.
+\end{definition}
 
 Given this properties it can easily be proven that $\langle \cdot | \cdot \rangle$ is also conjugate linear on the first variable. That is, for all $u,v,w$ in $V$ and $\alpha, \beta$ in $\mathds{C}$:
 
@@ -151,9 +151,11 @@ A base $|v_1\rangle, \dotsc, |v_n\rangle$ is said to be \emph{orthonormal} if ev
 \end{cases}
 \]
 
-An \emph{inner product space} is a vector space with an associated inner product. A \textbf{Hilbert Space} is an inner product space that is also complete. Hausdorff's Theorem states that every finite normed space is complete [TODO: ref Payá], therefore every finite inner product space over $\mathds{C}$ is a Hilbert space.
+\begin{definition}
+	An \emph{inner product space} is a vector space with an associated inner product. A \textbf{Hilbert Space} is an inner product space that is also complete. space.
+\end{definition}
 
-Again, by Hausdorff's theorem we know that every $n$ dimensional Hilbert space is isomorphic to $\mathds{C}^n$. Thus, $\mathds{C}^n$ is the canonical $n$ dimensional Hilbert space and we will focus our study on these spaces.
+Hausdorff's Theorem states that every finite normed space is complete [TODO: ref Payá], therefore every finite inner product space over $\mathds{C}$ is a Hilbert space. Again, by Hausdorff's theorem we know that every $n$ dimensional Hilbert space is isomorphic to $\mathds{C}^n$. Thus, $\mathds{C}^n$ is the canonical $n$ dimensional Hilbert space and we will focus our study on these spaces.
 
 The canonical inner product in $\mathds{C}^n$ is:
 
@@ -161,15 +163,15 @@ $$ \langle u|v \rangle \ = \sum_{i=1}^n \overline{u_i}v_j $$
 
 where $u = (u_1, \dotsc, u_n)$ and $v = (v_1, \dotsc, v_n)$, for every $u,v$ in $\mathds{C}^n$.
 
-[TODO: FORMAT]
-Definition: Let $\alpha = a + i \cdot b\in \mathds{C}$. We define the \emph{conjugate}, $\bar \alpha$, as $\bar \alpha = a - i \cdot b$.
+Let $\alpha = a + i \cdot b\in \mathds{C}$. We define the \emph{conjugate}, $\bar \alpha$, as $\bar \alpha = a - i \cdot b$.
 
 \subsubsection{Outer product}
 
-[TODO: Format]
-Definition: Let $V, W$ be two vector spaces and $|v\rangle \in V, |w\rangle \in W$. We define the \emph{outer product} between $|v\rangle$ and $|w\rangle$, $|w\rangle\langle v|$, as the only linear operator such that for any $|v'\rangle \in V$,
-
-$$ (|w\rangle\langle v|) \ |v'\rangle = |w\rangle\langle v|v'\rangle = \langle v|v'\rangle |w\rangle$$
+\begin{definition}
+	Definition: Let $V, W$ be two vector spaces and $|v\rangle \in V, |w\rangle \in W$. We define the \emph{outer product} between $|v\rangle$ and $|w\rangle$, $|w\rangle\langle v|$, as the only linear operator such that for any $|v'\rangle \in V$, 
+	
+	$$ (|w\rangle\langle v|) \ |v'\rangle = |w\rangle\langle v|v'\rangle = \langle v|v'\rangle |w\rangle$$
+\end{definition}
 
 This identities provide a dual interpretation: the already known product of a complex value $\langle v|v'\rangle$ with a vector $|w\rangle$, and the application of the new operator, the outer product $|w\rangle\langle v|$ to the vector $|v'\rangle$. The outer product is defined so that this duality is held.
 
@@ -177,95 +179,134 @@ Let us consider linear combinations of outer products. By definition, $\sum_i a_
 
 The most important result concerning outer products is the \emph{completeness relation}:
 
-[TODO: Format]
-Proposition: (Completeness relation):
+\begin{proposition}[Completeness relation]
+	Let $|i\rangle$ be any orthonormal basis of a finite vector space $V$. Then:
+	
+	$$ \sum_i |i\rangle\langle i | = I $$
+\end{proposition}
 
-Let $|i\rangle$ be any orthonormal basis of a finite vector space $V$. Then:
+\begin{proof}
+	Let $|v\rangle \in H$. $|v\rangle$ can be expressed as $ \sum_i v_i |i\rangle$ for some complex numbers $v_i$. Notice that $\langle i|v\rangle = v_i$. Therefor:
+	
+	$$|v\rangle = \sum_i v_i |i\rangle = \sum_i \langle i|v\rangle |i\rangle = \sum_i |i\rangle\langle i|v\rangle = \bigg( \sum_i |i\rangle\langle i|\bigg) |v\rangle$$
+	
+	Since $|v\rangle$ was arbitrary, proves that $ \sum_i |i\rangle\langle i | = I $.
+\end{proof}
 
-$$ \sum_i |i\rangle\langle i | = I $$
+\begin{corollary}[Cauchy-Schwarz inequality]
+	
+\end{corollary}
 
-[TODO: Format]
-Proof:
-
-Let $|v\rangle \in H$. $|v\rangle$ can be expressed as $ \sum_i v_i |i\rangle$ for some complex numbers $v_i$. Notice that $\langle i|v\rangle = v_i$. Therefor:
-
-$$|v\rangle = \sum_i v_i |i\rangle = \sum_i \langle i|v\rangle |i\rangle = \sum_i |i\rangle\langle i|v\rangle = \bigg( \sum_i |i\rangle\langle i|\bigg) |v\rangle$$
-
-Since $|v\rangle$ was arbitrary, proves that $ \sum_i |i\rangle\langle i | = I $.
-
-[TODO: Format]
-Corolary: The Cauchy Swart inequality
-
-Proof: To be copied, Box 2.1, page 68, Nielsencheng.
+\begin{proof}
+	TODO: To be copied, Box 2.1, page 68, Nielsencheng.
+\end{proof}
 
 \subsubsection{Eigenvectors and eigenvalues}
 
-[TODO: Format]
-Definition: Let $V$ be a vector space and $A$ an operator on $V$. An \emph{eigenvector} is a non zero vector $|v_\lambda\rangle$ such that $A|v_\lambda\rangle = \lambda|v_\lambda\rangle$ for a complex value $\lambda$ called the associated \emph{eigenvalue}. Eigenvalues and associated eigenvectors will usually be denoted with the same letter for simplicity: $\lambda$ and $|\lambda\rangle$.
+\begin{definition}
+	Let $V$ be a vector space and $A$ an operator on $V$. An \emph{eigenvector} is a non zero vector $|v_\lambda\rangle$ such that $A|v_\lambda\rangle = \lambda|v_\lambda\rangle$ for a complex value $\lambda$ called the associated \emph{eigenvalue}.
+\end{definition}
 
-We assume the reader is familiar with eigenvectors and values basic notions. For instance, that they may be calculated using the \emph{characteristic equation}: $|I - \lambda A| = 0$.
+Eigenvalues and associated eigenvectors will usually be denoted with the same letter for simplicity: $\lambda$ and $|\lambda\rangle$. We assume the reader is familiar with eigenvectors and values basic notions. For instance, that they may be calculated using the \emph{characteristic equation}: $|I - \lambda A| = 0$.
 
+\begin{definition}
+	A \emph{diagonal representation} of an operator $A$ is a representation $\sum_i \lambda_i |\lambda_i\rangle\langle\lambda_i|$ where the $|\lambda_i\rangle$ form an orthonormal set of A's eigenvectors and $\lambda_i$ are the respective eigenvalues. An operator is said to be \emph{diagonalizable} if it allows a diagonal representation.
+\end{definition}
 
+\begin{exampleth}
+	As an example of this, let us consider the following matrix:
+	
+	$$ Z = 
+	\begin{pmatrix}
+		1 & 0 \\
+		0 & -1 
+	\end{pmatrix}
+	$$
+	
+	This matrix is called the \emph{Z Pauli} matrix. It is relevant for quantum computing and it will be introduced later on along with the rest of the Pauli matrices. For now, lets compute its diagonalizable representation. Since it is already diagonal we can infer that its eigenvalues are $\{1, -1\}$. Computing the diagonal representation we realize that a pair orthonormal eigenvectors are $\{|0\rangle, |1\rangle\}$ respectively. Therefore:
+	
+	$$ Z = 
+	\begin{pmatrix}
+		1 & 0 \\
+		0 & -1 
+	\end{pmatrix} = 
+	|0\rangle\langle0| - |1\rangle\langle1|
+	$$
+\end{exampleth}
 
+A characterization of diagonalizable operators is provided in Theorem (TODO: add reference to spectral decomposition theorem).
 
-
-TODO: Aqui lo dejaste, completa la diagonalización y la descomposición singular :) Ánimo!
-
-
-
-
-
-
-
-\subsubsection{Adjoint and unitary matrices}
+\subsubsection{Adjoint and normal operators}
 
 Another way of looking at the inner product is the \emph{adjoint}.
 
-[TODO: FORMAT]
-Definition: Let $A$ be an operator between $\mathds{C}^n$ and $\mathds{C}^m$, finite dimensional Hilbert spaces. That is, $A \in \mathcal{M}_{n{\times}m}(\mathds{C})$. Then, its \emph{adjoint} or \emph{conjugate transpose} $A^\dagger$ is defined by:
-
-$$ (A^\dagger)_{ij} = \bar A_{ji} $$
+\begin{definition}
+	Let $A$ be an operator between $\mathds{C}^n$ and $\mathds{C}^m$, finite dimensional Hilbert spaces. That is, $A \in \mathcal{M}_{n{\times}m}(\mathds{C})$. Then, its \emph{adjoint} or \emph{conjugate transpose} $A^\dagger$ is defined by:
+	
+	$$ (A^\dagger)_{ij} = \bar A_{ji} $$
+\end{definition}
 
 If $|v\rangle$ is a vector, we can compute its adjoint by seeing it as a matrix. By convention, we will denote $|v\rangle^\dagger = \langle v|$. Adjoints of vector are usually called \emph{bras}, making given sense to the \emph{bra-ket} notation since $\langle v| \cdot |v\rangle = \langle v|v\rangle$, where $\cdot$ denotes the dot product.
 
 Some useful algebraic identities associated to adjoints are:
 
 \begin{itemize}
-	\item For any vector $|v\rangle$ and for any operator $A$, $(A|v\rangle)^\dagger = \langle v|A^\dagger$.
 	\item Given an operator $A \in \mathcal{M}_{n}(\mathds{C})$, $A^\dagger$ is the only operator such that for any two vectors $|u\rangle, |v\rangle \in \mathds{C}^n$: $( |u\rangle, A|v\rangle) = ( A^\dagger |u\rangle, |v\rangle)$
+	\item For any two operators $A,B$, $(AB)^\dagger = B^\dagger A^\dagger$.
+	\item As a corollary, for any vector $|v\rangle$ and for any operator $A$, $(A|v\rangle)^\dagger = \langle v|A^\dagger$.
 \end{itemize}
 
-An operator $A$ is said to be \emph{Hermitian} if its adjoint is itself: $A^\dagger = A$. An operator $A$ is said to be \emph{normal} if $AA^\dagger = A^\dagger A$. Clearly, any Hermitian operator is also normal.
+\begin{definition}
+	An operator $A$ is said to be \emph{normal} if $AA^\dagger = A^\dagger A$.
+\end{definition}
 
-[TODO: Format]
-Theorem (Spectral Decomposition): An operator $A$ is normal if and only if it is diagonalizable.
+Normal operators have significant relevancy thanks to the following result:
 
-\emph{Proof}: To be copied, Box 2.2, page 72, Nielsenchen.
+\begin{theorem}[Spectral Decomposition Theorem]
+	An operator $A$ is normal if and only if it is diagonalizable.
+\end{theorem}
+\begin{proof}
+	TODO: To be copied, Box 2.2, page 72, Nielsenchen.
+\end{proof}
 
-Corollary: Any Hermitian operator is diagonalizable.
+There are two particular cases of normal operators that will be of special interest for us:
 
-A matrix $U$ is said to be \emph{unitary} if $UU^\dagger = I$. Similarly, an operator is said to be \emph{unitary} if $UU^\dagger = I$. A unitary operator $U$ also fulfills that $U^\dagger U = I$$.
+\begin{definition}
+	An operator $A$ is said to be \emph{Hermitian} if its adjoint is itself: $A^\dagger = A$.
+\end{definition}
 
-Corollary: Any unitary operator is diagonalizable.
+\begin{definition}
+	A matrix $U$ is said to be \emph{unitary} if $UU^\dagger = I$. Similarly, an operator is said to be \emph{unitary} if $UU^\dagger = I$. A unitary operator $U$ also fulfills that $U^\dagger U = I$.
+\end{definition}
 
-Unitary matrices and operators will be important for us due to the following
+Clearly, Hermitian and unitary operators are also normal.
 
-[TODO: FORMAT]
-Proposition: Unitary operators preserve inner product between vectors. Thus, preserving norm, too.
+\begin{corollary}
+	Any Hermitian operator is diagonalizable. Any unitary operator is diagonalizable.
+\end{corollary}
 
-[TODO: FORMAT]
-\emph{Proof:}
-Let $|u\rangle, |v\rangle \in \mathds{C}^n$ and $U \in \mathcal{M}_n(\mathds{C})$ be a unitary operator. Then:
+The importance of unitary matrices and operators in quantum computing relies on the following
 
-$$ ( U|u\rangle, U|v\rangle) = \langle u|U^\daggser U|v\rangle = \langle u|I|v\rangle = \langle u|v\rangle = ( |u\rangle, |v\rangle)$$
+\begin{proposition}
+	Unitary operators preserve inner product between vectors. Thus, they also preserve the norm of a vector.
+\end{proposition}
 
-Which proves the proposition. [TODO: FORMAT fin de la prueba]
+\begin{proof}
+	Let $|u\rangle, |v\rangle \in \mathds{C}^n$ and $U \in \mathcal{M}_n(\mathds{C})$ be a unitary operator. Then:
+	
+	$$ ( U|u\rangle, U|v\rangle) = \langle u|U^\dagger U|v\rangle = \langle u|I|v\rangle = \langle u|v\rangle = ( |u\rangle, |v\rangle) $$
+	
+	Which proves the proposition.
+\end{proof}
 
 \subsubsection{Tensor product}
 
 
 
-\section{Quantum Principles}
+
+
+
+\subsection{Quantum Principles}
 
 El culmen de la parte teorica del trabajo es contar los principios de la cuantica, al menos los tres primeros. Con esto ya entendemos DWave (de hecho absta con el segundo), y podemos pasar a los problemas QUBO.
 
