@@ -301,14 +301,86 @@ The importance of unitary matrices and operators in quantum computing relies on 
 
 \subsubsection{Tensor product}
 
+TODO
+
+
+
+\subsection{The Quantum Postulates}
+
+Quantum Mechanics are a mathematical framework in which quantum physics are developed. The quantum postulates provide a connection between the physical world and the mathematical formalization defined previously \cite{Nielsen2002}. In this section we aim to provide a general overview of this principles in order to understand quantum computing.
+
+\subsubsection{Postulate 1: State Space}
+
+The first postulate states the environment in which we will operate. As expected, this is the already familiar Hilbert Space
+
+\begin{postulate}
+	Associated to any isolated physical system is a complex vector space with inner product (that is, a Hilbert space) known as the \emph{state space} of the system. The system is completely described by its \emph{state vector}, which is a unit vector in the system’s state space.
+\end{postulate}
+
+An important main concern with this postulate is that it does not tell us which is the state space of a given system, nor its state vector. Although formally up to this point we cannot assure this, in quantum computing the state space will be fixed: $\mathds{C}^{2^n}$ for an n-qubits system. Our evolving state vector will be a vector $2^n$-vector.
+
+Lets modulate a simpler system: a single qubit system. Suppose $|0\rangle$, $|1\rangle$ form an orthonormal basis of a 2-dimensional Hilbert space. Then, any state vector in this state space may be described as:
+
+$$ |\varphi\rangle = \alpha|0\rangle + \beta|1\rangle $$
+
+where $\alpha,\beta$ are complex numbers called \emph{amplitudes}. Thus, the condition that $|\varphi\rangle$ is a unit vector, $\langle\varphi|\varphi\rangle = 1$ is equivalent to $|\alpha|^2 + |\beta|^2 = 1$. This is known as the \emph{normalization condition}.
+
+We will always think of $|0\rangle$, $|1\rangle$ as a previously fixed orthonormal base. A linear combination of state vectors $\sum_i a_i |\varphi_i\rangle$ is called a \emph{superposition} of the states $|\varphi_i\rangle$ with amplitudes $a_i$ respectively. For example, the state
+
+$$ \frac{|0\rangle - |1\rangle}{\sqrt 2} $$
+
+is a superposition of the states $|0\rangle$ and $|1\rangle$ with amplitudes $1/\sqrt 2$ and $-1\sqrt 2$ respectively.
+
+\subsubsection{Postulate 2: Evolution}
+
+The second postulate of quantum mechanics modulates the evolution of a quantum system. That is, the evolution of the state vector that describes the system.
+
+\begin{postulate}
+	The evolution of a \emph{unitary transformation}. That is, the state $|\varphi\rangle$ of the system at time $t_1$ is related to the state $|\varphi'\rangle$ of the system at time $t_2$ by a unitary operator $U$ which depends only on the times $t_1$ and $t_2$,
+	
+	$$ |\varphi'\rangle = U|\varphi\rangle $$
+\end{postulate}
+
+It is worth mentioning that this postulated assumes our physical system to be \emph{isolated}. That is, there is no interaction with the system coming from the exterior. In reality, the only real closed system is the universe as a whole. However, we can recreate sufficiently closed systems so that they can be described with approximations as being closed. 
+
+Just like the first postulate does not provide the state space or state vector of the system, the second postulate does not provide the unitary transformation that concretes this evolution. For our quantum computing case, we will be the ones to define the unitary transformation applied to the system. That is, the quantum circuit that transforms our qubit.
+
+The description of the system evolution provided by \ref{postulate 2} only provides information for those fixed times $t_1$ and $t_2$. A continuous time description of this evolution is provided by the Schrodinger equation, which provides a redefinition of the second postulate.
+
+\begin{postulate}
+	The time evolution of the state of a \emph{closed} quantum system is described by the Schrodinger equation:
+	
+	$$ i \hbar \frac{d|\varphi\rangle}{dt} = H|\varphi\rangle $$
+	
+	where $\hbar$ is \emph{Planck’s constant}, $i$ is the imaginary unit and $H$ is a fixed Hermitian operator known as the $Hamiltonian$.
+\end{postulate}
+
+There are several notes to make about this postulate. First, the Hamiltonian is fixed for the given system and it is not be confused with the \emph{Hadamard quantum gate}, also represented by an $H$. Second, $\hbar$ is a physical constant that can be absorbed into the Hamiltonian for our purposes, simplifying the equation. Finally, this is a differential equation, so by knowing the initial state space of the system and the exact Hamiltonian we may know the exact evolution of the system.
+
+In practice, obtaining the Hamiltonian for a given quantum system is a really laborious work and usually needs experimental data (TODO: add evidence? stated as such in Niel.). However, for our computational purposes we will be the ones designing the Hamiltonian such that our system evolves as desired. In particular, chapter 3 (TODO: add ref to QUBO chapter) describes in detail the construction of Hamiltonians for QUBO problems.
+
+Lets study the Hamiltonian in general. Since it is a Hermitian operator, it allows a spectral decomposition by the spectral decomposition theorem (TODO: fix ref \ref{Spectral Decomposition Theorem}):
+
+$$ H = \sum_E E |E\rangle\langle E| $$
+
+where $E$ are the eigenvalues and $|E\rangle$ the respective eigenvectors. 
+
+
+
+-> Arreglar la referencia al teorema de spectral decomposition
+-> Arreglar el Postulado 3 para que ponga posultado 2'
+-> Hacer la conexión entre ambos postulados (2, 2') explicitamente usando la solución
+-> Describir los vectores y valores propios de la ecuacion como estados energéticos
+-> Mirar el párrafo gordo subrayado en este apartado sobre la construccion de sistemas que se rigen por el postulado 2'
+
+\subsubsection{Postulate 3: Measurement}
 
 
 
 
 
-\subsection{Quantum Principles}
 
-El culmen de la parte teorica del trabajo es contar los principios de la cuantica, al menos los tres primeros. Con esto ya entendemos DWave (de hecho absta con el segundo), y podemos pasar a los problemas QUBO.
+
 
 
 \subsection{Quantum Gates}
