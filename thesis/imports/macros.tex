@@ -16,16 +16,17 @@
 % Estilos para los teoremas
 %------------------------
 \theoremstyle{plain}
-\newtheorem{theorem}{Teorema}
-\newtheorem{proposition}{Proposición}
-\newtheorem{lemma}{Lema}
-\newtheorem{corollary}{Corolario}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
 \theoremstyle{definition}
-\newtheorem{definition}{Definición}
-\newtheorem{proofs}{Demostración}
+\newtheorem{definition}{Definition}
+\newtheorem{postulate}{Postulate}
+\newtheorem{proofs}{Proof}
 \theoremstyle{remark}
-\newtheorem{remark}{Comentario}
-\newtheorem{exampleth}{Ejemplo}
+\newtheorem{remark}{Remark}
+\newtheorem{exampleth}{Example}
 
 \begingroup\makeatletter\@for\theoremstyle:=definition,remark,plain\do{\expandafter\g@addto@macro\csname th@\theoremstyle\endcsname{\addtolength\thm@preskip\parskip}}\endgroup
 
