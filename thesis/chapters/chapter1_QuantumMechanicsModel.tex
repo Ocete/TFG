@@ -20,7 +20,7 @@ The first postulate sets the environment in which we will operate: The State Spa
 
 Let the qubit as a rigorous mathematical construction. As we have already mentioned, a single qubit will be a vector in a complex vector space, but we will need that space to have some extra properties. That is, it will be a projective Hilbert space. Let us review the necessary linear algebra.
 
-Let $V$ be a complex vector space. That is, a vector space over $\mathds{C}$. We will restrict our study to finite complex vector spaces. If $z$ is a vector in $V$, we will denote its coordinates either as $z = (z_1, z_2, \dotsc, z_n)$ or by column notation:
+Let $V$ be a complex vector space. That is, a vector space over $\C$. We will restrict our study to finite complex vector spaces. If $z$ is a vector in $V$, we will denote its coordinates either as $z = (z_1, z_2, \dotsc, z_n)$ or by column notation:
 
 $$ z = 
 \begin{pmatrix}
@@ -33,9 +33,9 @@ $$
 
 Since $V$ is a vector space we have two basic operations: (vector) addition and scalar multiplication.
 
-In quantum mechanics, the usual notation is the Dirac's, also know \emph{bra-ket} notation. In this context, vectors in a complex vector space are denoted as $|\varphi\rangle$ and are known as \emph{kets}. The only exception to this is the zero vector, which will be denoted as $0 = (0, \dotsc, 0)$ instead of $|0\rangle$ since $|0\rangle$ will be used as something completely different. A \emph{vector subspace} $W$ of $V$ is a subset of $W$ closed for addition and scalar multiplication.
+In quantum mechanics, the usual notation is the Dirac's, also know \emph{bra-ket} notation. In this context, vectors in a complex vector space are denoted as $|\varphi\ra$ and are known as \emph{kets}. The only exception to this is the zero vector, which will be denoted as $0 = (0, \dotsc, 0)$ instead of $|0\ra$ since $|0\ra$ will be used as something completely different. A \emph{vector subspace} $W$ of $V$ is a subset of $W$ closed for addition and scalar multiplication.
 
-A \emph{base} of a vector space is a set of vectors $|v_1\rangle, \dotsc, |v_n\rangle$ such that they are linearly independent and any given vector $|v\rangle$ can be written as a linear combination of them: $|v\rangle = \sum_{i=1}^n \alpha_i|v_i\rangle$. The \emph{dimension} of a vector space is the number of elements in any of its bases, which is independent from the chosen base.
+A \emph{base} of a vector space is a set of vectors $|v_1\ra, \dotsc, |v_n\ra$ such that they are linearly independent and any given vector $|v\ra$ can be written as a linear combination of them: $|v\ra = \sum_{i=1}^n \alpha_i|v_i\ra$. The \emph{dimension} of a vector space is the number of elements in any of its bases, which is independent from the chosen base.
 
 
 \subsection{Linear operators}
@@ -44,10 +44,10 @@ A \emph{base} of a vector space is a set of vectors $|v_1\rangle, \dotsc, |v_n\r
 \begin{definition}
 	Given two complex vector spaces $V$ and $W$, a \emph{linear operator} is an application $M: V \rightarrow W $ that is linear in its inputs:
 	
-	$$ M \Big( \alpha |u\rangle + \beta |w\rangle \Big) = \alpha M (|u\rangle) + \beta M (|w\rangle) $$
+	$$ M \Big( \alpha |u\ra + \beta |w\ra \Big) = \alpha M (|u\ra) + \beta M (|w\ra) $$
 \end{definition}
 
-If $V$ to $W$ have dimensions $n$ and $m$ respectively, there is a bijection between the operators from $V$ to $W$ and the $n$ by $m$ matrices. Given an operator $M$, the obtained matrix $M'$ is called the \emph{matrix representation} of the linear operator. Furthermore, $M(|u\rangle) = M' \cdot |u\rangle$, so we usually denote the linear operator and its matrix representation by the same letter, and $M(|u\rangle)$ simply as $M|u\rangle$.
+If $V$ to $W$ have dimensions $n$ and $m$ respectively, there is a bijection between the operators from $V$ to $W$ and the $n$ by $m$ matrices. Given an operator $M$, the obtained matrix $M'$ is called the \emph{matrix representation} of the linear operator. Furthermore, $M(|u\ra) = M' \cdot |u\ra$, so we usually denote the linear operator and its matrix representation by the same letter, and $M(|u\ra)$ simply as $M|u\ra$.
 
 We will refer to linear operators simply as \emph{operators}.
 
@@ -58,32 +58,32 @@ We will refer to linear operators simply as \emph{operators}.
 Lets define another operation within the complex vector spaces.
 
 \begin{definition}
-	Let $V$ be a complex vector space. An inner product $\langle \cdot | \cdot \rangle: V^2 \rightarrow \mathds{C}$ is a function such that:
+	Let $V$ be a complex vector space. An inner product $\la \cdot | \cdot \ra: V^2 \rightarrow \C$ is a function such that:
 	
-	\quad 1) $\langle \cdot | \cdot \rangle$ is sesquilinear. That is,
+	\quad 1) $\la \cdot | \cdot \ra$ is sesquilinear. That is,
 	
-	\qquad 1.1) $\langle \cdot | \cdot \rangle$ is conjugate symmetric: for all $u,v$ in $V$, $\langle u | v \rangle = \overline{\langle v | u \rangle}$.
+	\qquad 1.1) $\la \cdot | \cdot \ra$ is conjugate symmetric: for all $u,v$ in $V$, $\la u | v \ra = \overline{\la v | u \ra}$.
 	
-	\qquad 1.2) $\langle \cdot | \cdot \rangle$ is linear on the second variable: for all $u,v,w$ in $V$ and $\alpha, \beta$ in $\mathds{C}$:
+	\qquad 1.2) $\la \cdot | \cdot \ra$ is linear on the second variable: for all $u,v,w$ in $V$ and $\alpha, \beta$ in $\C$:
 	
-	$$ \langle u  | \alpha v + \beta w \rangle = \alpha \langle u | v \rangle + \beta \langle u | w \rangle $$
+	$$ \la u  | \alpha v + \beta w \ra = \alpha \la u | v \ra + \beta \la u | w \ra $$
 	
-	\quad 2) $\langle \cdot | \cdot \rangle$ is definite positive. That is, for all $u$ in $V$, $\langle u | u \rangle \geq 0$ and $\langle u | u \rangle = 0 \Longleftrightarrow v = 0$.
+	\quad 2) $\la \cdot | \cdot \ra$ is definite positive. That is, for all $u$ in $V$, $\la u | u \ra \geq 0$ and $\la u | u \ra = 0 \Longleftrightarrow v = 0$.
 \end{definition}
 
-Given this properties it can easily be proven that $\langle \cdot | \cdot \rangle$ is also conjugate linear on the first variable. That is, for all $u,v,w$ in $V$ and $\alpha, \beta$ in $\mathds{C}$:
+Given this properties it can easily be proven that $\la \cdot | \cdot \ra$ is also conjugate linear on the first variable. That is, for all $u,v,w$ in $V$ and $\alpha, \beta$ in $\C$:
 
-$$ \langle \alpha u + \beta v  | w \rangle = \overline{\alpha} \langle u | w \rangle + \overline{\beta} \langle v | w \rangle $$
+$$ \la \alpha u + \beta v  | w \ra = \overline{\alpha} \la u | w \ra + \overline{\beta} \la v | w \ra $$
 
-We will sometimes denote the inner product $\langle \cdot | \cdot \rangle$ as $( \cdot , \cdot )$ to simplify notation.
+We will sometimes denote the inner product $\la \cdot | \cdot \ra$ as $( \cdot , \cdot )$ to simplify notation.
 
-Two vectors are said to be \emph{orthonormal} if there inner product is zero. We define the norm of a vector $|v\rangle$ by:
+Two vectors are said to be \emph{orthonormal} if there inner product is zero. We define the norm of a vector $|v\ra$ by:
 
-$$\parallel |v\rangle \parallel \ = \sqrt{ \langle v|v\rangle }$$
+$$\parallel |v\ra \parallel \ = \sqrt{ \la v|v\ra }$$
 
-A \emph{unit vector} is a vector $|v\rangle$ such that $\parallel |v\rangle \  \parallel = 0 $. We also say that $|v\rangle$ is \emph{normalized}, and we can normalize any vector except the zero vector by dividing it by its norm.
+A \emph{unit vector} is a vector $|v\ra$ such that $\parallel |v\ra \  \parallel = 0 $. We also say that $|v\ra$ is \emph{normalized}, and we can normalize any vector except the zero vector by dividing it by its norm.
 
-A base $|v_1\rangle, \dotsc, |v_n\rangle$ is said to be \emph{orthonormal} if every vector is a unit vector and they are pairwise orthogonal. That is, $\langle v_i|v_j\rangle = \delta_{ij}$ where
+A base $|v_1\ra, \dotsc, |v_n\ra$ is said to be \emph{orthonormal} if every vector is a unit vector and they are pairwise orthogonal. That is, $\la v_i|v_j\ra = \delta_{ij}$ where
 
 \[
 \delta_{ij} = 
@@ -97,13 +97,13 @@ A base $|v_1\rangle, \dotsc, |v_n\rangle$ is said to be \emph{orthonormal} if ev
 	An \emph{inner product space} is a vector space with an associated inner product. A \textbf{Hilbert Space} is an inner product space that is also complete.
 \end{definition}
 
-Hausdorff's Theorem states that every finite normed space is complete, therefore every finite inner product space over $\mathds{C}$ is a Hilbert space \ref{Payá2020}. Again, by Hausdorff's theorem we know that every $n$ dimensional Hilbert space is isomorphic to $\mathds{C}^n$. Thus, $\mathds{C}^n$ is the canonical $n$ dimensional Hilbert space and we will focus our study on these spaces.
+Hausdorff's Theorem states that every finite normed space is complete, therefore every finite inner product space over $\C$ is a Hilbert space \ref{Payá2020}. Again, by Hausdorff's theorem we know that every $n$ dimensional Hilbert space is isomorphic to $\C^n$. Thus, $\C^n$ is the canonical $n$ dimensional Hilbert space and we will focus our study on these spaces.
 
-Let $\alpha = a + i \cdot b\in \mathds{C}$. We define the \emph{conjugate}, $\bar \alpha$, as $\bar \alpha = a - i \cdot b$. The canonical inner product in $\mathds{C}^n$ is:
+Let $\alpha = a + i \cdot b\in \C$. We define the \emph{conjugate}, $\bar \alpha$, as $\bar \alpha = a - i \cdot b$. The canonical inner product in $\C^n$ is:
 
-$$ \langle u|v \rangle \ = \sum_{i=1}^n \overline{u_i}v_j $$
+$$ \la u|v \ra \ = \sum_{i=1}^n \overline{u_i}v_j $$
 
-where $u = (u_1, \dotsc, u_n)$ and $v = (v_1, \dotsc, v_n)$, for every $u,v$ in $\mathds{C}^n$.
+where $u = (u_1, \dotsc, u_n)$ and $v = (v_1, \dotsc, v_n)$, for every $u,v$ in $\C^n$.
 
 
 \subsection{Postulate 1 statement}
@@ -115,25 +115,25 @@ The reader should be familiar by now with the notation and the necessary linear 
 	Associated to any isolated physical system is a complex vector space with inner product (that is, a Hilbert space) known as the \emph{state space} of the system. The system is completely described by its \emph{state vector}, which is a unit vector in the system’s state space.
 \end{postulate}
 
-An important concern with this postulate is that it does not tell us which is the state space of a given system, nor its state vector. Although formally up to this point we cannot assure this, in quantum computing the state space will be fixed: $\mathds{C}^{2^n}$ for an n-qubits system. Our evolving state vector will be a vector $2^n$-vector.
+An important concern with this postulate is that it does not tell us which is the state space of a given system, nor its state vector. Although formally up to this point we cannot assure this, in quantum computing the state space will be fixed: $\C^{2^n}$ for an n-qubits system. Our evolving state vector will be a vector $2^n$-vector.
 
 Lets modulate a simpler system: a single qubit system.
 
 \begin{definition}
-	A state vector of the state space $\mathds{C}^{2}$ is called a \textbf{qubit}. Thus, $\mathds{C}^{2}$ may be called a single qubit state space.
+	A state vector of the state space $\C^{2}$ is called a \textbf{qubit}. Thus, $\C^{2}$ may be called a single qubit state space.
 \end{definition}
 
-Suppose $|0\rangle$, $|1\rangle$ form an orthonormal basis of a 2-dimensional Hilbert space. Then, any state vector in this state space may be described as:
+Suppose $|0\ra$, $|1\ra$ form an orthonormal basis of a 2-dimensional Hilbert space. Then, any state vector in this state space may be described as:
 
-$$ |\varphi\rangle = \alpha|0\rangle + \beta|1\rangle $$
+$$ |\varphi\ra = \alpha|0\ra + \beta|1\ra $$
 
-where $\alpha,\beta$ are complex numbers called \emph{amplitudes}. Thus, the condition that $|\varphi\rangle$ is a unit vector, $\langle\varphi|\varphi\rangle = 1$ is equivalent to $|\alpha|^2 + |\beta|^2 = 1$. This is known as the \emph{normalization condition}.
+where $\alpha,\beta$ are complex numbers called \emph{amplitudes}. Thus, the condition that $|\varphi\ra$ is a unit vector, $\la\varphi|\varphi\ra = 1$ is equivalent to $|\alpha|^2 + |\beta|^2 = 1$. This is known as the \emph{normalization condition}.
 
-We will always think of $|0\rangle$, $|1\rangle$ as a previously fixed orthonormal base. A linear combination of state vectors $\sum_i a_i |\varphi_i\rangle$ is called a \emph{superposition} of the states $|\varphi_i\rangle$ with amplitudes $a_i$ respectively. For example, the state
+We will always think of $|0\ra$, $|1\ra$ as a previously fixed orthonormal base. A linear combination of state vectors $\sum_i a_i |\varphi_i\ra$ is called a \emph{superposition} of the states $|\varphi_i\ra$ with amplitudes $a_i$ respectively. For example, the state
 
-$$ \frac{|0\rangle - |1\rangle}{\sqrt 2} $$
+$$ \frac{|0\ra - |1\ra}{\sqrt 2} $$
 
-is a superposition of the states $|0\rangle$ and $|1\rangle$ with amplitudes $1/\sqrt 2$ and $-1/\sqrt 2$ respectively.
+is a superposition of the states $|0\ra$ and $|1\ra$ with amplitudes $1/\sqrt 2$ and $-1/\sqrt 2$ respectively.
 
 
 \subsection{Quantum Computation Perspective: The Quantum Bit}
@@ -143,15 +143,15 @@ The bit is the minimum measure of information on classical computation and class
 
 We have reached the qubit definition from quantum physics and pure mathematics, describing the qubit as a mathematical object independent of its physical implementation. By describing them as mathematical entities we will be able to explore their properties mathematically without having to worry about the physics underneath. This lets us construct the quantum computing and quantum information theories independently of the physical implementation. The physical realization of qubits will be briefly discussed on [TODOref].
 
-So, intuitively, what is a qubit? Just like the classical bit, a qubit has a state. For the bit, the two only possible states are either $0$ or $1$. A qubit can take the states $|0\rangle$ and $|1\rangle$ -corresponding to the classical states $0$ and $1$- or it can be in a \emph{linear combination} of them:
+So, intuitively, what is a qubit? Just like the classical bit, a qubit has a state. For the bit, the two only possible states are either $0$ or $1$. A qubit can take the states $|0\ra$ and $|1\ra$ -corresponding to the classical states $0$ and $1$- or it can be in a \emph{linear combination} of them:
 
-$$ |\varphi\rangle = \alpha |0\rangle + \beta |1\rangle $$
+$$ |\varphi\ra = \alpha |0\ra + \beta |1\ra $$
 
-Where $\alpha$ and $\beta$ are complex numbers. Thus, we can describe a qubit as a vector in a two-dimensional complex Hilbert space (the canonical $\mathds{C}^{2}$), where $|0\rangle$ and $|1\rangle$ form an orthonormal basis called the \emph{computational basis}. $|0\rangle$ and $|1\rangle$ will be called \emph{computational basis states}.
+Where $\alpha$ and $\beta$ are complex numbers. Thus, we can describe a qubit as a vector in a two-dimensional complex Hilbert space (the canonical $\C^{2}$), where $|0\ra$ and $|1\ra$ form an orthonormal basis called the \emph{computational basis}. $|0\ra$ and $|1\ra$ will be called \emph{computational basis states}.
 
-At this point, the reader may ask themselves if a qubit may even physically exist, not just as a mathematical entity. After all, the first postulate states that given a \emph{physical system}, there is an associated state space and vector states that describe the system. However, we define a qubit from state space ($\mathds{C}^{2}$) without considering a physical system. 
+At this point, the reader may ask themselves if a qubit may even physically exist, not just as a mathematical entity. After all, the first postulate states that given a \emph{physical system}, there is an associated state space and vector states that describe the system. However, we define a qubit from state space ($\C^{2}$) without considering a physical system. 
 
-The answer is positive: there are numerous physical systems such that their associated state spaces are ($\mathds{C}^{2}$). Thus, modeling a qubit. Precise physical implementations are provided discussed in section [TODOref] and more intuitive examples in section [TODOref la última subseccion de la sección Postulate 2].
+The answer is positive: there are numerous physical systems such that their associated state spaces are ($\C^{2}$). Thus, modeling a qubit. Precise physical implementations are provided discussed in section [TODOref] and more intuitive examples in section [TODOref la última subseccion de la sección Postulate 2].
 
 
 \section{Postulate 2: Measurement}
@@ -166,51 +166,51 @@ In quantum physics, measuring has some unexpected and sometimes counter-intuitiv
 
 
 \begin{definition}
-	Definition: Let $V, W$ be two vector spaces and $|v\rangle \in V, |w\rangle \in W$. We define the \emph{outer product} between $|v\rangle$ and $|w\rangle$, $|w\rangle\langle v|$, as the only linear operator such that for any $|v'\rangle \in V$, 
+	Definition: Let $V, W$ be two vector spaces and $|v\ra \in V, |w\ra \in W$. We define the \emph{outer product} between $|v\ra$ and $|w\ra$, $|w\ra\la v|$, as the only linear operator such that for any $|v'\ra \in V$, 
 	
-	$$ (|w\rangle\langle v|) \ |v'\rangle = |w\rangle\langle v|v'\rangle = \langle v|v'\rangle |w\rangle$$
+	$$ (|w\ra\la v|) \ |v'\ra = |w\ra\la v|v'\ra = \la v|v'\ra |w\ra$$
 \end{definition}
 
-This identities provide a dual interpretation: the already known product of a complex value $\langle v|v'\rangle$ with a vector $|w\rangle$, and the application of the new operator, the outer product $|w\rangle\langle v|$ to the vector $|v'\rangle$. The outer product is defined so that this duality is held.
+This identities provide a dual interpretation: the already known product of a complex value $\la v|v'\ra$ with a vector $|w\ra$, and the application of the new operator, the outer product $|w\ra\la v|$ to the vector $|v'\ra$. The outer product is defined so that this duality is held.
 
-Let us consider linear combinations of outer products. By definition, $\sum_i a_i |w_i\rangle\langle v_i|$ is the operator that transforms $|v'\rangle$ into $\sum_i a_i |w_i\rangle\langle v_i|v'\rangle = \sum_i a_i \langle v_i|v'\rangle |w_i\rangle$.
+Let us consider linear combinations of outer products. By definition, $\sum_i a_i |w_i\ra\la v_i|$ is the operator that transforms $|v'\ra$ into $\sum_i a_i |w_i\ra\la v_i|v'\ra = \sum_i a_i \la v_i|v'\ra |w_i\ra$.
 
 The most important result concerning outer products is the \emph{completeness relation}:
 
 \begin{proposition}[Completeness relation]
-	Let $|i\rangle$ be any orthonormal basis of a finite vector space $V$. Then:
+	Let $|i\ra$ be any orthonormal basis of a finite vector space $V$. Then:
 	
-	$$ \sum_i |i\rangle\langle i| = I $$
+	$$ \sum_i |i\ra\la i| = I $$
 \end{proposition}
 
 \begin{proof}
-	Let $|v\rangle \in H$. $|v\rangle$ can be expressed as $ \sum_i v_i |i\rangle$ for some complex numbers $v_i$. Notice that $\langle i|v\rangle = v_i$. Therefor:
+	Let $|v\ra \in H$. $|v\ra$ can be expressed as $ \sum_i v_i |i\ra$ for some complex numbers $v_i$. Notice that $\la i|v\ra = v_i$. Therefor:
 	
-	$$|v\rangle = \sum_i v_i |i\rangle = \sum_i \langle i|v\rangle |i\rangle = \sum_i |i\rangle\langle i|v\rangle = \bigg( \sum_i |i\rangle\langle i|\bigg) |v\rangle$$
+	$$|v\ra = \sum_i v_i |i\ra = \sum_i \la i|v\ra |i\ra = \sum_i |i\ra\la i|v\ra = \bigg( \sum_i |i\ra\la i|\bigg) |v\ra$$
 	
-	Since $|v\rangle$ was arbitrary, proves that $ \sum_i |i\rangle\langle i | = I $.
+	Since $|v\ra$ was arbitrary, proves that $ \sum_i |i\ra\la i | = I $.
 \end{proof}
 
 \begin{corollary}[Cauchy-Schwarz inequality]
-	For any two vectors $|v\rangle, |w\rangle$ in a Hilbert space,
+	For any two vectors $|v\ra, |w\ra$ in a Hilbert space,
 	
-	$$|\langle v|w\rangle|^2 \leq \langle v|w\rangle\langle w|w\rangle$$
+	$$|\la v|w\ra|^2 \leq \la v|w\ra\la w|w\ra$$
 	
-	where the equality occurs if and only if $|v\rangle$ and $|w\rangle$ are linearly dependant
+	where the equality occurs if and only if $|v\ra$ and $|w\ra$ are linearly dependant
 \end{corollary}
 \begin{proof} 
 	
 	We provide a proof supposed that our Hilbert space is finite.
 	
-	Let $|v\rangle, |w\rangle$ be two vectors of a finite Hilbert space $H$. Since $H$ is finite, using the Gram-Schmidt procedure we may obtain a basis $|i\rangle$ where the first vector is $|w\rangle / \sqrt{\langle w|w\rangle}$. Using the completeness relation $\sum_i |i\rangle \langle i| = I$:
+	Let $|v\ra, |w\ra$ be two vectors of a finite Hilbert space $H$. Since $H$ is finite, using the Gram-Schmidt procedure we may obtain a basis $|i\ra$ where the first vector is $|w\ra / \sqrt{\la w|w\ra}$. Using the completeness relation $\sum_i |i\ra \la i| = I$:
 	
-	$$\langle v|v\rangle \langle w|w\rangle = \langle v|I|v\rangle \langle w|w\rangle = \langle v| \sum_i (|i\rangle \langle i|) |v\rangle \langle w|w\rangle = \sum_i \langle v|i\rangle \langle i|v\rangle \langle w|w\rangle $$
+	$$\la v|v\ra \la w|w\ra = \la v|I|v\ra \la w|w\ra = \la v| \sum_i (|i\ra \la i|) |v\ra \la w|w\ra = \sum_i \la v|i\ra \la i|v\ra \la w|w\ra $$
 	
 	The sum of a list of positive numbers is obviously greater than its first element, so:
 	
-	$$ \sum_i \langle v|i\rangle \langle i|v\rangle \langle w|w\rangle \geq  \frac{\langle v|w\rangle \langle w|v\rangle}{\langle w|w\rangle} \langle w|w\rangle = \langle v|w\rangle \langle w|v\rangle  = | \langle w|v\rangle |^2 $$
+	$$ \sum_i \la v|i\ra \la i|v\ra \la w|w\ra \geq  \frac{\la v|w\ra \la w|v\ra}{\la w|w\ra} \la w|w\ra = \la v|w\ra \la w|v\ra  = | \la w|v\ra |^2 $$
 	
-	Lastly, the equality occurs if and only if $\langle v|i\rangle = 0$ for every $|i\rangle \neq w / \sqrt{\langle w|w\rangle}$. But since $|i\rangle$ is a base, this means $|v\rangle$ and $|w\rangle$ are linearly dependent.
+	Lastly, the equality occurs if and only if $\la v|i\ra = 0$ for every $|i\ra \neq w / \sqrt{\la w|w\ra}$. But since $|i\ra$ is a base, this means $|v\ra$ and $|w\ra$ are linearly dependent.
 	
 \end{proof}
 
@@ -221,19 +221,19 @@ The most important result concerning outer products is the \emph{completeness re
 Another way of looking at the inner product is the \emph{adjoint}.
 
 \begin{definition}
-	Let $A$ be an operator between $\mathds{C}^n$ and $\mathds{C}^m$, finite dimensional Hilbert spaces. That is, $A \in \mathcal{M}_{n{\times}m}(\mathds{C})$. Then, its \emph{adjoint} or \emph{conjugate transpose} $A^\dagger$ is defined by:
+	Let $A$ be an operator between $\C^n$ and $\C^m$, finite dimensional Hilbert spaces. That is, $A \in \mathcal{M}_{n{\times}m}(\C)$. Then, its \emph{adjoint} or \emph{conjugate transpose} $A^\dagger$ is defined by:
 	
 	$$ (A^\dagger)_{ij} = \bar A_{ji} $$
 \end{definition}
 
-If $|v\rangle$ is a vector, we can compute its adjoint by seeing it as a matrix. By convention, we will denote $|v\rangle^\dagger = \langle v|$. Adjoints of vector are usually called \emph{bras}, making given sense to the \emph{bra-ket} notation since $\langle v| \cdot |v\rangle = \langle v|v\rangle$, where $\cdot$ denotes the dot product.
+If $|v\ra$ is a vector, we can compute its adjoint by seeing it as a matrix. By convention, we will denote $|v\ra^\dagger = \la v|$. Adjoints of vector are usually called \emph{bras}, making given sense to the \emph{bra-ket} notation since $\la v| \cdot |v\ra = \la v|v\ra$, where $\cdot$ denotes the dot product.
 
 Some useful algebraic identities associated to adjoints are:
 
 \begin{itemize}
-	\item Given an operator $A \in \mathcal{M}_{n}(\mathds{C})$, $A^\dagger$ is the only operator such that for any two vectors $|u\rangle, |v\rangle \in \mathds{C}^n$: $( |u\rangle, A|v\rangle) = ( A^\dagger |u\rangle, |v\rangle)$
+	\item Given an operator $A \in \mathcal{M}_{n}(\C)$, $A^\dagger$ is the only operator such that for any two vectors $|u\ra, |v\ra \in \C^n$: $( |u\ra, A|v\ra) = ( A^\dagger |u\ra, |v\ra)$
 	\item For any two operators $A,B$, $(AB)^\dagger = B^\dagger A^\dagger$.
-	\item As a corollary, for any vector $|v\rangle$ and for any operator $A$, $(A|v\rangle)^\dagger = \langle v|A^\dagger$.
+	\item As a corollary, for any vector $|v\ra$ and for any operator $A$, $(A|v\ra)^\dagger = \la v|A^\dagger$.
 \end{itemize}
 
 \begin{definition}
@@ -257,9 +257,9 @@ Clearly, Hermitian and unitary operators are also normal. The importance of unit
 \end{proposition}
 
 \begin{proof}
-	Let $|u\rangle, |v\rangle \in \mathds{C}^n$ and $U \in \mathcal{M}_n(\mathds{C})$ be a unitary operator. Then:
+	Let $|u\ra, |v\ra \in \C^n$ and $U \in \mathcal{M}_n(\C)$ be a unitary operator. Then:
 	
-	$$ ( U|u\rangle, U|v\rangle) = \langle u|U^\dagger U|v\rangle = \langle u|I|v\rangle = \langle u|v\rangle = ( |u\rangle, |v\rangle) $$
+	$$ ( U|u\ra, U|v\ra) = \la u|U^\dagger U|v\ra = \la u|I|v\ra = \la u|v\ra = ( |u\ra, |v\ra) $$
 	
 	Which proves the proposition.
 \end{proof}
@@ -275,13 +275,13 @@ On the other hand, Hermitian operators will be key in order to study how a quant
 As previously discussed, the second postulate describes how a quantum system may be measured.
 
 \begin{postulate}
-	Quantum measurement are described by a collection $\{M_m\}$ of \emph{measurement operators}. These act on the state space associated to the physical system being measured. The index $m$ refers to the measurement outcomes that may occur. That is, if $|\varphi\rangle$ is the vector state before measure, then the probability of the result $m$ occurring is:
+	Quantum measurement are described by a collection $\{M_m\}$ of \emph{measurement operators}. These act on the state space associated to the physical system being measured. The index $m$ refers to the measurement outcomes that may occur. That is, if $|\varphi\ra$ is the vector state before measure, then the probability of the result $m$ occurring is:
 	
-	$$P(m) = \langle\varphi|M_m^\dagger M_m|\varphi\rangle $$
+	$$P(m) = \la\varphi|M_m^\dagger M_m|\varphi\ra $$
 	
 	and the state of the system after the measurement is:
 	
-	$$ \frac{M_m|\varphi\rangle}{\sqrt{\langle\varphi|M_m^\dagger M_m|\varphi\rangle}}$$
+	$$ \frac{M_m|\varphi\ra}{\sqrt{\la\varphi|M_m^\dagger M_m|\varphi\ra}}$$
 	
 	Finally, the measurement operator satisfy the \emph{completeness equation}: 
 	
@@ -290,53 +290,53 @@ As previously discussed, the second postulate describes how a quantum system may
 
 The completeness equation is equivalent to the fact that the probabilities of the different possible outcomes add up to one:
 
-$$ \sum_m P(m) = \sum_m \langle\varphi|M_m^\dagger M_m|\varphi\rangle = \langle\varphi|\sum_m (M_m^\dagger M_m)|\varphi\rangle = \langle\varphi|\varphi\rangle = 1 $$
+$$ \sum_m P(m) = \sum_m \la\varphi|M_m^\dagger M_m|\varphi\ra = \la\varphi|\sum_m (M_m^\dagger M_m)|\varphi\ra = \la\varphi|\varphi\ra = 1 $$
 
-Which holds for every state vector since they are unitary. Reciprocally, this equation occurring for every state vector $|\varphi\rangle$ implies the completeness equation.
+Which holds for every state vector since they are unitary. Reciprocally, this equation occurring for every state vector $|\varphi\ra$ implies the completeness equation.
 
 The reader may have already notice a huge difference between classic and quantum measurement: The measured states \textbf{changes} after the measurement. This means that we interfere with the system by merely looking into it! It will ultimately translate in huge differences between classical and quantum computing, such that we will generally not be able to clone a qubit (See no cloning theorem [TODOref]).
 
-Lets look at an important example: \emph{measurement of a qubit in the computational basis}. That is, measuring a qubit with two possible outcomes: $|0\rangle$ and $|1\rangle$. In order to obtain such result we use the operators $M_0 = |0\rangle \langle 0|$ and $M_1 = |1\rangle \langle 1|$.
+Lets look at an important example: \emph{measurement of a qubit in the computational basis}. That is, measuring a qubit with two possible outcomes: $|0\ra$ and $|1\ra$. In order to obtain such result we use the operators $M_0 = |0\ra \la 0|$ and $M_1 = |1\ra \la 1|$.
 
-In order for $\{M_0, M_1\}$ to be a correct collection of measurement operators they must satisfy the completeness equation. Observe that each operator is Hemitian: $M_i^\dagger = (|i\rangle \langle i|)^\dagger = (\langle i|)^\dagger (|i\rangle)^\dagger = |i\rangle \langle i| = M_i$. Furthermore, $M_i^2 = |i\rangle \langle i|i\rangle \langle i| = |i\rangle \langle i| = M_i$.
+In order for $\{M_0, M_1\}$ to be a correct collection of measurement operators they must satisfy the completeness equation. Observe that each operator is Hemitian: $M_i^\dagger = (|i\ra \la i|)^\dagger = (\la i|)^\dagger (|i\ra)^\dagger = |i\ra \la i| = M_i$. Furthermore, $M_i^2 = |i\ra \la i|i\ra \la i| = |i\ra \la i| = M_i$.
 
 Finally, the computational basis is an orthonormal basis and therefore the completeness relation tells us that:
 
-$$ \sum_i |i\rangle\langle i| = 1 $$
+$$ \sum_i |i\ra\la i| = 1 $$
 
 We can see that the completeness equation holds:
 
-$$ \sum_i M_i^\dagger M_i = \sum_i M_i^2 = \sum_i M_i = \sum_i |i\rangle\langle i| = 1 $$
+$$ \sum_i M_i^\dagger M_i = \sum_i M_i^2 = \sum_i M_i = \sum_i |i\ra\la i| = 1 $$
 
-Lets measure using this operators, also called \emph{measure in the computational basis}, to better understand the measurement. Suppose the state being measured is $|\varphi\rangle = \alpha|0\rangle + \beta|1\rangle$. Then, the probability of obtaining the outcome 0 is:
+Lets measure using this operators, also called \emph{measure in the computational basis}, to better understand the measurement. Suppose the state being measured is $|\varphi\ra = \alpha|0\ra + \beta|1\ra$. Then, the probability of obtaining the outcome 0 is:
 
-$$ P(0) = \langle\varphi|M_0^\dagger M_0|\varphi\rangle = \langle\varphi|M_0|\varphi\rangle = |a|^2 $$
+$$ P(0) = \la\varphi|M_0^\dagger M_0|\varphi\ra = \la\varphi|M_0|\varphi\ra = |a|^2 $$
 
 Similarly, the probability of obtaining the outcome 1 is $p(1) = |b|^2$. Naturally, $ |a|^2 + |b|^2 = 1$. What happens after measuring? The post-measurement state will be, respectively if we measured 0 or 1:
 
-$$ \frac{M_0|\varphi\rangle}{|a|} = \frac{a}{|a|}|0\rangle$$
+$$ \frac{M_0|\varphi\ra}{|a|} = \frac{a}{|a|}|0\ra$$
 
-$$ \frac{M_1|\varphi\rangle}{|b|} = \frac{b}{|b|}|1\rangle$$
+$$ \frac{M_1|\varphi\ra}{|b|} = \frac{b}{|b|}|1\ra$$
 
-We will see in section [TODOref] that multiplying factors factors like $a/|a|$ don't affect the state vector. We may appreciate now how dividing by $\langle\varphi|M_m^\dagger M_m|\varphi\rangle^{\frac{1}{2}}$ in the post-measurement state is only done so the resulting vector is a unit vector.
+We will see in section [TODOref] that multiplying factors factors like $a/|a|$ don't affect the state vector. We may appreciate now how dividing by $\la\varphi|M_m^\dagger M_m|\varphi\ra^{\frac{1}{2}}$ in the post-measurement state is only done so the resulting vector is a unit vector.
 
-So if we measured a 0, the post-measurement vector will be $|0\rangle$ and vice-versa. Any measurements performed after the first one will yield exactly the same result. This behaviour is called \emph{qubit collapsing}.
+So if we measured a 0, the post-measurement vector will be $|0\ra$ and vice-versa. Any measurements performed after the first one will yield exactly the same result. This behaviour is called \emph{qubit collapsing}.
 
 We defined measurement to be independent of any basis so may measured in the most convenient basis at each point. For example, we may use the following other basis:
 
-$$ |+\rangle = \frac{1}{\sqrt{2}}|0\rangle + \frac{1}{\sqrt{2}}|1\rangle = \frac{|0\rangle + |1\rangle}{\sqrt{2}} $$
+$$ |+\ra = \frac{1}{\sqrt{2}}|0\ra + \frac{1}{\sqrt{2}}|1\ra = \frac{|0\ra + |1\ra}{\sqrt{2}} $$
 
-$$ |-\rangle = \frac{1}{\sqrt{2}}|0\rangle - \frac{1}{\sqrt{2}}|1\rangle = \frac{|0\rangle - |1\rangle}{\sqrt{2}} $$
+$$ |-\ra = \frac{1}{\sqrt{2}}|0\ra - \frac{1}{\sqrt{2}}|1\ra = \frac{|0\ra - |1\ra}{\sqrt{2}} $$
 
-It can easily be proven that $\{|+\rangle, |-\rangle\}$ is a basis and therefore it satisfies the completeness equation. In fact, the operators $M_+ = |+\rangle\langle +|$ and $M_- = |-\rangle\langle -|$ satisfy the completeness equation. Using this operators, measuring the qubit $|\varphi\rangle = \alpha|0\rangle + \beta|1\rangle$ will output $+$ with probability:
+It can easily be proven that $\{|+\ra, |-\ra\}$ is a basis and therefore it satisfies the completeness equation. In fact, the operators $M_+ = |+\ra\la +|$ and $M_- = |-\ra\la -|$ satisfy the completeness equation. Using this operators, measuring the qubit $|\varphi\ra = \alpha|0\ra + \beta|1\ra$ will output $+$ with probability:
 
-$$ P(+) = \langle\varphi|M_+^\dagger M_+|\varphi\rangle = \langle\varphi|M_+|\varphi\rangle = \langle\varphi|+\rangle\langle+|\varphi\rangle = \langle\varphi|+\rangle^2 = $$
+$$ P(+) = \la\varphi|M_+^\dagger M_+|\varphi\ra = \la\varphi|M_+|\varphi\ra = \la\varphi|+\ra\la+|\varphi\ra = \la\varphi|+\ra^2 = $$
 
-$$ = \bigg ( \frac{\alpha}{\sqrt{2}}\langle0|0\rangle + \frac{\alpha}{\sqrt{2}}\langle1|0\rangle + \frac{\beta}{\sqrt{2}}\langle0|1\rangle + \frac{\beta}{\sqrt{2}}\langle1|1\rangle \bigg )^2 = \frac{(\alpha + \beta)^2}{2} $$
+$$ = \bigg ( \frac{\alpha}{\sqrt{2}}\la0|0\ra + \frac{\alpha}{\sqrt{2}}\la1|0\ra + \frac{\beta}{\sqrt{2}}\la0|1\ra + \frac{\beta}{\sqrt{2}}\la1|1\ra \bigg )^2 = \frac{(\alpha + \beta)^2}{2} $$
 
 $$ P(-) = \frac{(\alpha - \beta)^2}{2} $$
 
-And, naturally, $P(+) + P(-) = 1$. So $|\varphi\rangle$ will collapse to $|+\rangle$ with probability $(\alpha - \beta)^2/2$ when measured with this operators. Observe that the post-measurement state will never be $|0\rangle$ nor $|1\rangle$ in this case, we made the qubit collapse (with certain probability) to the chosen state basis.
+And, naturally, $P(+) + P(-) = 1$. So $|\varphi\ra$ will collapse to $|+\ra$ with probability $(\alpha - \beta)^2/2$ when measured with this operators. Observe that the post-measurement state will never be $|0\ra$ nor $|1\ra$ in this case, we made the qubit collapse (with certain probability) to the chosen state basis.
 
 Finally, there is a technical fineness between the first and second postulates worth mentioning. The first postulate was stated for an \emph{isolated} physical system, but by measuring the system we interfere with it. However, measuring devices are also quantum systems, so together the measured and the measuring system form a larger isolated system (it may be necessary to include more quantum systems, but this can be done).
 
@@ -344,19 +344,19 @@ Finally, there is a technical fineness between the first and second postulates w
 \subsection{Real life qubit examples}
 
 
-In classical computation, we may know the state of a bit by consulting it. That is, what can simply retrieve that information from the bit. The first difficulty we find in quantum computing is that once we \emph{measure} a qubit it \emph{collapses} to either $|0\rangle$ with probability $|\alpha|^2$, or to $|1\rangle$ with probability $|\beta|^2$. The obtained output reflects the qubit state \emph{after} it has collapsed to either one of these states, so the outcome may only be either $|0\rangle$ or $|1\rangle$. This means that we may never retrieve directly the values $\alpha$ and $\beta$. Thus, being unable to clone a qubit. This is the main idea behind the no cloning theorem (see reference).
+In classical computation, we may know the state of a bit by consulting it. That is, what can simply retrieve that information from the bit. The first difficulty we find in quantum computing is that once we \emph{measure} a qubit it \emph{collapses} to either $|0\ra$ with probability $|\alpha|^2$, or to $|1\ra$ with probability $|\beta|^2$. The obtained output reflects the qubit state \emph{after} it has collapsed to either one of these states, so the outcome may only be either $|0\ra$ or $|1\ra$. This means that we may never retrieve directly the values $\alpha$ and $\beta$. Thus, being unable to clone a qubit. This is the main idea behind the no cloning theorem (see reference).
 
 We can, however, initialize qubits in a certain state and apply some operations to them in order to alter their coefficients, thus knowing their exact value. However, once a single measurement is done, the qubit collapses and the $\alpha$ and $\beta$ values are "lost".
 
 Superposition and collapsing might be counter-intuitive concepts, so let us look at them with an analogy. We can think of a perfect coin being tossed as the following qubit:
 
-$$ |+\rangle = \frac{1}{\sqrt{2}} |0\rangle + \frac{1}{\sqrt{2}} |1\rangle $$
+$$ |+\ra = \frac{1}{\sqrt{2}} |0\ra + \frac{1}{\sqrt{2}} |1\ra $$
 
 This does \textbf{not} represent a coin that has landed somehow on its side, but a spinning coin that has not landed yet. Upon measuring it, we "make the coin land" and see the result: either heads or tails, and neither of the states in between. This example also describes the qubit collapse: once the coin has landed, we will see the same result every time we look at it -obviously-, just like every time a qubit is measured after the first measurement, the outcome will be the same since it has already collapsed. We will return to this state, also known as the Bell state, later on.
 
-On the other hand, this was not a really accurate example since the system is not really isolated, although in was interesting intuition-wise. One of the first (accurate) qubit models ever proposed was the Schrodinger's Cat \cite{Schrodinger1935} \cite{Schrodinger1935a}. In this hypothetical experiment, a cat would be locked in a room for an hour with a device that during that hour would \emph{perhaps} trigger, killing the cat. On the other hand, with equal probability, it would not trigger at all. After the whole hour elapses, the cat would be alive and dead with equal probability, ending up in a halfway state. In this case, our computational bases would be the states alive and dead, and we achieve the state $|+\rangle$ after that hour.
+On the other hand, this was not a really accurate example since the system is not really isolated, although in was interesting intuition-wise. One of the first (accurate) qubit models ever proposed was the Schrodinger's Cat \cite{Schrodinger1935} \cite{Schrodinger1935a}. In this hypothetical experiment, a cat would be locked in a room for an hour with a device that during that hour would \emph{perhaps} trigger, killing the cat. On the other hand, with equal probability, it would not trigger at all. After the whole hour elapses, the cat would be alive and dead with equal probability, ending up in a halfway state. In this case, our computational bases would be the states alive and dead, and we achieve the state $|+\ra$ after that hour.
 
-Although physical implementations are discussed in section [TODOref chapter], we cannot proceed any further without providing a more accurate and reproducible description of a qubit than "a coin being tossed" and such a hypothetical cat experiment. A possible realization of a qubit is an electron in a single atom's orbit, as seen in Figure \ref{fig 1.1}. An electron in an orbit may be in the so-called \emph{ground} and \emph{excited} states, $|0\rangle$ and $|1\rangle$ respectively, depending on its energy. By shining light to the electron with a certain energy and for a certain amount of time, one can make the electron move from the ground state to the excited state and vice versa. But most interestingly, one can apply the light to the electron during a smaller amount of time, moving the electron somehow "halfway" between both states.
+Although physical implementations are discussed in section [TODOref chapter], we cannot proceed any further without providing a more accurate and reproducible description of a qubit than "a coin being tossed" and such a hypothetical cat experiment. A possible realization of a qubit is an electron in a single atom's orbit, as seen in Figure \ref{fig 1.1}. An electron in an orbit may be in the so-called \emph{ground} and \emph{excited} states, $|0\ra$ and $|1\ra$ respectively, depending on its energy. By shining light to the electron with a certain energy and for a certain amount of time, one can make the electron move from the ground state to the excited state and vice versa. But most interestingly, one can apply the light to the electron during a smaller amount of time, moving the electron somehow "halfway" between both states.
 
 \begin{figure}[h]
 	\includegraphics[scale=.4]{atom.png}
@@ -376,13 +376,13 @@ The third postulate of quantum mechanics modulates the evolution of a quantum sy
 
 
 \begin{definition}
-	Let $V$ be a vector space and $A$ an operator on $V$. An \emph{eigenvector} is a non zero vector $|v_\lambda\rangle$ such that $A|v_\lambda\rangle = \lambda|v_\lambda\rangle$ for a complex value $\lambda$ called the associated \emph{eigenvalue}.
+	Let $V$ be a vector space and $A$ an operator on $V$. An \emph{eigenvector} is a non zero vector $|v_\lambda\ra$ such that $A|v_\lambda\ra = \lambda|v_\lambda\ra$ for a complex value $\lambda$ called the associated \emph{eigenvalue}.
 \end{definition}
 
-Eigenvalues and associated eigenvectors will usually be denoted with the same letter for simplicity: $\lambda$ and $|\lambda\rangle$. We assume the reader is familiar with eigenvectors and values basic notions. For instance, that they may be calculated using the \emph{characteristic equation}: $|I - \lambda A| = 0$.
+Eigenvalues and associated eigenvectors will usually be denoted with the same letter for simplicity: $\lambda$ and $|\lambda\ra$. We assume the reader is familiar with eigenvectors and values basic notions. For instance, that they may be calculated using the \emph{characteristic equation}: $|I - \lambda A| = 0$.
 
 \begin{definition}
-	A \emph{diagonal representation} of an operator $A$ is a representation $\sum_i \lambda_i |\lambda_i\rangle\langle\lambda_i|$ where the $|\lambda_i\rangle$ form an orthonormal set of A's eigenvectors and $\lambda_i$ are the respective eigenvalues. An operator is said to be \emph{diagonalizable} if it allows a diagonal representation.
+	A \emph{diagonal representation} of an operator $A$ is a representation $\sum_i \lambda_i |\lambda_i\ra\la\lambda_i|$ where the $|\lambda_i\ra$ form an orthonormal set of A's eigenvectors and $\lambda_i$ are the respective eigenvalues. An operator is said to be \emph{diagonalizable} if it allows a diagonal representation.
 \end{definition}
 
 \begin{exampleth}
@@ -395,14 +395,14 @@ Eigenvalues and associated eigenvectors will usually be denoted with the same le
 	\end{pmatrix}
 	$$
 	
-	This matrix is called the \emph{Z Pauli} matrix. It is relevant for quantum computing and it will be introduced later on along with the rest of the Pauli matrices. For now, lets compute its diagonalizable representation. Since it is already diagonal we can infer that its eigenvalues are $\{1, -1\}$. Computing the diagonal representation we realize that a pair orthonormal eigenvectors are $\{|0\rangle, |1\rangle\}$ respectively. Therefore:
+	This matrix is called the \emph{Z Pauli} matrix. It is relevant for quantum computing and it will be introduced later on along with the rest of the Pauli matrices. For now, lets compute its diagonalizable representation. Since it is already diagonal we can infer that its eigenvalues are $\{1, -1\}$. Computing the diagonal representation we realize that a pair orthonormal eigenvectors are $\{|0\ra, |1\ra\}$ respectively. Therefore:
 	
 	$$ Z = 
 	\begin{pmatrix}
 		1 & 0 \\
 		0 & -1 
 	\end{pmatrix} = 
-	|0\rangle\langle0| - |1\rangle\langle1|
+	|0\ra\la0| - |1\ra\la1|
 	$$
 \end{exampleth}
 
@@ -425,9 +425,9 @@ Since Hermitian and unitary operators are normal, we obtain the following result
 \subsection{Postulate 3 statement}
 
 \begin{postulate}
-	The evolution of a \emph{closed} quantum system is described by a \emph{unitary transformation}. That is, the state $|\varphi\rangle$ of the system at time $t_1$ is related to the state $|\varphi'\rangle$ of the system at time $t_2$ by a unitary operator $U$ which depends only on the times $t_1$ and $t_2$,
+	The evolution of a \emph{closed} quantum system is described by a \emph{unitary transformation}. That is, the state $|\varphi\ra$ of the system at time $t_1$ is related to the state $|\varphi'\ra$ of the system at time $t_2$ by a unitary operator $U$ which depends only on the times $t_1$ and $t_2$,
 	
-	$$ |\varphi'\rangle = U|\varphi\rangle $$
+	$$ |\varphi'\ra = U|\varphi\ra $$
 \end{postulate}
 
 Just like the first postulate does not provide the state space or state vector of the system, the second postulate does not provide the unitary transformation that concretes this evolution. For our quantum computing case, we will be the ones to define the unitary transformation applied to the system. That is, the quantum circuit that transforms our qubit.
@@ -441,9 +441,9 @@ Just like the first postulate does not provide the state space or state vector o
 	\end{pmatrix}
 	$$
 	
-	It is called the bit flip matrix it takes $|0\rangle$ to $|1\rangle$ and vice-versa:
+	It is called the bit flip matrix it takes $|0\ra$ to $|1\ra$ and vice-versa:
 	
-	$$  X|0\rangle = 
+	$$  X|0\ra = 
 	\begin{pmatrix}
 		0 & 1 \\
 		1 & 0 
@@ -456,10 +456,10 @@ Just like the first postulate does not provide the state space or state vector o
 		0 \\
 		1 
 	\end{pmatrix} =
-	|1\rangle
+	|1\ra
 	$$
 	
-	This product that we just computed is precisely what postulate 3 states: the evolution of our state vector following the unitary operator $X$: $X|0\rangle = |1\rangle$. Even though for an arbitrary system we do not know the specific unitary transformation the system follows, we can create systems that follow the desired transformations. These are the basics of quantum gates and quantum circuits. 
+	This product that we just computed is precisely what postulate 3 states: the evolution of our state vector following the unitary operator $X$: $X|0\ra = |1\ra$. Even though for an arbitrary system we do not know the specific unitary transformation the system follows, we can create systems that follow the desired transformations. These are the basics of quantum gates and quantum circuits. 
 \end{exampleth}
 
 The description of the system evolution provided by \ref{postulate 2} only provides information for those fixed times $t_1$ and $t_2$. A continuous time description of this evolution is provided by the Schrodinger equation, which provides a redefinition of the second postulate.
@@ -468,7 +468,7 @@ The description of the system evolution provided by \ref{postulate 2} only provi
 \begin{postulate 3'}
 	The time evolution of the state of a \emph{closed} quantum system is described by the Schrodinger equation:
 	
-	$$ i \hbar \frac{d|\varphi\rangle}{dt} = H|\varphi\rangle $$
+	$$ i \hbar \frac{d|\varphi\ra}{dt} = H|\varphi\ra $$
 	
 	where $\hbar$ is \emph{Planck’s constant}, $i$ is the imaginary unit and $H$ is a fixed Hermitian operator known as the $Hamiltonian$.
 \end{postulate 3'}
@@ -477,9 +477,9 @@ There are several notes to make about this postulate. First, the Hamiltonian is 
 
 Lets study the Hamiltonian in general. Since it is a Hermitian operator, it allows a spectral decomposition by the spectral decomposition theorem (TODOref Spectral Decomposition theorem):
 
-$$ H = \sum_E E |E\rangle\langle E| $$
+$$ H = \sum_E E |E\ra\la E| $$
 
-where $E$ are the eigenvalues and $|E\rangle$ the respective normalized eigenvectors. the states $|E\rangle$ are usually referred to as \emph{energy eigenstates} or \emph{stationary states}, and $E$ is the \emph{energy} of the state $|E\rangle$. Furthermore, the lowest energy is called the \emph{ground energy state} while the corresponding eigenstate is called the \emph{ground state}.
+where $E$ are the eigenvalues and $|E\ra$ the respective normalized eigenvectors. the states $|E\ra$ are usually referred to as \emph{energy eigenstates} or \emph{stationary states}, and $E$ is the \emph{energy} of the state $|E\ra$. Furthermore, the lowest energy is called the \emph{ground energy state} while the corresponding eigenstate is called the \emph{ground state}.
 
 \begin{exampleth} Suppose a single qubit system has a the following Hamiltonian:
 	
@@ -490,12 +490,12 @@ where $E$ are the eigenvalues and $|E\rangle$ the respective normalized eigenvec
 	\end{pmatrix}
 	$$
 	
-	Where $X$ is the first Pauli matrix, and $\omega$ is a positive parameter. H eigenenergy states are the same as $X$ eigenstates: $(|0\rangle + |1\rangle)/2$ and $(|0\rangle - |1\rangle)/2$ with respective energies $\hbar\omega$ and $-\hbar\omega$. Thus, the ground state is $(|0\rangle - |1\rangle)/2$ with ground state energy $-\hbar\omega$.
+	Where $X$ is the first Pauli matrix, and $\omega$ is a positive parameter. H eigenenergy states are the same as $X$ eigenstates: $(|0\ra + |1\ra)/2$ and $(|0\ra - |1\ra)/2$ with respective energies $\hbar\omega$ and $-\hbar\omega$. Thus, the ground state is $(|0\ra - |1\ra)/2$ with ground state energy $-\hbar\omega$.
 \end{exampleth}
 
 Lets deduce the connection between the Hamiltonian perpestive of dinamics, Postulate 3', and the unitary operator perspective, postulate 3. We can solve the Schrodinguer equation, which can be proven to be:
 
-$$ |\varphi(t_2)\rangle = \text{exp} \bigg(  \frac{-iH(t_2-t_1)}{\hbar} \bigg) |\varphi(t_1)\rangle $$
+$$ |\varphi(t_2)\ra = \text{exp} \bigg(  \frac{-iH(t_2-t_1)}{\hbar} \bigg) |\varphi(t_1)\ra $$
 
 So by defining:
 
@@ -503,7 +503,7 @@ $$ U(t_1, t_2) \equiv \text{exp} \bigg(  \frac{-iH(t_2-t_1)}{\hbar} \bigg) $$
 
 Which is a unitary operator. In fact, any unitary operator $U$ may be expressed as $U = \text{exp(iK)}$ for some Hermitian operator $K$. Thus, we obtained: 
 
-$$ |\varphi(t_2)\rangle = U(t_1, t_2) |\varphi(t_1)\rangle $$
+$$ |\varphi(t_2)\ra = U(t_1, t_2) |\varphi(t_1)\ra $$
 
 Following this procedure we have proven that there is a one to one correspondence between the continuous time varying postulate 3' using the Hamiltonian and the more stationary discrete time version using the unitary operator. Although the discrete time vision is usually used in quantum computing, Quantum Annealing -the specific application of quantum computing used in this work- rests mostly on the Hamiltonian point of view. We will deepen in this architecture on section [TODOref].
 
@@ -555,7 +555,7 @@ T =
 \end{pmatrix}
 $$
 
-Although we have not described the fundamentals of multiple qubits systems (postulate 4 is required for that), it is worth mentioning a simple two-qubits gate for the purpose of this section. Just like in classical computing, conditional operations are essential for the construction of complex quantum algorithms. The most basic conditional operation is the \emph{controlled-NOT} gate, also referred to as the CNOT gate. This gate takes two bits $|c\rangle|t\rangle$, a control qubit and a target qubit. It flips the target qubit if the fist qubit is set to $|1\rangle$, producing the operation $|c\rangle|t\rangle \rightarrow |c\rangle|c \oplus t\rangle$, where $\oplus$ denotes the exclusive-or operation. Therefore, if the control qubit is $|c\rangle = \alpha|0\rangle + \beta|1\rangle$, it will virtually flip the target qubit with probability $|\beta|^2$ and leave it how it is with probability $|\alpha|^2$. We will come back to this gate once we know the formalism of multiple qubits systems.
+Although we have not described the fundamentals of multiple qubits systems (postulate 4 is required for that), it is worth mentioning a simple two-qubits gate for the purpose of this section. Just like in classical computing, conditional operations are essential for the construction of complex quantum algorithms. The most basic conditional operation is the \emph{controlled-NOT} gate, also referred to as the CNOT gate. This gate takes two bits $|c\ra|t\ra$, a control qubit and a target qubit. It flips the target qubit if the fist qubit is set to $|1\ra$, producing the operation $|c\ra|t\ra \rightarrow |c\ra|c \oplus t\ra$, where $\oplus$ denotes the exclusive-or operation. Therefore, if the control qubit is $|c\ra = \alpha|0\ra + \beta|1\ra$, it will virtually flip the target qubit with probability $|\beta|^2$ and leave it how it is with probability $|\alpha|^2$. We will come back to this gate once we know the formalism of multiple qubits systems.
 
 One of the most important results of classical computation theory is that any boolean function may be constructed by only using AND, OR and NOT gates, or by simply using NAND gates \cite{Lau2006}. There is a equivalent result concerning quantum gates \cite{Bayens2020}.
 
@@ -575,13 +575,13 @@ TODO: intro
 
 \subsection{Tensor product}
 
-Let $V$ and $W$ be complex vector spaces with dimensions $m$ and $n$ respectively. Then, $V \otimes W$, read '$V$ tensor $W$', is a $mn$ complex vector space. Let $|v\rangle$ and $|w\rangle$ be vectors in $V$ and $W$ respectively. Then, $|v\rangle \otimes |w\rangle$ is in $V \otimes W$. Furthermore, any element of $V \otimes W$ may be expressed as a linear combinations of tensor products $|v\rangle \otimes |w\rangle$ of elements from $V$ and $W$. We may describe elements of $V \otimes W$ using the following equivalent notations: $|v\rangle \otimes |w\rangle$, $|v\rangle|w\rangle$, $|v, w\rangle$ and even $|vw\rangle$.
+Let $V$ and $W$ be complex vector spaces with dimensions $m$ and $n$ respectively. Then, $V \otimes W$, read '$V$ tensor $W$', is a $mn$ complex vector space. Let $|v\ra$ and $|w\ra$ be vectors in $V$ and $W$ respectively. Then, $|v\ra \otimes |w\ra$ is in $V \otimes W$. Furthermore, any element of $V \otimes W$ may be expressed as a linear combinations of tensor products $|v\ra \otimes |w\ra$ of elements from $V$ and $W$. We may describe elements of $V \otimes W$ using the following equivalent notations: $|v\ra \otimes |w\ra$, $|v\ra|w\ra$, $|v, w\ra$ and even $|vw\ra$.
 
-Let $|i\rangle$ and $|j\rangle$ be basis for $V$ and $W$ respectively. Then, $|i\rangle \otimes |j\rangle = |ij\rangle$ is a basis for $V \otimes W$. For example, consider the complex vector space $\mathds{C}^2$. Then
+Let $|i\ra$ and $|j\ra$ be basis for $V$ and $W$ respectively. Then, $|i\ra \otimes |j\ra = |ij\ra$ is a basis for $V \otimes W$. For example, consider the complex vector space $\C^2$. Then
 
-$$ |0\rangle \otimes |0\rangle + |1\rangle \otimes |1\rangle = |00\rangle + |11\rangle $$
+$$ |0\ra \otimes |0\ra + |1\ra \otimes |1\ra = |00\ra + |11\ra $$
 
-is an element in $\mathds{C}^2 \otimes \mathds{C}^2$.
+is an element in $\C^2 \otimes \C^2 \cong \C^4$ .
 
 Although the tensor product is generally described as an abstract construct, we may provide a more visual perspective using the \emph{Kronecker product}. This is a matrix representation for the tensor product of finite vector spaces. Suppose $A = \{a\}_{ij}$ is a $n \times m$ matrix and $B = \{b\}_{ij}$ is an $p \times q$ matrix. Then $A \otimes B$ is a $np \times mq$, matrix with the following representation:
 
@@ -629,24 +629,24 @@ $$
 By definition, the tensor product satisfies:
 
 \begin{itemize}
-	\item Let $\alpha$ be a complex number. For any $|v\rangle$ in $V$ and $|w\rangle$ in $W$,
-	$$ \alpha(|v\rangle \otimes |w\rangle) = (\alpha|v\rangle) \otimes |w\rangle = |v\rangle \otimes (\alpha|w\rangle) $$
+	\item Let $\alpha$ be a complex number. For any $|v\ra$ in $V$ and $|w\ra$ in $W$,
+	$$ \alpha(|v\ra \otimes |w\ra) = (\alpha|v\ra) \otimes |w\ra = |v\ra \otimes (\alpha|w\ra) $$
 	
-	\item For any $|v_1\rangle$, $|v_2\rangle$ in $V$ and $|w\rangle$ in $W$,
-	$$ (|v_1\rangle + |v_2\rangle) \otimes |w\rangle = |v_1\rangle \otimes |w\rangle + |v_2\rangle \otimes |w\rangle $$
+	\item For any $|v_1\ra$, $|v_2\ra$ in $V$ and $|w\ra$ in $W$,
+	$$ (|v_1\ra + |v_2\ra) \otimes |w\ra = |v_1\ra \otimes |w\ra + |v_2\ra \otimes |w\ra $$
 	
-	\item For any $|v\rangle$ in $V$ and $|w_1\rangle$, $|w_2\rangle$ in $W$,
-	$$ |v\rangle \otimes (|w_1\rangle + |w_2\rangle) = |v\rangle \otimes |w_1\rangle + |v\rangle \otimes |w_2\rangle $$
+	\item For any $|v\ra$ in $V$ and $|w_1\ra$, $|w_2\ra$ in $W$,
+	$$ |v\ra \otimes (|w_1\ra + |w_2\ra) = |v\ra \otimes |w_1\ra + |v\ra \otimes |w_2\ra $$
 \end{itemize}
 
 With this properties it mind it can easily be proven that the tensor product of Hilbert spaces is a Hilbert space.
 
 \begin{proposition}
-	Let $H_1$ be and $H_2$ be two Hilbert spaces with respective orthonormal bases $\{|v_i\rangle\}_{i=1,\dots,n}$ and $\{|w_j\rangle\}_{j=1,\dots,m}$. Then, $H_1 \otimes H_2$ is a Hilbert space with inner product given by
+	Let $H_1$ be and $H_2$ be two Hilbert spaces with respective orthonormal bases $\{|v_i\ra\}_{i=1,\dots,n}$ and $\{|w_j\ra\}_{j=1,\dots,m}$. Then, $H_1 \otimes H_2$ is a Hilbert space with inner product given by
 	
-	$$ ( |v\rangle \otimes |w\rangle, |v'\rangle \otimes |w'\rangle) = \langle vw|v'w'\rangle \equiv \langle v|v'\rangle\langle w|w'\rangle $$
+	$$ ( |v\ra \otimes |w\ra, |v'\ra \otimes |w'\ra) = \la vw|v'w'\ra \equiv \la v|v'\ra\la w|w'\ra $$
 	
-	For any $|v\rangle, |v'\rangle$ in $V$ and $|w\rangle, |w'\rangle$ in $W$. Furthermore, $\{|v_i \otimes w_j\rangle\}_{i,j}$ is an orthonormal basis of $H_1 \otimes H_2$.
+	For any $|v\ra, |v'\ra$ in $V$ and $|w\ra, |w'\ra$ in $W$. Furthermore, $\{|v_i \otimes w_j\ra\}_{i,j}$ is an orthonormal basis of $H_1 \otimes H_2$.
 \end{proposition}
 
 \begin{proof}
@@ -665,19 +665,18 @@ TODO: Explicar notacion de aplicar muchas veces un tensor (último párrafo de l
 
 
 
-
 \subsection{Quantum Computing perspective: Multiple qubits}
 
 
-Suppose we have a pair of qubits. In the classical case, two bits can be in four possible states: 00, 01, 10, and 11. Similarly, the two qubits computational basis states are $|00\rangle$, $|01\rangle$, $|10\rangle$ and $|11\rangle$. Just like in the single qubit case, our two qubits system may be in a superposition of these four states:
+Suppose we have a pair of qubits. In the classical case, two bits can be in four possible states: 00, 01, 10, and 11. Similarly, the two qubits computational basis states are $|00\ra$, $|01\ra$, $|10\ra$ and $|11\ra$. Just like in the single qubit case, our two qubits system may be in a superposition of these four states:
 
-$$ |\varphi\rangle = \alpha_{00} |00\rangle + \alpha_{01} |01\rangle + \alpha_{10} |10\rangle + \alpha_{11} |11\rangle $$
+$$ |\varphi\ra = \alpha_{00} |00\ra + \alpha_{01} |01\ra + \alpha_{10} |10\ra + \alpha_{11} |11\ra $$
 
-Correspondingly, the measurement of this system will result in either 00, 01, 10 or 11. In fact, it will yield state $x$ with probability $|\alpha_x|^2$, being $\alpha_x$ the coefficient associated with the state $|x\rangle$. The condition of the probabilities adding up to one is called the \emph{normalization condition} and can be expressed as $\sum_{x \in \{0,1\}^2} |\alpha_x|^2 = 1$ for the two qubits case, where $\{0,1\}^2$ are the strings of length two where each character is either $0$ or $1$.
+Correspondingly, the measurement of this system will result in either 00, 01, 10 or 11. In fact, it will yield state $x$ with probability $|\alpha_x|^2$, being $\alpha_x$ the coefficient associated with the state $|x\ra$. The condition of the probabilities adding up to one is called the \emph{normalization condition} and can be expressed as $\sum_{x \in \{0,1\}^2} |\alpha_x|^2 = 1$ for the two qubits case, where $\{0,1\}^2$ are the strings of length two where each character is either $0$ or $1$.
 
 The fundamental differences with the single qubit case start on measurement. Of course, we can measure both qubits at the same time, but we could also measure only one of them. Upon measuring the first qubit we would obtain $0$ with probability $p_0 = |\alpha_{00}|^2 + |\alpha_{01}|^2$, since these are the coefficients associated with the first qubit being $0$. Furthermore, our system will collapse to:
 
-$$ |\varphi'\rangle = \frac{ \alpha_{00} |00\rangle +f \alpha_{01} |01\rangle }{ \sqrt{|\alpha_{00}|^2 + |\alpha_{01}|^2} } $$
+$$ |\varphi'\ra = \frac{ \alpha_{00} |00\ra +f \alpha_{01} |01\ra }{ \sqrt{|\alpha_{00}|^2 + |\alpha_{01}|^2} } $$
 
 Note the normalization term $\sqrt{|\alpha_{00}|^2 + |\alpha_{01}|^2}$, applied so the post-measurement state still satisfies the normalization condition. Naturally, after obtaining $0$ in the first qubit we can still obtain either $0$ or $1$ in the second qubit, with probabilities 
 
@@ -686,17 +685,17 @@ $$ \frac{ |\alpha_{00}|^2 }{ |\alpha_{00}|^2 + |\alpha_{01}|^2 }  \ \text{ and }
 
 respectively, adding up to $1$. Correspondingly, the first qubit being measured will yield $1$ with probability $p_1 = |\alpha_{10}|^2 + |\alpha_{11}|^2$.
 
-Additionally, the first qubit independently should satisfy the normalization condition. That is, its probabilities of being $0$ and $1$ upon measurement must add up to $1$. But those are $p_0$ and $p_1$, which add up to one because of the normalization condition for $|\varphi\rangle$, as expected.
+Additionally, the first qubit independently should satisfy the normalization condition. That is, its probabilities of being $0$ and $1$ upon measurement must add up to $1$. But those are $p_0$ and $p_1$, which add up to one because of the normalization condition for $|\varphi\ra$, as expected.
 
 We now introduce the \emph{Bell State} or \emph{EPR pair:}
 
-$$ \frac{ |00\rangle + |11\rangle }{ \sqrt 2 } $$
+$$ \frac{ |00\ra + |11\ra }{ \sqrt 2 } $$
 
 Although it may seem harmless at first glance, this state has been responsible for many surprises during the development of quantum physics [TODOref to the EPR paradox]. Let us have a first look into it, although we will come back to it in section [TODOref la seccion dodne comentamos el problema de la teletransportación cuántica].
 
-Upon measuring this system we may obtain state $|00\rangle$ with probability $1/2$ and state $|11\rangle$ with probability $1/2$. Suppose we measure the first qubit and obtain $0$. Then, the second qubit will always yield $0$ upon measurement. This means both outcomes are \emph{correlated}. This fact is known as \textbf{quantum entanglement}. It rests at the heart of the disparity between classic physics and quantum physics. It was deeply studied first by Einstein, Podolsky, and Rosen (EPR) \cite{Einstein1935} and second by John Bell \cite{Bellt1964}.
+Upon measuring this system we may obtain state $|00\ra$ with probability $1/2$ and state $|11\ra$ with probability $1/2$. Suppose we measure the first qubit and obtain $0$. Then, the second qubit will always yield $0$ upon measurement. This means both outcomes are \emph{correlated}. This fact is known as \textbf{quantum entanglement}. It rests at the heart of the disparity between classic physics and quantum physics. It was deeply studied first by Einstein, Podolsky, and Rosen (EPR) \cite{Einstein1935} and second by John Bell \cite{Bellt1964}.
 
-Let us finally consider the more general case. In an n-qubits system our computational basis would consist of the sates $|x_1 x_2 \dotsc x_n\rangle$, where $x_i \in \{0,1\}$. As we already know, in a single qubit system we have two amplitudes $\alpha_0$ and $\alpha_1$. We have four amplitudes for a 2-qubits system, eight for a 3-qubits system... And $2^n$ for an n-qubits system. This means that the number of amplitudes grows exponentially as we add qubits to the system. An immense increment concerning the classical case was the quantity of information that our simple holds grows linearly with the numbers of bits. Of course, we already know it is not that simple, since there are huge limitations on how we may access this information in the quantum realm such as how a qubit collapses upon measurement and the non-cloning theorem discussed in section [TODO]. But we can already glimpse the power of quantum computing versus the classical one.
+Let us finally consider the more general case. In an n-qubits system our computational basis would consist of the sates $|x_1 x_2 \dotsc x_n\ra$, where $x_i \in \{0,1\}$. As we already know, in a single qubit system we have two amplitudes $\alpha_0$ and $\alpha_1$. We have four amplitudes for a 2-qubits system, eight for a 3-qubits system... And $2^n$ for an n-qubits system. This means that the number of amplitudes grows exponentially as we add qubits to the system. An immense increment concerning the classical case was the quantity of information that our simple holds grows linearly with the numbers of bits. Of course, we already know it is not that simple, since there are huge limitations on how we may access this information in the quantum realm such as how a qubit collapses upon measurement and the non-cloning theorem discussed in section [TODO]. But we can already glimpse the power of quantum computing versus the classical one.
 
 
 TODO: añadir ejemplo de CNOT gate.
