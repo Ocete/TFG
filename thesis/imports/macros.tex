@@ -23,7 +23,7 @@
 
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
-\newtheorem{proofs}{Proof}
+\newtheorem*{proofs}{Proof}
 \newtheorem{postulate}{Postulate}
 \newtheorem*{postulate 3'}{Postulate 3'}
 
@@ -37,9 +37,11 @@
 % Macros
 % ------------------------
 
-% Aquí pueden añadirse abreviaturas para comandos de latex
-% frequentemente usados.
-
 \newcommand*{\C}{\mathds{C}}
 \newcommand*{\ra}{\rangle}
 \newcommand*{\la}{\langle}
+
+% Para poner sonrisa sobre puntos suspensivos. Uso: \overplace{n}{\dotsc}
+\newcommand{\overplace}[2]{%
+	\overset{\substack{#1\\\smile}}{#2}%
+}

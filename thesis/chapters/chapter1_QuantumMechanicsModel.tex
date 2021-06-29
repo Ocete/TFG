@@ -97,7 +97,7 @@ A base $|v_1\ra, \dotsc, |v_n\ra$ is said to be \emph{orthonormal} if every vect
 	An \emph{inner product space} is a vector space with an associated inner product. A \textbf{Hilbert Space} is an inner product space that is also complete.
 \end{definition}
 
-Hausdorff's Theorem states that every finite normed space is complete, therefore every finite inner product space over $\C$ is a Hilbert space \ref{Payá2020}. Again, by Hausdorff's theorem we know that every $n$ dimensional Hilbert space is isomorphic to $\C^n$. Thus, $\C^n$ is the canonical $n$ dimensional Hilbert space and we will focus our study on these spaces.
+Hausdorff's Theorem states that every finite normed space is complete, therefore every finite inner product space over $\C$ is a Hilbert space \ref{Paya2020}. Again, by Hausdorff's theorem we know that every $n$ dimensional Hilbert space is isomorphic to $\C^n$. Thus, $\C^n$ is the canonical $n$ dimensional Hilbert space and we will focus our study on these spaces.
 
 Let $\alpha = a + i \cdot b\in \C$. We define the \emph{conjugate}, $\bar \alpha$, as $\bar \alpha = a - i \cdot b$. The canonical inner product in $\C^n$ is:
 
@@ -183,13 +183,13 @@ The most important result concerning outer products is the \emph{completeness re
 	$$ \sum_i |i\ra\la i| = I $$
 \end{proposition}
 
-\begin{proof}
+\begin{proofs}
 	Let $|v\ra \in H$. $|v\ra$ can be expressed as $ \sum_i v_i |i\ra$ for some complex numbers $v_i$. Notice that $\la i|v\ra = v_i$. Therefor:
 	
 	$$|v\ra = \sum_i v_i |i\ra = \sum_i \la i|v\ra |i\ra = \sum_i |i\ra\la i|v\ra = \bigg( \sum_i |i\ra\la i|\bigg) |v\ra$$
 	
 	Since $|v\ra$ was arbitrary, proves that $ \sum_i |i\ra\la i | = I $.
-\end{proof}
+\end{proofs}
 
 \begin{corollary}[Cauchy-Schwarz inequality]
 	For any two vectors $|v\ra, |w\ra$ in a Hilbert space,
@@ -198,8 +198,7 @@ The most important result concerning outer products is the \emph{completeness re
 	
 	where the equality occurs if and only if $|v\ra$ and $|w\ra$ are linearly dependant
 \end{corollary}
-\begin{proof} 
-	
+\begin{proofs} 
 	We provide a proof supposed that our Hilbert space is finite.
 	
 	Let $|v\ra, |w\ra$ be two vectors of a finite Hilbert space $H$. Since $H$ is finite, using the Gram-Schmidt procedure we may obtain a basis $|i\ra$ where the first vector is $|w\ra / \sqrt{\la w|w\ra}$. Using the completeness relation $\sum_i |i\ra \la i| = I$:
@@ -210,9 +209,8 @@ The most important result concerning outer products is the \emph{completeness re
 	
 	$$ \sum_i \la v|i\ra \la i|v\ra \la w|w\ra \geq  \frac{\la v|w\ra \la w|v\ra}{\la w|w\ra} \la w|w\ra = \la v|w\ra \la w|v\ra  = | \la w|v\ra |^2 $$
 	
-	Lastly, the equality occurs if and only if $\la v|i\ra = 0$ for every $|i\ra \neq w / \sqrt{\la w|w\ra}$. But since $|i\ra$ is a base, this means $|v\ra$ and $|w\ra$ are linearly dependent.
-	
-\end{proof}
+	Lastly, the equality occurs if and only if $\la v|i\ra = 0$ for every $|i\ra \neq w / \sqrt{\la w|w\ra}$. But since $|i\ra$ is a base, this means $|v\ra$ and $|w\ra$ are linearly dependent.	
+\end{proofs}
 
 
 \subsection{Unitary and Hermitian operators}
@@ -243,7 +241,7 @@ Some useful algebraic identities associated to adjoints are:
 A characterization of normal operators is provided in Theorem [TODOref spectral decomposition theorem]. There are two particular cases of normal operators that will be of special interest for us:
 
 \begin{definition}
-	An operator $A$ is said to be \emph{Hermitian} if its adjoint is itself: $A^\dagger = A$.
+	An operator $A$ is said to be \emph{Hermitian} if its adjoint is : $A^\dagger = A$.
 \end{definition}
 
 \begin{definition}
@@ -256,13 +254,13 @@ Clearly, Hermitian and unitary operators are also normal. The importance of unit
 	Unitary operators preserve inner product between vectors. Thus, they also preserve the norm of a vector.
 \end{proposition}
 
-\begin{proof}
+\begin{proofs}
 	Let $|u\ra, |v\ra \in \C^n$ and $U \in \mathcal{M}_n(\C)$ be a unitary operator. Then:
 	
 	$$ ( U|u\ra, U|v\ra) = \la u|U^\dagger U|v\ra = \la u|I|v\ra = \la u|v\ra = ( |u\ra, |v\ra) $$
 	
 	Which proves the proposition.
-\end{proof}
+\end{proofs}
 
 As the reader may already imagine, n-qubits systems will be represented as vector states or certain state spaces. That is, as unitary vectors of certain Hilbert spaces. Thus, our definition of transformations on qubits must preserve their norm. These will be the qubits gates, which will be represented as unitary operators.
 
@@ -354,7 +352,7 @@ $$ |+\ra = \frac{1}{\sqrt{2}} |0\ra + \frac{1}{\sqrt{2}} |1\ra $$
 
 This does \textbf{not} represent a coin that has landed somehow on its side, but a spinning coin that has not landed yet. Upon measuring it, we "make the coin land" and see the result: either heads or tails, and neither of the states in between. This example also describes the qubit collapse: once the coin has landed, we will see the same result every time we look at it -obviously-, just like every time a qubit is measured after the first measurement, the outcome will be the same since it has already collapsed. We will return to this state, also known as the Bell state, later on.
 
-On the other hand, this was not a really accurate example since the system is not really isolated, although in was interesting intuition-wise. One of the first (accurate) qubit models ever proposed was the Schrodinger's Cat \cite{Schrodinger1935} \cite{Schrodinger1935a}. In this hypothetical experiment, a cat would be locked in a room for an hour with a device that during that hour would \emph{perhaps} trigger, killing the cat. On the other hand, with equal probability, it would not trigger at all. After the whole hour elapses, the cat would be alive and dead with equal probability, ending up in a halfway state. In this case, our computational bases would be the states alive and dead, and we achieve the state $|+\ra$ after that hour.
+On the other hand, this was not a really accurate example since the system is not really isolated, although in was interesting intuition-wise. One of the first (accurate) qubit models ever proposed was the Schrodinger's Cat \cite{Schrodinger1935} \cite{Trimmer1980}. In this hypothetical experiment, a cat would be locked in a room for an hour with a device that during that hour would \emph{perhaps} trigger, killing the cat. On the other hand, with equal probability, it would not trigger at all. After the whole hour elapses, the cat would be alive and dead with equal probability, ending up in a halfway state. In this case, our computational bases would be the states alive and dead, and we achieve the state $|+\ra$ after that hour.
 
 Although physical implementations are discussed in section [TODOref chapter], we cannot proceed any further without providing a more accurate and reproducible description of a qubit than "a coin being tossed" and such a hypothetical cat experiment. A possible realization of a qubit is an electron in a single atom's orbit, as seen in Figure \ref{fig 1.1}. An electron in an orbit may be in the so-called \emph{ground} and \emph{excited} states, $|0\ra$ and $|1\ra$ respectively, depending on its energy. By shining light to the electron with a certain energy and for a certain amount of time, one can make the electron move from the ground state to the excited state and vice versa. But most interestingly, one can apply the light to the electron during a smaller amount of time, moving the electron somehow "halfway" between both states.
 
@@ -411,9 +409,9 @@ Normal operators have significant relevancy thanks to the following result:
 \begin{theorem}[Spectral Decomposition Theorem]
 	An operator $A$ is normal if and only if it is diagonalizable.
 \end{theorem}
-\begin{proof}
+\begin{proofs}
 	TODO: To be copied, Box 2.2, page 72, Nielsenchen.
-\end{proof}
+\end{proofs}
 
 Since Hermitian and unitary operators are normal, we obtain the following result:
 
@@ -565,15 +563,19 @@ One of the most important results of classical computation theory is that any bo
 
 In this case, \{H, CNOT, T\} is called a \emph{universal gate set}. In practice, is it efficient to build such any gate using only this gate set? The answer to the question is positive, as stated by the \textbf{Solovay-Kitaev theorem} \cite{Dawson2006}. However, this is out of the scope of this project. We provide a sketch proof of the previous theorem from \cite{Bayens2020}.
 
-\begin{proof}
+\begin{proofs}
 	TODO: copy proof from Bayens, Theorem 4.2
-\end{proof}
+\end{proofs}
+
 
 \section{Postulate 4: Composite systems}
 
+
 TODO: intro
 
+
 \subsection{Tensor product}
+
 
 Let $V$ and $W$ be complex vector spaces with dimensions $m$ and $n$ respectively. Then, $V \otimes W$, read '$V$ tensor $W$', is a $mn$ complex vector space. Let $|v\ra$ and $|w\ra$ be vectors in $V$ and $W$ respectively. Then, $|v\ra \otimes |w\ra$ is in $V \otimes W$. Furthermore, any element of $V \otimes W$ may be expressed as a linear combinations of tensor products $|v\ra \otimes |w\ra$ of elements from $V$ and $W$. We may describe elements of $V \otimes W$ using the following equivalent notations: $|v\ra \otimes |w\ra$, $|v\ra|w\ra$, $|v, w\ra$ and even $|vw\ra$.
 
@@ -642,24 +644,48 @@ By definition, the tensor product satisfies:
 With this properties it mind it can easily be proven that the tensor product of Hilbert spaces is a Hilbert space.
 
 \begin{proposition}
-	Let $H_1$ be and $H_2$ be two Hilbert spaces with respective orthonormal bases $\{|v_i\ra\}_{i=1,\dots,n}$ and $\{|w_j\ra\}_{j=1,\dots,m}$. Then, $H_1 \otimes H_2$ is a Hilbert space with inner product given by
+	Let $H_1$ be and $H_2$ be two Hilbert spaces with respective orthonormal bases $B_1 = \{|v_i\ra\}_{i=1,\dots,n}$ and $B_2 = \{|w_j\ra\}_{j=1,\dots,m}$. Then, $H_1 \otimes H_2$ is a Hilbert space with inner product given by
 	
 	$$ ( |v\ra \otimes |w\ra, |v'\ra \otimes |w'\ra) = \la vw|v'w'\ra \equiv \la v|v'\ra\la w|w'\ra $$
 	
-	For any $|v\ra, |v'\ra$ in $V$ and $|w\ra, |w'\ra$ in $W$. Furthermore, $\{|v_i \otimes w_j\ra\}_{i,j}$ is an orthonormal basis of $H_1 \otimes H_2$.
+	For any $|v\ra, |v'\ra$ in $V$ and $|w\ra, |w'\ra$ in $W$. Furthermore, $B_1 \otimes B_2 = \{|v_i w_j\ra\}_{i,j}$ is an orthonormal basis of $H_1 \otimes H_2$.
 \end{proposition}
 
-\begin{proof}
-	TODO: Rework from proposition 1.1 in Bayens 
-\end{proof}
+\begin{proofs}
+	By definition, $H_1 \otimes H_2$ is a complex vector space with $dim(H_1 \otimes H_2) = dim(H_1)\cdot dim(H_1)$. Furthermore, $B_1 \otimes B_2 = \{|v_i\ra \otimes |w_j\ra\}_{i,j} = \{|v_i w_j\ra\}_{i,j}$ is a base of it. Let $|v_i w_j\ra, |v_k w_l\ra \in B_1 \otimes B_2$:
+	
+	$$ \la v_i w_j|v_k w_l \ra = \la v_i|v_k \ra \la w_j|w_l \ra = \delta_{ik} \delta_{jl} $$
+	
+	which equals one if and only if $i = k$ and $j = l$, and zero otherwise. Thus, proving that $B_1 \otimes B_2$ is orthonormal.
+	
+	Finally, for $H_1 \otimes H_2$ to be a Hilbert space the product defined above needs to be, in fact, an inner product. It suffies to prove that it is definite positive. Let $|v\ra \in H_1 \otimes H_2$. Since $B_1 \otimes B_2$ is an orthonormal basis, there exist $\alpha_{ij} \in \C$ such that:
+	
+	$$ |v\ra = \sum_{i,j} \alpha_{ij} |v_i w_j\ra $$
+	
+	By linearity:
+	
+	$$ \la v|v \ra = \sum_{i,j,k,l} \overline{\alpha_{ij}} \alpha_{kl} \la v_i w_j|v_k w_l \ra = \sum_{i,j,k,l} \overline{\alpha_{ij}} \alpha_{kl} \  \delta_{ik} \delta_{jl} = \sum_{i,j} |\alpha_{ij}|^2  \geq 0 $$
+	
+	where the equality holds if and only if $\alpha_{ij} = 0 \ \forall i,j$.
+	
+\end{proofs}
+
+We will denote a vector $|\varphi\ra$ tensored with itsel n times, $|\varphi\ra \otimes \overplace{n}{\dotsc} \otimes |\varphi\ra$, as $|\varphi\ra^{\otimes n}$, and equivalently with Hilbert spaces: $H \otimes \overplace{n}{\dotsc} \otimes H$, as $H^{\otimes n}$. For our quantum computing purposes, the following case holds particular relevance.
+
+\begin{corollary}
+	The tensor product of $\C^2$ with itself n times, $\C^2 \otimes \overplace{n}{\dotsc} \otimes \C^2$, is isomorphic to $\C^{2^n}$.
+\end{corollary}
+
+\begin{proofs}
+	Let $H = \C^2 \otimes \overplace{n}{\dotsc} \otimes \C^2$. Since $dim(H) = dim(\C^2)^n = 2^n$, $H$ is a Hilbert space with dmiension $2^n$. Thus, it is isomorphic to the canonical complex vector space of dimension $2^n$, $\C^{2^n}$, by Hausdorff's Theorem \cite{Paya2020}.
+\end{proofs}
 
 
 TODO: Explicar operadores en el producto tensorial
 
 TODO: Explicar la extensión de los conceptos de Hermitian, unitary, etc.
 
-TODO: Explicar notacion de aplicar muchas veces un tensor (último párrafo de la sección en el Niel)
-
+TODO: no olvidar el ultimo teorema de la seccion 3; y la intro del postulado 4.
 
 \subsection{Postulate 4 statement}
 
