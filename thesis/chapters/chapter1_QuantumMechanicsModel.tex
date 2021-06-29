@@ -1,16 +1,21 @@
-\section{Quantum Mechanics Model}
+%\ctparttext{\color{black}\begin{center}
+%		Esta es una descripción de la parte de informática.
+%\end{center}}
+
+%\part{Parte de informática}
+\chapter{Quantum Mechanics Model}
 
 
 Quantum Mechanics are a mathematical framework in which quantum physics are developed. In this section we will develop a quantum mechanics model in order to understand quantum computing. The Quantum Postulates will be our guidance. They provide a connection between the physical world and the mathematical formalization. We will provide context and formalization for each postulate, so both the mathematical precision and intuition notions are developed at the same time. This development is based on \cite{Nielsen2002}, \cite{Manzano2020} and \cite{Bayens2019}.
 
 
-\subsection{Postulate 1: State Space}
+\section{Postulate 1: State Space}
 
 
 The first postulate sets the environment in which we will operate: The State Space. This will be a Hilbert Space. Lets rigorously define the necessary concepts using the Bra-ket notation, also called the Dirac's notation.
 
 
-\subsubsection{Bra-ket notation}
+\subsection{Bra-ket notation}
 
 
 Let the qubit as a rigorous mathematical construction. As we have already mentioned, a single qubit will be a vector in a complex vector space, but we will need that space to have some extra properties. That is, it will be a projective Hilbert space. Let us review the necessary linear algebra.
@@ -33,7 +38,7 @@ In quantum mechanics, the usual notation is the Dirac's, also know \emph{bra-ket
 A \emph{base} of a vector space is a set of vectors $|v_1\rangle, \dotsc, |v_n\rangle$ such that they are linearly independent and any given vector $|v\rangle$ can be written as a linear combination of them: $|v\rangle = \sum_{i=1}^n \alpha_i|v_i\rangle$. The \emph{dimension} of a vector space is the number of elements in any of its bases, which is independent from the chosen base.
 
 
-\subsubsection{Linear operators}
+\subsection{Linear operators}
 
 
 \begin{definition}
@@ -47,7 +52,7 @@ If $V$ to $W$ have dimensions $n$ and $m$ respectively, there is a bijection bet
 We will refer to linear operators simply as \emph{operators}.
 
 
-\subsubsection{Inner product and Hilbert Spaces}
+\subsection{Inner product and Hilbert Spaces}
 
 
 Lets define another operation within the complex vector spaces.
@@ -101,7 +106,7 @@ $$ \langle u|v \rangle \ = \sum_{i=1}^n \overline{u_i}v_j $$
 where $u = (u_1, \dotsc, u_n)$ and $v = (v_1, \dotsc, v_n)$, for every $u,v$ in $\mathds{C}^n$.
 
 
-\subsubsection{Postulate 1 statement}
+\subsection{Postulate 1 statement}
 
 
 The reader should be familiar by now with the notation and the necessary linear algebra to formulate the first postulate.
@@ -131,7 +136,7 @@ $$ \frac{|0\rangle - |1\rangle}{\sqrt 2} $$
 is a superposition of the states $|0\rangle$ and $|1\rangle$ with amplitudes $1/\sqrt 2$ and $-1/\sqrt 2$ respectively.
 
 
-\subsubsection{Quantum Computation Perspective: The Quantum Bit}
+\subsection{Quantum Computation Perspective: The Quantum Bit}
 
 
 The bit is the minimum measure of information on classical computation and classical information theory. Everything in these fields is built from scratch based on bits. Likewise, quantum computing and quantum information theory are built upon the \textbf{qubit}.
@@ -149,7 +154,7 @@ At this point, the reader may ask themselves if a qubit may even physically exis
 The answer is positive: there are numerous physical systems such that their associated state spaces are ($\mathds{C}^{2}$). Thus, modeling a qubit. Precise physical implementations are provided discussed in section [TODOref] and more intuitive examples in section [TODOref la última subseccion de la sección Postulate 2].
 
 
-\subsection{Postulate 2: Measurement}
+\section{Postulate 2: Measurement}
 
 
 The second postulate describes how states are "measured". That is, how an outside observer may look inside the system. In classical physics, consider a simple system of a moving particle. "Measuring" would be recording the particle mass and speed (for example) at a given time. That is, someone \textbf{outside} the system would look \textbf{into} the system to record some information. Lastly, in the classical computation model, measuring a bit is simply retrieving its content.
@@ -157,7 +162,7 @@ The second postulate describes how states are "measured". That is, how an outsid
 In quantum physics, measuring has some unexpected and sometimes counter-intuitive properties. Lets us provide some linear algebra context before formulating the second postulate.
 
 
-\subsubsection{Outer product}
+\subsection{Outer product}
 
 
 \begin{definition}
@@ -205,12 +210,12 @@ The most important result concerning outer products is the \emph{completeness re
 	
 	$$ \sum_i \langle v|i\rangle \langle i|v\rangle \langle w|w\rangle \geq  \frac{\langle v|w\rangle \langle w|v\rangle}{\langle w|w\rangle} \langle w|w\rangle = \langle v|w\rangle \langle w|v\rangle  = | \langle w|v\rangle |^2 $$
 	
-	Lastly, the equality occurs if and only if $\langle v|i\rangle = 0$ for every $|i\rangle \neq w / \sqrt{\langel w|w\rangle}$. But since $|i\rangle$ is a base, this means $|v\rangle$ and $|w\rangle$ are linearly dependent.
+	Lastly, the equality occurs if and only if $\langle v|i\rangle = 0$ for every $|i\rangle \neq w / \sqrt{\langle w|w\rangle}$. But since $|i\rangle$ is a base, this means $|v\rangle$ and $|w\rangle$ are linearly dependent.
 	
 \end{proof}
 
 
-\subsubsection{Unitary and Hermitian operators}
+\subsection{Unitary and Hermitian operators}
 
 
 Another way of looking at the inner product is the \emph{adjoint}.
@@ -264,7 +269,7 @@ As the reader may already imagine, n-qubits systems will be represented as vecto
 On the other hand, Hermitian operators will be key in order to study how a quantum system evolves with time using the Schrodinger equation in the third Postulate.
 
 
-\subsubsection{Postulate 2 statement}
+\subsection{Postulate 2 statement}
 
 
 As previously discussed, the second postulate describes how a quantum system may be measured.
@@ -336,7 +341,7 @@ And, naturally, $P(+) + P(-) = 1$. So $|\varphi\rangle$ will collapse to $|+\ran
 Finally, there is a technical fineness between the first and second postulates worth mentioning. The first postulate was stated for an \emph{isolated} physical system, but by measuring the system we interfere with it. However, measuring devices are also quantum systems, so together the measured and the measuring system form a larger isolated system (it may be necessary to include more quantum systems, but this can be done).
 
 
-\subsubsection{Real life qubit examples}
+\subsection{Real life qubit examples}
 
 
 In classical computation, we may know the state of a bit by consulting it. That is, what can simply retrieve that information from the bit. The first difficulty we find in quantum computing is that once we \emph{measure} a qubit it \emph{collapses} to either $|0\rangle$ with probability $|\alpha|^2$, or to $|1\rangle$ with probability $|\beta|^2$. The obtained output reflects the qubit state \emph{after} it has collapsed to either one of these states, so the outcome may only be either $|0\rangle$ or $|1\rangle$. This means that we may never retrieve directly the values $\alpha$ and $\beta$. Thus, being unable to clone a qubit. This is the main idea behind the no cloning theorem (see reference).
@@ -361,13 +366,13 @@ Although physical implementations are discussed in section [TODOref chapter], we
 \end{figure}
 
 
-\subsection{Postulate 3: Evolution}
+\section{Postulate 3: Evolution}
 
 
 The third postulate of quantum mechanics modulates the evolution of a quantum system. That is, the evolution of the state vector that describes the system. In order to properly formalize it we need the concepts of eigenvector and eigenvalues, as well as the Hermitian operators.
 
 
-\subsubsection{Eigenvalues and eigenvectors}
+\subsection{Eigenvalues and eigenvectors}
 
 
 \begin{definition}
@@ -416,8 +421,8 @@ Since Hermitian and unitary operators are normal, we obtain the following result
 	Any Hermitian operator is diagonalizable. Any unitary operator is diagonalizable.
 \end{corollary}
 
-\subsubsection{Postulate 3 statement}
 
+\subsection{Postulate 3 statement}
 
 
 \begin{postulate}
@@ -452,7 +457,7 @@ where $E$ are the eigenvalues and $|E\rangle$ the respective eigenvectors.
 TODO: O bien aquí o bien en otro sitio, comentar el ejemplo de Manzano sobre medidas respecto de los estados energéticos
 
 
-\subsubsection{Quantum Computing perspective: ?}
+\subsection{Quantum Computing perspective: ?}
 
 In practice, obtaining the Hamiltonian for a given quantum system is a really laborious work and usually needs experimental data (TODO: add evidence? stated as such in Niel.). However, for our computational purposes we will be the ones designing the Hamiltonian such that our system evolves as desired. In particular, chapter 3 (TODO: add ref to QUBO chapter) describes in detail the construction of Hamiltonians for QUBO problems.
 
@@ -460,14 +465,14 @@ TODO: Completar
 
 
 
-\subsection{Postulate 4: Composite systems}
+\section{Postulate 4: Composite systems}
 
-\subsubsection{Tensor product}
+\subsection{Tensor product}
 
-\subsubsection{Postulate 4 statement}
+\subsection{Postulate 4 statement}
 
 
-\subsubsection{Quantum Computing perspective: Multiple qubits}
+\subsection{Quantum Computing perspective: Multiple qubits}
 
 
 Suppose we have a pair of qubits. In the classical case, two bits can be in four possible states: 00, 01, 10, and 11. Similarly, the two qubits computational basis states are $|00\rangle$, $|01\rangle$, $|10\rangle$ and $|11\rangle$. Just like in the single qubit case, our two qubits system may be in a superposition of these four states:
@@ -478,7 +483,7 @@ Correspondingly, the measurement of this system will result in either 00, 01, 10
 
 The fundamental differences with the single qubit case start on measurement. Of course, we can measure both qubits at the same time, but we could also measure only one of them. Upon measuring the first qubit we would obtain $0$ with probability $p_0 = |\alpha_{00}|^2 + |\alpha_{01}|^2$, since these are the coefficients associated with the first qubit being $0$. Furthermore, our system will collapse to:
 
-$$ |\varphi'\rangle = \frac{ \alpha_{00} |00\rangle + \alpha_{01} |01\rangle }{ \sqrt{|\alpha_{00}|^2 + |\alpha_{01}|^2} } $$
+$$ |\varphi'\rangle = \frac{ \alpha_{00} |00\rangle +f \alpha_{01} |01\rangle }{ \sqrt{|\alpha_{00}|^2 + |\alpha_{01}|^2} } $$
 
 Note the normalization term $\sqrt{|\alpha_{00}|^2 + |\alpha_{01}|^2}$, applied so the post-measurement state still satisfies the normalization condition. Naturally, after obtaining $0$ in the first qubit we can still obtain either $0$ or $1$ in the second qubit, with probabilities 
 
