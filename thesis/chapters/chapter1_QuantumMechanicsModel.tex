@@ -424,26 +424,54 @@ Since Hermitian and unitary operators are normal, we obtain the following result
 
 \subsection{Postulate 3 statement}
 
-
 \begin{postulate}
-	The evolution of a \emph{closed} quantum system is described by a\emph{unitary transformation}. That is, the state $|\varphi\rangle$ of the system at time $t_1$ is related to the state $|\varphi'\rangle$ of the system at time $t_2$ by a unitary operator $U$ which depends only on the times $t_1$ and $t_2$,
+	The evolution of a \emph{closed} quantum system is described by a \emph{unitary transformation}. That is, the state $|\varphi\rangle$ of the system at time $t_1$ is related to the state $|\varphi'\rangle$ of the system at time $t_2$ by a unitary operator $U$ which depends only on the times $t_1$ and $t_2$,
 	
 	$$ |\varphi'\rangle = U|\varphi\rangle $$
 \end{postulate}
 
-It is worth mentioning that this postulated assumes our physical system to be \emph{isolated}. That is, there is no interaction with the system coming from the exterior. In reality, the only real closed system is the universe as a whole. However, we can recreate sufficiently closed systems so that they can be described with approximations as being closed. 
-
 Just like the first postulate does not provide the state space or state vector of the system, the second postulate does not provide the unitary transformation that concretes this evolution. For our quantum computing case, we will be the ones to define the unitary transformation applied to the system. That is, the quantum circuit that transforms our qubit.
+
+\begin{exampleth} Lets consider the \emph{X Pauli matrix}, also known as the \emph{bit flip} matrix:
+	
+	$$ \sigma_1 = X = 
+	\begin{pmatrix}
+		0 & 1 \\
+		1 & 0 
+	\end{pmatrix}
+	$$
+	
+	It is called the bit flip matrix it takes $|0\rangle$ to $|1\rangle$ and vice-versa:
+	
+	$$  X|0\rangle = 
+	\begin{pmatrix}
+		0 & 1 \\
+		1 & 0 
+	\end{pmatrix}
+	\begin{pmatrix}
+		1 \\
+		0 
+	\end{pmatrix}=
+	\begin{pmatrix}
+		0 \\
+		1 
+	\end{pmatrix} =
+	|1\rangle
+	$$
+	
+	This product that we just computed is precisely what postulate 3 states: the evolution of our state vector following the unitary operator $X$: $X|0\rangle = |1\rangle$. Even though for an arbitrary system we do not know the specific unitary transformation the system follows, we can create systems that follow the desired transformations. These are the basics of quantum gates and quantum circuits. 
+\end{exampleth}
 
 The description of the system evolution provided by \ref{postulate 2} only provides information for those fixed times $t_1$ and $t_2$. A continuous time description of this evolution is provided by the Schrodinger equation, which provides a redefinition of the second postulate.
 
-\begin{postulate}
+
+\begin{postulate 3'}
 	The time evolution of the state of a \emph{closed} quantum system is described by the Schrodinger equation:
 	
 	$$ i \hbar \frac{d|\varphi\rangle}{dt} = H|\varphi\rangle $$
 	
 	where $\hbar$ is \emph{Planck’s constant}, $i$ is the imaginary unit and $H$ is a fixed Hermitian operator known as the $Hamiltonian$.
-\end{postulate}
+\end{postulate 3'}
 
 There are several notes to make about this postulate. First, the Hamiltonian is fixed for the given system and it is not be confused with the \emph{Hadamard quantum gate}, also represented by an $H$. Second, $\hbar$ is a physical constant that can be absorbed into the Hamiltonian for our purposes, simplifying the equation. Finally, this is a differential equation, so by knowing the initial state space of the system and the exact Hamiltonian we may know the exact evolution of the system.
 
@@ -451,25 +479,191 @@ Lets study the Hamiltonian in general. Since it is a Hermitian operator, it allo
 
 $$ H = \sum_E E |E\rangle\langle E| $$
 
-where $E$ are the eigenvalues and $|E\rangle$ the respective eigenvectors. 
+where $E$ are the eigenvalues and $|E\rangle$ the respective normalized eigenvectors. the states $|E\rangle$ are usually referred to as \emph{energy eigenstates} or \emph{stationary states}, and $E$ is the \emph{energy} of the state $|E\rangle$. Furthermore, the lowest energy is called the \emph{ground energy state} while the corresponding eigenstate is called the \emph{ground state}.
 
+\begin{exampleth} Suppose a single qubit system has a the following Hamiltonian:
+	
+	$$ H = \hbar \omega X = \hbar \omega
+	\begin{pmatrix}
+		0 & 1 \\
+		1 & 0 
+	\end{pmatrix}
+	$$
+	
+	Where $X$ is the first Pauli matrix, and $\omega$ is a positive parameter. H eigenenergy states are the same as $X$ eigenstates: $(|0\rangle + |1\rangle)/2$ and $(|0\rangle - |1\rangle)/2$ with respective energies $\hbar\omega$ and $-\hbar\omega$. Thus, the ground state is $(|0\rangle - |1\rangle)/2$ with ground state energy $-\hbar\omega$.
+\end{exampleth}
 
-TODO: O bien aquí o bien en otro sitio, comentar el ejemplo de Manzano sobre medidas respecto de los estados energéticos
+Lets deduce the connection between the Hamiltonian perpestive of dinamics, Postulate 3', and the unitary operator perspective, postulate 3. We can solve the Schrodinguer equation, which can be proven to be:
 
+$$ |\varphi(t_2)\rangle = \text{exp} \bigg(  \frac{-iH(t_2-t_1)}{\hbar} \bigg) |\varphi(t_1)\rangle $$
 
-\subsection{Quantum Computing perspective: ?}
+So by defining:
 
-In practice, obtaining the Hamiltonian for a given quantum system is a really laborious work and usually needs experimental data (TODO: add evidence? stated as such in Niel.). However, for our computational purposes we will be the ones designing the Hamiltonian such that our system evolves as desired. In particular, chapter 3 (TODO: add ref to QUBO chapter) describes in detail the construction of Hamiltonians for QUBO problems.
+$$ U(t_1, t_2) \equiv \text{exp} \bigg(  \frac{-iH(t_2-t_1)}{\hbar} \bigg) $$
 
-TODO: Completar
+Which is a unitary operator. In fact, any unitary operator $U$ may be expressed as $U = \text{exp(iK)}$ for some Hermitian operator $K$. Thus, we obtained: 
 
+$$ |\varphi(t_2)\rangle = U(t_1, t_2) |\varphi(t_1)\rangle $$
 
+Following this procedure we have proven that there is a one to one correspondence between the continuous time varying postulate 3' using the Hamiltonian and the more stationary discrete time version using the unitary operator. Although the discrete time vision is usually used in quantum computing, Quantum Annealing -the specific application of quantum computing used in this work- rests mostly on the Hamiltonian point of view. We will deepen in this architecture on section [TODOref].
+
+It is worth mentioning that both versions of this postulate assume our physical system to be \emph{closed}. That is, there is no interaction with the system coming from the exterior. In reality, the only real closed system is the universe as a whole. However, we can recreate sufficiently closed systems so that they can be described with approximations as being closed. 
+
+Furthermore, this severely interferes with postulate 2, where an outsider to the system may interfere with it by measuring it. Quantum system will evolve following postulate 3 until measurement is applied. Then they will evolve following the behaviour described on postulate 2.
+
+In practice, obtaining the Hamiltonian for a given quantum system is a really laborious work and usually needs experimental data (TODO: add evidence? stated as such in Niel.). However, for our computational purposes we will be the ones designing the Hamiltonian such that our system evolves as desired. In particular, chapter 3 (TODOref to QUBO chapter) describes in detail the construction of Hamiltonians for QUBO problems.
+
+\subsubsection{Quantum Computing perspective: Quantum Gates}
+
+Although quantum annealing does not make use of quantum gates, they are the basis of quantum computing and they fully relay on postulate 3. Because of their importance, a brief overview of quantum gates is provided on this section. However, a profound understanding of them will not be necessary to understand the rest of the thesis.
+
+Quantum computing is built upon the most simple operation we can compute on single qubits: quantum gates. Since state vectors are unit two dimensional vectors, the operations we apply to them must preserve the norm. Thus, quantum gates will be represented by 2x2 unitary matrices. We have already introduce some of the most famous gates, the Pauli matrices:
+
+$$ X =
+\begin{pmatrix}
+	0 & 1 \\
+	1 & 0 
+\end{pmatrix}; \quad
+Y =
+\begin{pmatrix}
+	0 & -i \\
+	i & 0 
+\end{pmatrix}; \quad
+Z =
+\begin{pmatrix}
+	1 & 0 \\
+	0 & -1 
+\end{pmatrix}
+$$
+
+Some of the others most important gates are the Hadamard gate (denoted as H), the phase gate (denoted as S), and the $\pi/8$ gate (denoted as T):
+
+$$ H = \frac{1}{\sqrt 2}
+\begin{pmatrix}
+	1 & 1 \\
+	1 & -1 
+\end{pmatrix}; \quad
+S =
+\begin{pmatrix}
+	1 & 0 \\
+	0 & i 
+\end{pmatrix}; \quad
+T =
+\begin{pmatrix}
+	1 & 0 \\
+	0 & e^{i\pi/4} 
+\end{pmatrix}
+$$
+
+Although we have not described the fundamentals of multiple qubits systems (postulate 4 is required for that), it is worth mentioning a simple two-qubits gate for the purpose of this section. Just like in classical computing, conditional operations are essential for the construction of complex quantum algorithms. The most basic conditional operation is the \emph{controlled-NOT} gate, also referred to as the CNOT gate. This gate takes two bits $|c\rangle|t\rangle$, a control qubit and a target qubit. It flips the target qubit if the fist qubit is set to $|1\rangle$, producing the operation $|c\rangle|t\rangle \rightarrow |c\rangle|c \oplus t\rangle$, where $\oplus$ denotes the exclusive-or operation. Therefore, if the control qubit is $|c\rangle = \alpha|0\rangle + \beta|1\rangle$, it will virtually flip the target qubit with probability $|\beta|^2$ and leave it how it is with probability $|\alpha|^2$. We will come back to this gate once we know the formalism of multiple qubits systems.
+
+One of the most important results of classical computation theory is that any boolean function may be constructed by only using AND, OR and NOT gates, or by simply using NAND gates \cite{Lau2006}. There is a equivalent result concerning quantum gates \cite{Bayens2020}.
+
+\begin{theorem}
+	Any unitary matrix can be approximated by a combination of the Hadamard, CNOT and $\pi/8$ gates.
+\end{theorem}
+
+In this case, \{H, CNOT, T\} is called a \emph{universal gate set}. In practice, is it efficient to build such any gate using only this gate set? The answer to the question is positive, as stated by the \textbf{Solovay-Kitaev theorem} \cite{Dawson2006}. However, this is out of the scope of this project. We provide a sketch proof of the previous theorem from \cite{Bayens2020}.
+
+\begin{proof}
+	TODO: copy proof from Bayens, Theorem 4.2
+\end{proof}
 
 \section{Postulate 4: Composite systems}
 
-\subsection{Tensor product}
+TODO: intro
 
-\subsection{Postulate 4 statement}
+\subsubsection{Tensor product}
+
+Let $V$ and $W$ be complex vector spaces with dimensions $m$ and $n$ respectively. Then, $V \otimes W$, read '$V$ tensor $W$', is a $mn$ complex vector space. Let $|v\rangle$ and $|w\rangle$ be vectors in $V$ and $W$ respectively. Then, $|v\rangle \otimes |w\rangle$ is in $V \otimes W$. Furthermore, any element of $V \otimes W$ may be expressed as a linear combinations of tensor products $|v\rangle \otimes |w\rangle$ of elements from $V$ and $W$. We may describe elements of $V \otimes W$ using the following equivalent notations: $|v\rangle \otimes |w\rangle$, $|v\rangle|w\rangle$, $|v, w\rangle$ and even $|vw\rangle$.
+
+Let $|i\rangle$ and $|j\rangle$ be basis for $V$ and $W$ respectively. Then, $|i\rangle \otimes |j\rangle = |ij\rangle$ is a basis for $V \otimes W$. For example, consider the complex vector space $\mathds{C}^2$. Then
+
+$$ |0\rangle \otimes |0\rangle + |1\rangle \otimes |1\rangle = |00\rangle + |11\rangle $$
+
+is an element in $\mathds{C}^2 \otimes \mathds{C}^2$.
+
+Although the tensor product is generally described as an abstract construct, we may provide a more visual perspective using the \emph{Kronecker product}. This is a matrix representation for the tensor product of finite vector spaces. Suppose $A = \{a\}_{ij}$ is a $n \times m$ matrix and $B = \{b\}_{ij}$ is an $p \times q$ matrix. Then $A \otimes B$ is a $np \times mq$, matrix with the following representation:
+
+$$ A \otimes B = 
+\begin{pmatrix}
+	a_{11}B & a_{12}B & \dotsc & a_{1m}B \\
+	a_{21}B & a_{22}B & \dotsc & a_{2m}B \\
+	\vdots & \vdots & \vdots & \vdots \\
+	a_{n1}B & a_{n2}B & \dotsc & a_{nm}B \\
+\end{pmatrix}
+$$
+
+For example:
+
+$$ \begin{pmatrix}
+	0 & 1 \\
+	2 & 3
+\end{pmatrix} \otimes
+\begin{pmatrix}
+	10 & 20 \\
+	30 & 40
+\end{pmatrix} =
+\begin{pmatrix}
+	0 \times \begin{pmatrix} 10 & 20 \\ 30 & 40 \end{pmatrix} &
+	1 \times \begin{pmatrix} 10 & 20 \\ 30 & 40 \end{pmatrix} \\
+	2 \times \begin{pmatrix} 10 & 20 \\ 30 & 40 \end{pmatrix} &
+	3 \times \begin{pmatrix} 10 & 20 \\ 30 & 40 \end{pmatrix}
+\end{pmatrix} = 
+$$
+$$ 
+\begin{pmatrix}
+	0 \times 10 & 0 \times 20 & 1 \times 10 & 1 \times 20 \\
+	0 \times 30 & 0 \times 40 & 1 \times 30 & 1 \times 40 \\
+	2 \times 10 & 2 \times 20 & 3 \times 10 & 3 \times 20 \\
+	2 \times 30 & 2 \times 40 & 3 \times 30 & 3 \times 40
+\end{pmatrix} = 
+\begin{pmatrix}
+	0 & 0 & 10 & 20 \\
+	0 & 0 & 30 & 40 \\
+	20 & 40 & 30 & 60 \\
+	60 & 80 & 90 & 120
+\end{pmatrix}
+$$
+
+By definition, the tensor product satisfies:
+
+\begin{itemize}
+	\item Let $\alpha$ be a complex number. For any $|v\rangle$ in $V$ and $|w\rangle$ in $W$,
+	$$ \alpha(|v\rangle \otimes |w\rangle) = (\alpha|v\rangle) \otimes |w\rangle = |v\rangle \otimes (\alpha|w\rangle) $$
+	
+	\item For any $|v_1\rangle$, $|v_2\rangle$ in $V$ and $|w\rangle$ in $W$,
+	$$ (|v_1\rangle + |v_2\rangle) \otimes |w\rangle = |v_1\rangle \otimes |w\rangle + |v_2\rangle \otimes |w\rangle $$
+	
+	\item For any $|v\rangle$ in $V$ and $|w_1\rangle$, $|w_2\rangle$ in $W$,
+	$$ |v\rangle \otimes (|w_1\rangle + |w_2\rangle) = |v\rangle \otimes |w_1\rangle + |v\rangle \otimes |w_2\rangle $$
+\end{itemize}
+
+With this properties it mind it can easily be proven that the tensor product of Hilbert spaces is a Hilbert space.
+
+\begin{proposition}
+	Let $H_1$ be and $H_2$ be two Hilbert spaces with respective orthonormal bases $\{|v_i\rangle\}_{i=1,\dots,n}$ and $\{|w_j\rangle\}_{j=1,\dots,m}$. Then, $H_1 \otimes H_2$ is a Hilbert space with inner product given by
+	
+	$$ ( |v\rangle \otimes |w\rangle, |v'\rangle \otimes |w'\rangle) = \langle vw|v'w'\rangle \equiv \langle v|v'\rangle\langle w|w'\rangle $$
+	
+	For any $|v\rangle, |v'\rangle$ in $V$ and $|w\rangle, |w'\rangle$ in $W$. Furthermore, $\{|v_i \otimes w_j\rangle\}_{i,j}$ is an orthonormal basis of $H_1 \otimes H_2$.
+\end{proposition}
+
+\begin{proof}
+	TODO: Rework from proposition 1.1 in Bayens 
+\end{proof}
+
+
+TODO: Explicar operadores en el producto tensorial
+
+TODO: Explicar la extensión de los conceptos de Hermitian, unitary, etc.
+
+TODO: Explicar notacion de aplicar muchas veces un tensor (último párrafo de la sección en el Niel)
+
+
+\subsubsection{Postulate 4 statement}
+
+
 
 
 \subsection{Quantum Computing perspective: Multiple qubits}
@@ -504,3 +698,5 @@ Upon measuring this system we may obtain state $|00\rangle$ with probability $1/
 
 Let us finally consider the more general case. In an n-qubits system our computational basis would consist of the sates $|x_1 x_2 \dotsc x_n\rangle$, where $x_i \in \{0,1\}$. As we already know, in a single qubit system we have two amplitudes $\alpha_0$ and $\alpha_1$. We have four amplitudes for a 2-qubits system, eight for a 3-qubits system... And $2^n$ for an n-qubits system. This means that the number of amplitudes grows exponentially as we add qubits to the system. An immense increment concerning the classical case was the quantity of information that our simple holds grows linearly with the numbers of bits. Of course, we already know it is not that simple, since there are huge limitations on how we may access this information in the quantum realm such as how a qubit collapses upon measurement and the non-cloning theorem discussed in section [TODO]. But we can already glimpse the power of quantum computing versus the classical one.
 
+
+TODO: añadir ejemplo de CNOT gate.
