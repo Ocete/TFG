@@ -1,4 +1,4 @@
-main.pdf: main.tex imports/titlepage.tex clean
+main.pdf: main.tex imports/titlepage.tex pseudo_clean prepare_bibliography
 	pdflatex --shell-escape main.tex
 	bibtex main
 	pdflatex --shell-escape main.tex
@@ -13,3 +13,6 @@ pseudo_clean:
 
 clean: pseudo_clean
 	rm -f main.pdf
+
+prepare_bibliography:
+	python bib/prepare_bib.py
