@@ -12,7 +12,7 @@ pseudo_clean:
 	rm -rf _minted-main
 
 clean: pseudo_clean
-	rm -f main.pdf
+	
 
 prepare_bibliography:
 	python bib/prepare_bib.py

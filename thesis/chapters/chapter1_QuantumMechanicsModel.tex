@@ -97,7 +97,7 @@ A base $|v_1\ra, \dotsc, |v_n\ra$ is said to be \emph{orthonormal} if every vect
 	An \emph{inner product space} is a vector space with an associated inner product. A \textbf{Hilbert Space} is an inner product space that is also complete.
 \end{definition}
 
-Hausdorff's Theorem states that every finite normed space is complete, therefore every finite inner product space over $\C$ is a Hilbert space \ref{Paya2020}. Again, by Hausdorff's theorem we know that every $n$ dimensional Hilbert space is isomorphic to $\C^n$. Thus, $\C^n$ is the canonical $n$ dimensional Hilbert space and we will focus our study on these spaces.
+Hausdorff's Theorem states that every finite normed space is complete, therefore every finite inner product space over $\C$ is a Hilbert space \cite{Paya2020}. Again, by Hausdorff's theorem we know that every $n$ dimensional Hilbert space is isomorphic to $\C^n$. Thus, $\C^n$ is the canonical $n$ dimensional Hilbert space and we will focus our study on these spaces.
 
 Let $\alpha = a + i \cdot b\in \C$. We define the \emph{conjugate}, $\bar \alpha$, as $\bar \alpha = a - i \cdot b$. The canonical inner product in $\C^n$ is:
 
@@ -183,13 +183,13 @@ The most important result concerning outer products is the \emph{completeness re
 	$$ \sum_i |i\ra\la i| = I $$
 \end{proposition}
 
-\begin{proofs}
+\begin{proof}
 	Let $|v\ra \in H$. $|v\ra$ can be expressed as $ \sum_i v_i |i\ra$ for some complex numbers $v_i$. Notice that $\la i|v\ra = v_i$. Therefor:
 	
 	$$|v\ra = \sum_i v_i |i\ra = \sum_i \la i|v\ra |i\ra = \sum_i |i\ra\la i|v\ra = \bigg( \sum_i |i\ra\la i|\bigg) |v\ra$$
 	
 	Since $|v\ra$ was arbitrary, proves that $ \sum_i |i\ra\la i | = I $.
-\end{proofs}
+\end{proof}
 
 \begin{corollary}[Cauchy-Schwarz inequality]
 	For any two vectors $|v\ra, |w\ra$ in a Hilbert space,
@@ -198,7 +198,7 @@ The most important result concerning outer products is the \emph{completeness re
 	
 	where the equality occurs if and only if $|v\ra$ and $|w\ra$ are linearly dependant
 \end{corollary}
-\begin{proofs} 
+\begin{proof} 
 	We provide a proof supposed that our Hilbert space is finite.
 	
 	Let $|v\ra, |w\ra$ be two vectors of a finite Hilbert space $H$. Since $H$ is finite, using the Gram-Schmidt procedure we may obtain a basis $|i\ra$ where the first vector is $|w\ra / \sqrt{\la w|w\ra}$. Using the completeness relation $\sum_i |i\ra \la i| = I$:
@@ -210,7 +210,7 @@ The most important result concerning outer products is the \emph{completeness re
 	$$ \sum_i \la v|i\ra \la i|v\ra \la w|w\ra \geq  \frac{\la v|w\ra \la w|v\ra}{\la w|w\ra} \la w|w\ra = \la v|w\ra \la w|v\ra  = | \la w|v\ra |^2 $$
 	
 	Lastly, the equality occurs if and only if $\la v|i\ra = 0$ for every $|i\ra \neq w / \sqrt{\la w|w\ra}$. But since $|i\ra$ is a base, this means $|v\ra$ and $|w\ra$ are linearly dependent.	
-\end{proofs}
+\end{proof}
 
 
 \subsection{Unitary and Hermitian operators}
@@ -254,17 +254,29 @@ Clearly, Hermitian and unitary operators are also normal. The importance of unit
 	Unitary operators preserve inner product between vectors. Thus, they also preserve the norm of a vector.
 \end{proposition}
 
-\begin{proofs}
+\begin{proof}
 	Let $|u\ra, |v\ra \in \C^n$ and $U \in \mathcal{M}_n(\C)$ be a unitary operator. Then:
 	
 	$$ ( U|u\ra, U|v\ra) = \la u|U^\dagger U|v\ra = \la u|I|v\ra = \la u|v\ra = ( |u\ra, |v\ra) $$
 	
 	Which proves the proposition.
-\end{proofs}
+\end{proof}
+
+An important type of Hermitian operators are the projectors.
+
+\begin{definition}
+	Let $W$ be a $k$-dimensional subspace of of the $d$-dimensional vector space $V$. Let $|1\ra, \dots, |d\ra$ be an orthonormal base of $V$ where $|1\ra, \dots, |k\ra$ is an orthonormal base of $W$. The \emph{projector} onto the subspace $W$ is defined by:
+	
+	$$ P = \sum_{i=1}^k |i \ra\la i| $$
+\end{definition}
+
+It can easily be shown that this definition is independent from the chosen base $|1\ra, \dots, |k\ra$. Since $|v \ra\la v|$ is Hermitian for any vector $|v\ra$, $P$ is also Hermitian: $P = P^\dagger$. We will often refer to the subspace onto which $P$ projects simply as $P$ for comodity. The \emph{orthonormal completement} of $P$ is $Q \equiv I - P$. It can be verified the vector subspace $Q$ is spanned by the base $|k+1\ra, \dots, |d\ra$.
 
 As the reader may already imagine, n-qubits systems will be represented as vector states or certain state spaces. That is, as unitary vectors of certain Hilbert spaces. Thus, our definition of transformations on qubits must preserve their norm. These will be the qubits gates, which will be represented as unitary operators.
 
 On the other hand, Hermitian operators will be key in order to study how a quantum system evolves with time using the Schrodinger equation in the third Postulate.
+
+Finally, projectors will be used on qubit measurement, and will be further discussed upon introducing systems with multiple qubits in \emph{Postulate 4}.
 
 
 \subsection{Postulate 2 statement}
@@ -275,11 +287,11 @@ As previously discussed, the second postulate describes how a quantum system may
 \begin{postulate}
 	Quantum measurement are described by a collection $\{M_m\}$ of \emph{measurement operators}. These act on the state space associated to the physical system being measured. The index $m$ refers to the measurement outcomes that may occur. That is, if $|\varphi\ra$ is the vector state before measure, then the probability of the result $m$ occurring is:
 	
-	$$P(m) = \la\varphi|M_m^\dagger M_m|\varphi\ra $$
+	$$p(m) = \la\varphi|M_m^\dagger M_m|\varphi\ra $$
 	
 	and the state of the system after the measurement is:
 	
-	$$ \frac{M_m|\varphi\ra}{\sqrt{\la\varphi|M_m^\dagger M_m|\varphi\ra}}$$
+	$$ \frac{M_m|\varphi\ra}{\sqrt{p(m)}}$$
 	
 	Finally, the measurement operator satisfy the \emph{completeness equation}: 
 	
@@ -288,7 +300,7 @@ As previously discussed, the second postulate describes how a quantum system may
 
 The completeness equation is equivalent to the fact that the probabilities of the different possible outcomes add up to one:
 
-$$ \sum_m P(m) = \sum_m \la\varphi|M_m^\dagger M_m|\varphi\ra = \la\varphi|\sum_m (M_m^\dagger M_m)|\varphi\ra = \la\varphi|\varphi\ra = 1 $$
+$$ \sum_m p(m) = \sum_m \la\varphi|M_m^\dagger M_m|\varphi\ra = \la\varphi|\sum_m (M_m^\dagger M_m)|\varphi\ra = \la\varphi|\varphi\ra = 1 $$
 
 Which holds for every state vector since they are unitary. Reciprocally, this equation occurring for every state vector $|\varphi\ra$ implies the completeness equation.
 
@@ -308,7 +320,7 @@ $$ \sum_i M_i^\dagger M_i = \sum_i M_i^2 = \sum_i M_i = \sum_i |i\ra\la i| = 1 $
 
 Lets measure using this operators, also called \emph{measure in the computational basis}, to better understand the measurement. Suppose the state being measured is $|\varphi\ra = \alpha|0\ra + \beta|1\ra$. Then, the probability of obtaining the outcome 0 is:
 
-$$ P(0) = \la\varphi|M_0^\dagger M_0|\varphi\ra = \la\varphi|M_0|\varphi\ra = |a|^2 $$
+$$ p(0) = \la\varphi|M_0^\dagger M_0|\varphi\ra = \la\varphi|M_0|\varphi\ra = |a|^2 $$
 
 Similarly, the probability of obtaining the outcome 1 is $p(1) = |b|^2$. Naturally, $ |a|^2 + |b|^2 = 1$. What happens after measuring? The post-measurement state will be, respectively if we measured 0 or 1:
 
@@ -328,13 +340,13 @@ $$ |-\ra = \frac{1}{\sqrt{2}}|0\ra - \frac{1}{\sqrt{2}}|1\ra = \frac{|0\ra - |1\
 
 It can easily be proven that $\{|+\ra, |-\ra\}$ is a basis and therefore it satisfies the completeness equation. In fact, the operators $M_+ = |+\ra\la +|$ and $M_- = |-\ra\la -|$ satisfy the completeness equation. Using this operators, measuring the qubit $|\varphi\ra = \alpha|0\ra + \beta|1\ra$ will output $+$ with probability:
 
-$$ P(+) = \la\varphi|M_+^\dagger M_+|\varphi\ra = \la\varphi|M_+|\varphi\ra = \la\varphi|+\ra\la+|\varphi\ra = \la\varphi|+\ra^2 = $$
+$$ p(+) = \la\varphi|M_+^\dagger M_+|\varphi\ra = \la\varphi|M_+|\varphi\ra = \la\varphi|+\ra\la+|\varphi\ra = \la\varphi|+\ra^2 = $$
 
 $$ = \bigg ( \frac{\alpha}{\sqrt{2}}\la0|0\ra + \frac{\alpha}{\sqrt{2}}\la1|0\ra + \frac{\beta}{\sqrt{2}}\la0|1\ra + \frac{\beta}{\sqrt{2}}\la1|1\ra \bigg )^2 = \frac{(\alpha + \beta)^2}{2} $$
 
-$$ P(-) = \frac{(\alpha - \beta)^2}{2} $$
+$$ p(-) = \frac{(\alpha - \beta)^2}{2} $$
 
-And, naturally, $P(+) + P(-) = 1$. So $|\varphi\ra$ will collapse to $|+\ra$ with probability $(\alpha - \beta)^2/2$ when measured with this operators. Observe that the post-measurement state will never be $|0\ra$ nor $|1\ra$ in this case, we made the qubit collapse (with certain probability) to the chosen state basis.
+And, naturally, $p(+) + p(-) = 1$. So $|\varphi\ra$ will collapse to $|+\ra$ with probability $(\alpha - \beta)^2/2$ when measured with this operators. Observe that the post-measurement state will never be $|0\ra$ nor $|1\ra$ in this case, we made the qubit collapse (with certain probability) to the chosen state basis.
 
 Finally, there is a technical fineness between the first and second postulates worth mentioning. The first postulate was stated for an \emph{isolated} physical system, but by measuring the system we interfere with it. However, measuring devices are also quantum systems, so together the measured and the measuring system form a larger isolated system (it may be necessary to include more quantum systems, but this can be done).
 
@@ -409,9 +421,9 @@ Normal operators have significant relevancy thanks to the following result:
 \begin{theorem}[Spectral Decomposition Theorem]
 	An operator $A$ is normal if and only if it is diagonalizable.
 \end{theorem}
-\begin{proofs}
+\begin{proof}
 	TODO: To be copied, Box 2.2, page 72, Nielsenchen.
-\end{proofs}
+\end{proof}
 
 Since Hermitian and unitary operators are normal, we obtain the following result:
 
@@ -428,7 +440,7 @@ Since Hermitian and unitary operators are normal, we obtain the following result
 	$$ |\varphi'\ra = U|\varphi\ra $$
 \end{postulate}
 
-Just like the first postulate does not provide the state space or state vector of the system, the second postulate does not provide the unitary transformation that concretes this evolution. For our quantum computing case, we will be the ones to define the unitary transformation applied to the system. That is, the quantum circuit that transforms our qubit.
+Just like the first postulate does not provide the state space or state vector of the system, the second postulate does not provide the unitary transformation that concretes this evolution. For our quantum computing case, we will be the ones to define the unitary transformation  to the system. That is, the quantum circuit that transforms our qubit.
 
 \begin{exampleth} Lets consider the \emph{X Pauli matrix}, also known as the \emph{bit flip} matrix:
 	
@@ -563,9 +575,9 @@ One of the most important results of classical computation theory is that any bo
 
 In this case, \{H, CNOT, T\} is called a \emph{universal gate set}. In practice, is it efficient to build such any gate using only this gate set? The answer to the question is positive, as stated by the \textbf{Solovay-Kitaev theorem} \cite{Dawson2006}. However, this is out of the scope of this project. We provide a sketch proof of the previous theorem from \cite{Bayens2020}.
 
-\begin{proofs}
+\begin{proof}
 	TODO: copy proof from Bayens, Theorem 4.2
-\end{proofs}
+\end{proof}
 
 
 \section{Postulate 4: Composite systems}
@@ -641,7 +653,12 @@ By definition, the tensor product satisfies:
 	$$ |v\ra \otimes (|w_1\ra + |w_2\ra) = |v\ra \otimes |w_1\ra + |v\ra \otimes |w_2\ra $$
 \end{itemize}
 
-With this properties it mind it can easily be proven that the tensor product of Hilbert spaces is a Hilbert space.
+The inner products of the spaces $V$ and $W$ may be use to extend and natural inner product the tensor space. Define:
+
+$$ \bigg ( \sum_i a_i |v_i\ra \otimes |w_i\ra, \sum_j b_j |v_j'\ra \otimes |w_j'\ra \bigg ) \equiv
+		\sum_{ij} \overline{a_i} b_j \la v_i|v_j' \ra \la w_i|w_j' \ra $$
+
+With this product and the previous properties it mind it can easily be proven that the tensor product of Hilbert spaces is a Hilbert space.
 
 \begin{proposition}
 	Let $H_1$ be and $H_2$ be two Hilbert spaces with respective orthonormal bases $B_1 = \{|v_i\ra\}_{i=1,\dots,n}$ and $B_2 = \{|w_j\ra\}_{j=1,\dots,m}$. Then, $H_1 \otimes H_2$ is a Hilbert space with inner product given by
@@ -651,7 +668,7 @@ With this properties it mind it can easily be proven that the tensor product of 
 	For any $|v\ra, |v'\ra$ in $V$ and $|w\ra, |w'\ra$ in $W$. Furthermore, $B_1 \otimes B_2 = \{|v_i w_j\ra\}_{i,j}$ is an orthonormal basis of $H_1 \otimes H_2$.
 \end{proposition}
 
-\begin{proofs}
+\begin{proof}
 	By definition, $H_1 \otimes H_2$ is a complex vector space with $dim(H_1 \otimes H_2) = dim(H_1)\cdot dim(H_1)$. Furthermore, $B_1 \otimes B_2 = \{|v_i\ra \otimes |w_j\ra\}_{i,j} = \{|v_i w_j\ra\}_{i,j}$ is a base of it. Let $|v_i w_j\ra, |v_k w_l\ra \in B_1 \otimes B_2$:
 	
 	$$ \la v_i w_j|v_k w_l \ra = \la v_i|v_k \ra \la w_j|w_l \ra = \delta_{ik} \delta_{jl} $$
@@ -667,27 +684,109 @@ With this properties it mind it can easily be proven that the tensor product of 
 	$$ \la v|v \ra = \sum_{i,j,k,l} \overline{\alpha_{ij}} \alpha_{kl} \la v_i w_j|v_k w_l \ra = \sum_{i,j,k,l} \overline{\alpha_{ij}} \alpha_{kl} \  \delta_{ik} \delta_{jl} = \sum_{i,j} |\alpha_{ij}|^2  \geq 0 $$
 	
 	where the equality holds if and only if $\alpha_{ij} = 0 \ \forall i,j$.
-	
-\end{proofs}
+\end{proof}
 
-We will denote a vector $|\varphi\ra$ tensored with itsel n times, $|\varphi\ra \otimes \overplace{n}{\dotsc} \otimes |\varphi\ra$, as $|\varphi\ra^{\otimes n}$, and equivalently with Hilbert spaces: $H \otimes \overplace{n}{\dotsc} \otimes H$, as $H^{\otimes n}$. For our quantum computing purposes, the following case holds particular relevance.
+From the inner product, the tensor space $H_1 \otimes H_2$ naturally inherits the notions of adjoint, unitary, normality and Hermicity. We will denote a vector $|\varphi\ra$ tensored with itsel n times, $|\varphi\ra \otimes \overplace{n}{\dotsc} \otimes |\varphi\ra$, as $|\varphi\ra^{\otimes n}$, and equivalently with Hilbert spaces: $H \otimes \overplace{n}{\dotsc} \otimes H$, as $H^{\otimes n}$. For our quantum computing purposes, the following case holds particular relevance.
 
 \begin{corollary}
 	The tensor product of $\C^2$ with itself n times, $\C^2 \otimes \overplace{n}{\dotsc} \otimes \C^2$, is isomorphic to $\C^{2^n}$.
 \end{corollary}
 
-\begin{proofs}
+\begin{proof}
 	Let $H = \C^2 \otimes \overplace{n}{\dotsc} \otimes \C^2$. Since $dim(H) = dim(\C^2)^n = 2^n$, $H$ is a Hilbert space with dmiension $2^n$. Thus, it is isomorphic to the canonical complex vector space of dimension $2^n$, $\C^{2^n}$, by Hausdorff's Theorem \cite{Paya2020}.
-\end{proofs}
+\end{proof}
 
+In the same way that the inner product was naturally extended to the tensor space, we may extend operators ensuring linearity. Let $A: V \longrightarrow V'$ and $B: W \longrightarrow W'$ two operators between Hilbert spaces. Then, we define $A \otimes B: V \otimes W \longrightarrow V' \otimes W'$ using the following equation:
 
-TODO: Explicar operadores en el producto tensorial
+$$ (A \otimes B)(|v\ra \otimes |w\ra) \equiv A|v\ra \otimes B|w\ra $$
 
-TODO: Explicar la extensión de los conceptos de Hermitian, unitary, etc.
+We extend this definition to every element of $V \otimes W$ ensuring linearity:
 
-TODO: no olvidar el ultimo teorema de la seccion 3; y la intro del postulado 4.
+$$ (A \otimes B) \bigg(\sum_i a_i |v_i\ra \otimes |w_i\ra \bigg) \equiv \sum_i a_i A|v_i\ra \otimes B|w_i\ra $$
+
+It can be shown that $A \otimes B$ is a well defined linear operator. In fact, any linear operator mapping $V \otimes W$ to $V' \otimes W'$ may be expressed as a linear combination of tensor product of linear operators mapping $V$ to $V'$ and $W$ to $W'$:
+
+$$ C = \sum_i a_i A_i \otimes B_i $$
+
+where by definition:
+
+$$ \bigg( \sum_i a_i A_i \otimes B_i \bigg)|v\ra \otimes |w\ra = \sum_i a_i A_i|v\ra \otimes B_i|w\ra $$
 
 \subsection{Postulate 4 statement}
+
+Reaching the core of this section, suppose we consider two (or more) distinct physical systems. In order to describe the state of the composite system we need to make use of tensor product.
+
+\begin{postulate}
+	The state space of a composite physical system is the tensor product of the state spaces of the component physical systems. Moreover, if we have systems numbered $1$ through $n$, and system number $i$ is prepared in the state $|\varphi_i\ra$, then the joint state of the total system is $|\varphi_1\ra \otimes \dotsc \otimes |\varphi_n\ra$.
+\end{postulate}
+
+Let us provide a intuitive notion on why is the tensor product used in order to describe composite system. We would expect that there exist a \emph{somehow canonical way} os describing the product composition of systems, just like the cartesian product is used with vector spaces. Let us refer again to the so-called \emph{superposition principle of quantum mechanics}. Let $|\varphi\ra$ and $|\psi\ra$ be two vector states of a system. Then, any superposition of the states, $\alpha|\varphi\ra + \beta|\psi\ra$, should also be another vector state, where $|\alpha|^2 + |\beta|^2 = 1$. Suppose we now have two systems $X$ and $Y$, with two vector states $|\varphi_X\ra$ and $|\varphi_Y\ra$. Then, we could describe the state of the compiste system $XY$ as some state $|\varphi_X\ra|\varphi_Y\ra$. Studying the superposition principle on composite system leads us naturally to the notion of tensor product. It is important to note that this development is not thorough, since we are not taking the superposition principle as a fundamental component of our description of quantum mechanics. It does help up to build an intuitive notion on why this tensor product is used.
+
+We now introduce the \emph{Bell State} or \emph{EPR pair:}
+
+$$ |+\ra = \frac{ |00\ra + |11\ra }{ \sqrt 2 } $$
+
+Although it may seem harmless at first glance, this state has been responsible for many surprises during the development of quantum physics \cite{Bellt1964}. Let us have a first look into it, although we will come back to it in section [TODOref la seccion donde comentamos el problema de la teletransportación cuántica].
+
+The first thing to notice about this state is that it can be expressed as a single tensor product of state vector: $|+\ra \neq |a\ra|b\ra$. This means that this state is not describing two independent physical systems put together with their respective vector states put together, it describes a relation between both systems too. It means that does system are somehow interfiring with each other. So we may affect one by disrutping the other!
+
+This is called \emph{entaglement}. A state is called \emph{entangled} when it cannot be expressed as the product of states of it component systems. This concept rests at the heart of the disparity between classic physics and quantum physics and it is key in quantum computing. It was deeply studied first by Einstein, Podolsky, and Rosen (EPR) \cite{Einstein1935} and second by John Bell \cite{Bellt1964}.
+
+
+\subsection{Projective measurement}
+
+
+In this section we explain an important particular case of measurement. In fact, this method of projective measurement is equivalent to Postulate 2, when they are combined with the capacity to perform unitary operations. It has huge relevancy in quantum computing and it is explained here because of its relation with composite systems. Let us state the alternative postulate:
+
+\begin{postulate 2'}
+	A projective measurement is described by an \emph{observable}, $M$, a Hermitian operator on the state space of the system being described. the observable has a spectral decomposition:
+	
+	$$ M = \sum_m m P_m$$
+	
+	where $P_m$ is the projector onto the eigenspace with eigenvalue $m$. The possible outcomes of the measurement correspond to the eigenvalues, $m$, of the observable. Upon measuring the state $|\varphi\ra$, the the result $m$ ocurring is:
+		
+	$$ p(m) = \la \varphi | P_m | \varphi \ra $$
+	
+	and the state of the system after the measurement, givent that outcome $m$ ocurred, is:
+	
+	$$ \frac{P_m |\varphi\ra}{\sqrt{p(m)}} $$
+\end{postulate 2'}
+
+Projective measurements can be seen as a particular case of Postulate 2. Suppose the measurement operators from such postulate, in addition to satisying the completeness relation $\sum_m M_m M_m^\dagger = I$, also fulfill that $M_m$ are \emph{orthogonal projectors}. That is, $M_m$ is Hermitian and $M_m M_{m'} = \delta_{mm'} M_m \ \forall m,m'$. With these aditional restricions it holds that $M_m M_m^\dagger = M_m M_m = M_m$. By choosing $P_m = M_m$ we see that projective measurements is a particular case of Postulate 2.
+
+Thanks to the way projective measurements are expressed, they have nice properties. Lets compute the average value of a projective measurement:
+
+\begin{equation}
+	\begin{split}
+		E(M)	& = \sum_m m p(m) \\
+				& = \sum_m m \la \varphi | P_m | \varphi \ra \\
+				& = \la \varphi | \bigg( \sum_m m P_m \bigg) | \varphi \ra \\
+				& = \la \varphi | M | \varphi \ra
+	\end{split}
+\end{equation}
+
+The average value of an operator is usually written as $\la M \ra \equiv \la \varphi M \varphi \ra$. The standar deviation associated to observations of $M$ is then written as:
+
+\begin{equation}
+	\begin{split}
+	[\Delta(M)]^2	& = \big\la (M - \la M \ra )^2 \big\ra\\
+					& = \la M^2 \ra - \la M \ra^2
+	\end{split}
+\end{equation}
+
+This means that if we prepare our $|\varphi\ra$ multiple times and measure it, the meassures will follow a normal distribution with expected value $\la M \ra$ and standard deviation $\Delta(M) = \sqrt{\la M^2 \ra - \la M \ra^2}$.
+
+
+
+TODO: Mencionar el principio de incertidumbre de Heisemberg, nomenclatura sobre medir respecto a una base y repasar la siguiente sección
+
+
+
+
+
+
+
+
 
 
 
@@ -702,9 +801,9 @@ Correspondingly, the measurement of this system will result in either 00, 01, 10
 
 The fundamental differences with the single qubit case start on measurement. Of course, we can measure both qubits at the same time, but we could also measure only one of them. Upon measuring the first qubit we would obtain $0$ with probability $p_0 = |\alpha_{00}|^2 + |\alpha_{01}|^2$, since these are the coefficients associated with the first qubit being $0$. Furthermore, our system will collapse to:
 
-$$ |\varphi'\ra = \frac{ \alpha_{00} |00\ra +f \alpha_{01} |01\ra }{ \sqrt{|\alpha_{00}|^2 + |\alpha_{01}|^2} } $$
+$$ |\varphi'\ra = \frac{ \alpha_{00} |00\ra + \alpha_{01} |01\ra }{ \sqrt{|\alpha_{00}|^2 + |\alpha_{01}|^2} } $$
 
-Note the normalization term $\sqrt{|\alpha_{00}|^2 + |\alpha_{01}|^2}$, applied so the post-measurement state still satisfies the normalization condition. Naturally, after obtaining $0$ in the first qubit we can still obtain either $0$ or $1$ in the second qubit, with probabilities 
+Note the normalization term $\sqrt{|\alpha_{00}|^2 + |\alpha_{01}|^2}$, which appears so the post-measurement state still satisfies the normalization condition. Naturally, after obtaining $0$ in the first qubit we can still obtain either $0$ or $1$ in the second qubit, with probabilities 
 
 $$ \frac{ |\alpha_{00}|^2 }{ |\alpha_{00}|^2 + |\alpha_{01}|^2 }  \ \text{ and } \ 
 \frac{ |\alpha_{01}|^2 }{ |\alpha_{00}|^2 + |\alpha_{01}|^2 } $$
@@ -713,15 +812,27 @@ respectively, adding up to $1$. Correspondingly, the first qubit being measured 
 
 Additionally, the first qubit independently should satisfy the normalization condition. That is, its probabilities of being $0$ and $1$ upon measurement must add up to $1$. But those are $p_0$ and $p_1$, which add up to one because of the normalization condition for $|\varphi\ra$, as expected.
 
+
+
+TODO: REWORK
+
 We now introduce the \emph{Bell State} or \emph{EPR pair:}
 
-$$ \frac{ |00\ra + |11\ra }{ \sqrt 2 } $$
+$$ |+\ra = \frac{ |00\ra + |11\ra }{ \sqrt 2 } $$
 
-Although it may seem harmless at first glance, this state has been responsible for many surprises during the development of quantum physics [TODOref to the EPR paradox]. Let us have a first look into it, although we will come back to it in section [TODOref la seccion dodne comentamos el problema de la teletransportación cuántica].
+Although it may seem harmless at first glance, this state has been responsible for many surprises during the development of quantum physics \cite{Bellt1964}. Let us have a first look into it, although we will come back to it in section [TODOref la seccion dodne comentamos el problema de la teletransportación cuántica].
 
-Upon measuring this system we may obtain state $|00\ra$ with probability $1/2$ and state $|11\ra$ with probability $1/2$. Suppose we measure the first qubit and obtain $0$. Then, the second qubit will always yield $0$ upon measurement. This means both outcomes are \emph{correlated}. This fact is known as \textbf{quantum entanglement}. It rests at the heart of the disparity between classic physics and quantum physics. It was deeply studied first by Einstein, Podolsky, and Rosen (EPR) \cite{Einstein1935} and second by John Bell \cite{Bellt1964}.
+Upon measuring this system we may obtain state $|00\ra$ with probability $1/2$ and state $|11\ra$ with probability $1/2$. Suppose we measure the first qubit and obtain $0$. Then, the second qubit will always yield $0$ upon measurement. This means both outcomes are \emph{correlated}. This fact is known as \textbf{quantum entanglement}. 
+
+
+
+
 
 Let us finally consider the more general case. In an n-qubits system our computational basis would consist of the sates $|x_1 x_2 \dotsc x_n\ra$, where $x_i \in \{0,1\}$. As we already know, in a single qubit system we have two amplitudes $\alpha_0$ and $\alpha_1$. We have four amplitudes for a 2-qubits system, eight for a 3-qubits system... And $2^n$ for an n-qubits system. This means that the number of amplitudes grows exponentially as we add qubits to the system. An immense increment concerning the classical case was the quantity of information that our simple holds grows linearly with the numbers of bits. Of course, we already know it is not that simple, since there are huge limitations on how we may access this information in the quantum realm such as how a qubit collapses upon measurement and the non-cloning theorem discussed in section [TODO]. But we can already glimpse the power of quantum computing versus the classical one.
 
+
+
+
+TODO: no olvidar el ultimo teorema de la seccion 3; y la intro del postulado 4.
 
 TODO: añadir ejemplo de CNOT gate.
