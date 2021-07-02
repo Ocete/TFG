@@ -567,23 +567,24 @@ $$
 
 Although we have not described the fundamentals of multiple qubits systems (postulate 4 is required for that), it is worth mentioning a simple two-qubits gate for the purpose of this section. Just like in classical computing, conditional operations are essential for the construction of complex quantum algorithms. The most basic conditional operation is the \emph{controlled-NOT} gate, also referred to as the CNOT gate. This gate takes two bits $|c\ra|t\ra$, a control qubit and a target qubit. It flips the target qubit if the fist qubit is set to $|1\ra$, producing the operation $|c\ra|t\ra \rightarrow |c\ra|c \oplus t\ra$, where $\oplus$ denotes the exclusive-or operation. Therefore, if the control qubit is $|c\ra = \alpha|0\ra + \beta|1\ra$, it will virtually flip the target qubit with probability $|\beta|^2$ and leave it how it is with probability $|\alpha|^2$. We will come back to this gate once we know the formalism of multiple qubits systems.
 
-One of the most important results of classical computation theory is that any boolean function may be constructed by only using AND, OR and NOT gates, or by simply using NAND gates \cite{Lau2006}. There is a equivalent result concerning quantum gates \cite{Bayens2020}.
+One of the most important results of classical computation theory is that any boolean function may be constructed by only using AND, OR and NOT gates, or by simply using NAND gates \cite{Lau2006}. There is a equivalent result concerning quantum gates \cite{Bayens2019}.
 
 \begin{theorem}
 	Any unitary matrix can be approximated by a combination of the Hadamard, CNOT and $\pi/8$ gates.
 \end{theorem}
 
-In this case, \{H, CNOT, T\} is called a \emph{universal gate set}. In practice, is it efficient to build such any gate using only this gate set? The answer to the question is positive, as stated by the \textbf{Solovay-Kitaev theorem} \cite{Dawson2006}. However, this is out of the scope of this project. We provide a sketch proof of the previous theorem from \cite{Bayens2020}.
+In this case, \{H, CNOT, T\} is called a \emph{universal gate set}. In practice, is it efficient to build such any gate using only this gate set? The answer to the question is positive, as stated by the \textbf{Solovay-Kitaev theorem} \cite{Dawson2006}. However, this is out of the scope of this project. We provide a sketch proof of the previous theorem from \cite{Bayens2019}.
 
 \begin{proof}
 	TODO: copy proof from Bayens, Theorem 4.2
 \end{proof}
 
+Further study of quantum circuits fall out of the scope of this thesis since we will use the D-Wave architecture, which relies on quantum annealing instead of quantum circuits.
 
 \section{Postulate 4: Composite systems}
 
 
-TODO: intro
+In this section we introduce the last postulate, which let us understand the state space associated with the a physical system composition of other minor systems. This will let us study multiple-qubits systems and state some of the most importante results in quantum mechanics and quantum computing: The \emph{Heisenberg uncertainty principle} and the no-cloning theorem.
 
 
 \subsection{Tensor product}
@@ -774,32 +775,25 @@ The average value of an operator is usually written as $\la M \ra \equiv \la \va
 	\end{split}
 \end{equation}
 
-This means that if we prepare our $|\varphi\ra$ multiple times and measure it, the meassures will follow a normal distribution with expected value $\la M \ra$ and standard deviation $\Delta(M) = \sqrt{\la M^2 \ra - \la M \ra^2}$.
+This means that if we prepare our $|\varphi\ra$ multiple times and measure it, the meassures will follow a normal distribution with expected value $\la M \ra$ and standard deviation $\Delta(M) = \sqrt{\la M^2 \ra - \la M \ra^2}$. This formulation of standard deviation using observables provide us with an elegant proof of perhaps the most famous quantum mechanics result: The \emph{Heisenberg uncertainty principle}. Such proof can be found in annex [TODOref anexo con la demostracion, copy from Box 2.4 in Niel.].
 
-
-
-TODO: Mencionar el principio de incertidumbre de Heisemberg, nomenclatura sobre medir respecto a una base y repasar la siguiente sección
-
-
-
-
-
-
-
-
-
+There are two additional notations worth mentioning regarding projective measurement. Instead of providing an observable $M$, we will sometimes provide a complete set of orthogonal projectors. That is, a set $P_m$ such that $\sum_i P_m = I$ and $P_m P_{m'} = \delta_{mm'} P_m$. The corresponding implicit observable used in this case is $M = \sum_m m P_m$. Finally, another widely used notation is to 'measure in a basis $|m\ra$', where $|m\ra$ form an orthonormal basis. This simply means that the chosen projectors are  $P_m = |m \ra\la m|$ and the observable is $M = \sum_m m |m \ra\la m|$. This is the usual notation in quantum computing.
 
 
 \subsection{Quantum Computing perspective: Multiple qubits}
 
 
-Suppose we have a pair of qubits. In the classical case, two bits can be in four possible states: 00, 01, 10, and 11. Similarly, the two qubits computational basis states are $|00\ra$, $|01\ra$, $|10\ra$ and $|11\ra$. Just like in the single qubit case, our two qubits system may be in a superposition of these four states:
+Suppose we have a pair of qubits. In the classical case, two bits can be in four possible states: 00, 01, 10, and 11. Similarly, the two qubits computational basis states are $|00\ra$, $|01\ra$, $|10\ra$ and $|11\ra$. We arrive at this natural notation by knowing that each qubit has $\C^2$ as their asociated state space and using the tensor product. Just like in the single qubit case, our two qubits system may be in a superposition of these four states:
 
 $$ |\varphi\ra = \alpha_{00} |00\ra + \alpha_{01} |01\ra + \alpha_{10} |10\ra + \alpha_{11} |11\ra $$
 
-Correspondingly, the measurement of this system will result in either 00, 01, 10 or 11. In fact, it will yield state $x$ with probability $|\alpha_x|^2$, being $\alpha_x$ the coefficient associated with the state $|x\ra$. The condition of the probabilities adding up to one is called the \emph{normalization condition} and can be expressed as $\sum_{x \in \{0,1\}^2} |\alpha_x|^2 = 1$ for the two qubits case, where $\{0,1\}^2$ are the strings of length two where each character is either $0$ or $1$.
+Correspondingly, the measurement of this system will result in either 00, 01, 10 or 11 since we are using the observable $\sum_{x \in \{0,1\}^2} x |x\ra\la x|$, where $\{0,1\}^2$ are the strings of length two where each character is either $0$ or $1$. In fact, it will yield state $x$ with probability $|\alpha_x|^2$, being $\alpha_x$ the coefficient associated with the state $|x\ra$. The condition of the probabilities adding up to one is called the \emph{normalization condition} and can be expressed as $\sum_{x \in \{0,1\}^2} |\alpha_x|^2 = 1$ for the two qubits case.
 
-The fundamental differences with the single qubit case start on measurement. Of course, we can measure both qubits at the same time, but we could also measure only one of them. Upon measuring the first qubit we would obtain $0$ with probability $p_0 = |\alpha_{00}|^2 + |\alpha_{01}|^2$, since these are the coefficients associated with the first qubit being $0$. Furthermore, our system will collapse to:
+The fundamental differences with the single qubit case start on measurement. Of course, we can measure both qubits at the same time, but we could also measure only one of them. In order to achieve this we can use the projectors $P_0 = |00\ra\la00| + |01\ra\la01|$ and $P_1 = |10\ra\la10| + |11\ra\la11|$. Upon measuring the first qubit we would obtain $0$ with probability
+
+$$ p_0 = \la\varphi|P_0|\varphi\ra = |\alpha_{00}|^2 + |\alpha_{01}|^2 $$
+
+since these are the coefficients associated with the first qubit being $0$. Furthermore, our system will collapse to:
 
 $$ |\varphi'\ra = \frac{ \alpha_{00} |00\ra + \alpha_{01} |01\ra }{ \sqrt{|\alpha_{00}|^2 + |\alpha_{01}|^2} } $$
 
@@ -812,27 +806,71 @@ respectively, adding up to $1$. Correspondingly, the first qubit being measured 
 
 Additionally, the first qubit independently should satisfy the normalization condition. That is, its probabilities of being $0$ and $1$ upon measurement must add up to $1$. But those are $p_0$ and $p_1$, which add up to one because of the normalization condition for $|\varphi\ra$, as expected.
 
-
-
-TODO: REWORK
-
-We now introduce the \emph{Bell State} or \emph{EPR pair:}
+Lets come back to the previously introduced \emph{Bell State}:
 
 $$ |+\ra = \frac{ |00\ra + |11\ra }{ \sqrt 2 } $$
 
-Although it may seem harmless at first glance, this state has been responsible for many surprises during the development of quantum physics \cite{Bellt1964}. Let us have a first look into it, although we will come back to it in section [TODOref la seccion dodne comentamos el problema de la teletransportación cuántica].
+When measuring using the previously defined projector $P_0$ we obtain that the first qubit will collapse to 0 or 1 with equal probability $p_0 = p_1 = 1/2$. Most importantly, in the first case the qubit will collapse to the state:
 
-Upon measuring this system we may obtain state $|00\ra$ with probability $1/2$ and state $|11\ra$ with probability $1/2$. Suppose we measure the first qubit and obtain $0$. Then, the second qubit will always yield $0$ upon measurement. This means both outcomes are \emph{correlated}. This fact is known as \textbf{quantum entanglement}. 
+$$ \frac{ |00\ra / \sqrt 2 }{ \sqrt p_0 } = |00\ra $$
 
+Meaning that the second qubit also collapsed to 0. Note that we only affected the first qubit and the second one was also disturbed. These are the consequences of entanglement, key in the appeareance of important results such as the no-cloning theorem [TODOref] and the quantum teleportation [TODOref].
 
-
-
-
-Let us finally consider the more general case. In an n-qubits system our computational basis would consist of the sates $|x_1 x_2 \dotsc x_n\ra$, where $x_i \in \{0,1\}$. As we already know, in a single qubit system we have two amplitudes $\alpha_0$ and $\alpha_1$. We have four amplitudes for a 2-qubits system, eight for a 3-qubits system... And $2^n$ for an n-qubits system. This means that the number of amplitudes grows exponentially as we add qubits to the system. An immense increment concerning the classical case was the quantity of information that our simple holds grows linearly with the numbers of bits. Of course, we already know it is not that simple, since there are huge limitations on how we may access this information in the quantum realm such as how a qubit collapses upon measurement and the non-cloning theorem discussed in section [TODO]. But we can already glimpse the power of quantum computing versus the classical one.
+Let us finally consider the more general case. In an n-qubits system our computational (orthonormal) basis would consist of the sates $|x_1 x_2 \dotsc x_n\ra$, where $x_i \in \{0,1\}$. As we already know, in a single qubit system we have two amplitudes $\alpha_0$ and $\alpha_1$. We have four amplitudes for a 2-qubits system, eight for a 3-qubits system... And $2^n$ for an n-qubits system. This means that the number of amplitudes grows exponentially as we add qubits to the system. An immense increment compared to the classical case where the quantity of information that our system holds grows linearly with the numbers of bits. Of course, we already know it is not that simple, since there are huge limitations on how we may access this information in the quantum realm such as how a qubit collapses upon measurement and the non-cloning theorem. However, we can already glimpse the power of quantum computing versus the classical one.
 
 
+\section{The no-cloning theorem}
 
 
-TODO: no olvidar el ultimo teorema de la seccion 3; y la intro del postulado 4.
+A first exposure to the basis of quantum computing is fundamentally incomplete without the no-cloning theorem. It lets us understand one of the fundamental inconveniences of quantum computing: the imposibilty of cloning a arbitrary state.
 
-TODO: añadir ejemplo de CNOT gate.
+Lets formalize the copying mechanism. Let $H$ be a state space and $|\varphi\ra \in H$ the state to be copied. Given another state $|\varphi'\ra \in H$, we would like to copy $|\varphi\ra$ into $|\varphi'\ra$. Since we can prepare $|\varphi'\ra$ at will before the copying occurs, let  $|\varphi'\ra = |x_0\ra$ be a fixed state. Then, our operation will take both states and produce the following result:
+
+$$ (|\varphi\ra \otimes |x_0\ra) \xrightarrow{U} |\varphi\ra \otimes |\varphi\ra $$
+
+Operations between n-qubits (n-qubits gates) must preserve their norm, thus they must be unitary $n \times n$ matrices. In our case, $U$ is a $2 dim(H) \times 2 dim(H)$ unitary matrix. Let us now state and prove the theorem.
+
+\begin{theorem}[No-cloning Theorem]
+	There is no unitary operator $U: H^{\otimes 2} \longrightarrow H^{\otimes 2}$ and state $|x_0\ra \in H$ such that for any arbitrary state $|\varphi\ra \in H$ it holds
+	
+	$$ U |\varphi\ra |x_0\ra = |\varphi\ra |\varphi\ra $$
+\end{theorem}
+\begin{proof}
+	Suppose there exists such unitary operator $U$ and such state $|x_0\ra$. Let $|\varphi\ra, |\psi\ra \in H$. We may apply the copying operators to both of them:
+	
+	$$ U |\varphi\ra |x_0\ra = |\varphi\ra |\varphi\ra $$
+	$$ U |\psi\ra |x_0\ra = |\psi\ra |\psi\ra $$
+	
+	Taking the inner product of this two equation results, and using that $U$ is unitary:
+	
+	\begin{equation*}
+		\begin{split}
+			\bigg( U |\varphi\ra |x_0\ra, U |\psi\ra |x_0\ra \bigg) = \bigg( |\varphi\ra |\varphi\ra, |\psi\ra |\psi\ra \bigg) & \iff \\
+			\bigg( |\varphi\ra |x_0\ra, |\psi\ra |x_0\ra \bigg) = \la\varphi|\psi\ra \la\varphi|\psi\ra & \iff \\
+			\la\varphi|\psi\ra \la x_0|x_0 \ra = \la\varphi|\psi\ra^2
+		\end{split}
+	\end{equation*}
+	
+	Since $|x_0\ra$ is a normalized vector, $\la x_0|x_0 \ra = 1$ and we obtain:
+	
+	$$\la\varphi|\psi\ra = \la\varphi|\psi\ra^2$$
+	
+	Which only holds if $\la\varphi|\psi\ra$ equals to either $0$ or $1$, which means $|\varphi\ra$ and $|\psi\ra$ are either equal or orthornomal. But those vectors were arbitrary, thus such a general clonning operator is impossible. 
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -3,6 +3,8 @@
 - Boev: Genome assembly using quantum and quantum-inspired annealing
 - Sarkar: QuASeR Quantum Accelerated De Novo DNA Sequence Reconstruction
 - A strategy of DNA sequencing employing computer programs -> Para mencionar el shotgun sequencing.
+
+
 # Genome Assembly
 
 ### Básico sobre genome assembly:
@@ -13,6 +15,7 @@
 1) Mihai Pop: Genome assembly reborn: recent computational challenges
 2) Paper by Blazewicz et al. 2018 (descargado)
 3) Paper by Sohn y Nam. 2018 (descargado)
+
 
 # Otros
 

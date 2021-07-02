@@ -21,7 +21,7 @@
 
 % Opciones del tipo de documento
 \documentclass[oneside,openright,titlepage,numbers=noenddot,openany,headinclude,footinclude=true,
-cleardoublepage=empty,abstractoff,BCOR=5mm,paper=a4,fontsize=12pt,main=spanish]{scrreprt}
+cleardoublepage=empty,abstractoff,BCOR=5mm,paper=a4,fontsize=12pt,main=english]{scrreprt}
 
 % Paquetes de latex que se cargan al inicio. Cubren la entrada de
 % texto, gráficos, código fuente y símbolofs.
@@ -116,13 +116,15 @@ manychapters,pdfspacing]{classicthesis}
 
 % Estilo de cita.
 \bibliographystyle{unsrtnat}
+\renewcommand\bibname{Reference}
 
 %[citestyle=numeric]
+
+\renewcommand\bibname{Bibliography}
+\bibliography{bib/library}
 
 % Añadimos la bibliografía al índice
 \phantomsection
 \addcontentsline{toc}{chapter}{Bibliography}
-
-\bibliography{bib/library}
 
 \end{document}
