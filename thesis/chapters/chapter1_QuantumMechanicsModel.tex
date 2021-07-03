@@ -357,7 +357,7 @@ Superposition and collapsing might be counter-intuitive concepts, so let us look
 
 $$ |+\ra = \frac{1}{\sqrt{2}} |0\ra + \frac{1}{\sqrt{2}} |1\ra $$
 
-This does \textbf{not} represent a coin that has landed somehow on its side, but a spinning coin that has not landed yet. Upon measuring it, we 'make the coin land' and see the result: either heads or tails, and neither of the states in between. This example also describes the qubit collapse: once the coin has landed, we will see the same result every time we look at it -obviously-, just like every time a qubit is measured after the first measurement, the outcome will be the same since it has already collapsed. We will return to this state, also known as the Bell state, later on.
+This does \textbf{not} represent a coin that has landed somehow on its side, but a spinning coin that has not landed yet. Upon measuring it, we 'make the coin land' and see the result: either heads or tails, and neither of the states in between. This example also describes the qubit collapse: once the coin has landed, we will see the same result every time we look at it -obviously-, just like every time a qubit is measured after the first measurement, the outcome will be the same since it has already collapsed. We will return to this state, also known as the Bell state, in section \ref{postulate-4-section}.
 
 On the other hand, this was quite an inaccurate example since the system is not really isolated, although it was interesting intuition-wise. One of the first (accurate) qubit models ever proposed was the Schrodinger's Cat \cite{Schrodinger1935} \cite{Trimmer1980}. In this hypothetical experiment, a cat would be locked in a room for an hour with a device that during that hour would \emph{perhaps} trigger, killing the cat. On the other hand, with equal probability, it would not trigger at all. After the whole hour elapses, the cat would be alive and dead with equal probability, ending up in a halfway state. In this case, our computational bases would be the states alive and dead, and we achieve the state $|+\ra$ after that hour. Once we open the room and check on the cat, our qubit collapses to either state and stays on it until further disturbance.
 
@@ -516,7 +516,7 @@ It is worth mentioning that both versions of this postulate assume our physical 
 
 Furthermore, this severely interferes with postulate 2, where an outsider to the system may interfere with it by measuring it. The quantum system will evolve following postulate 3 until measurement is applied. Then they will evolve following the behavior described on postulate 2.
 
-In practice, obtaining the Hamiltonian for a given quantum system is a really laborious work and usually needs experimental data [TODO: add evidence? stated as such in Niel.]. However, for our computational purposes, we will be the ones designing the Hamiltonian such that our system evolves as desired. In particular, chapter 3 [TODOref to QUBO chapter] describes in detail the construction of Hamiltonians for QUBO problems.
+In practice, obtaining the Hamiltonian for a given quantum system is a really laborious work and usually needs experimental data [TODO: add evidence? stated as such in Niel.]. However, for our computational purposes, we will be the ones designing the Hamiltonian such that our system evolves as desired. In particular, chapter [TODOref to QUBO chapter] describes in detail the construction of Hamiltonians for QUBO problems.
 
 \subsection{Quantum Computing perspective: Quantum Gates}
 
@@ -560,7 +560,7 @@ T =
 \end{pmatrix}
 $$
 
-Although we have not described the fundamentals of multiple qubits systems (postulate 4 is required for it), it is worth mentioning a simple two-qubits gate for the purpose of this section. Just like in classical computing, conditional operations are essential for the construction of complex quantum algorithms. The most basic conditional operation is the \emph{controlled-NOT} gate, also referred to as the CNOT gate. This gate takes two bits $|c\ra|t\ra$, a control qubit, and a target qubit. It flips the target qubit if the first qubit is set to $|1\ra$, producing the operation $|c\ra|t\ra \rightarrow |c\ra|c \oplus t\ra$, where $\oplus$ denotes the exclusive-or operation. Therefore, if the control qubit is $|c\ra = \alpha|0\ra + \beta|1\ra$, it will virtually flip the target qubit with probability $|\beta|^2$ and leave it how it is with probability $|\alpha|^2$. We will come back to this gate once we know the formalism of multiple qubits systems.
+Although we have not described the fundamentals of multiple qubits systems (postulate 4 is required for this), it is worth mentioning a simple two-qubits gate for the purpose of this section. Just like in classical computing, conditional operations are essential for the construction of complex quantum algorithms. The most basic conditional operation is the \emph{controlled-NOT} gate, also referred to as the CNOT gate. This gate takes two bits $|c\ra|t\ra$, a control qubit, and a target qubit. It flips the target qubit if the first qubit is set to $|1\ra$, producing the operation $|c\ra|t\ra \rightarrow |c\ra|c \oplus t\ra$, where $\oplus$ denotes the exclusive-or operation. Therefore, if the control qubit is $|c\ra = \alpha|0\ra + \beta|1\ra$, it will virtually flip the target qubit with probability $|\beta|^2$ and leave it how it is with probability $|\alpha|^2$.
 
 One of the most important results of classical computation theory is that any boolean function may be constructed by only using AND, OR, and NOT gates, or by simply using NAND gates \cite{Lau2006}. There is an equivalent result concerning quantum gates \cite{Bayens2019}.
 
@@ -710,7 +710,7 @@ $$ \bigg( \sum_i a_i A_i \otimes B_i \bigg)|v\ra \otimes |w\ra = \sum_i a_i A_i|
 
 
 \subsection{Postulate 4 statement}
-
+\label{postulate-4-section}
 
 Reaching the core of this section, suppose we consider two (or more) distinct physical systems. In order to describe the state of the composite system we need to make use of tensor product.
 
@@ -724,7 +724,7 @@ We now introduce the \emph{Bell State} or \emph{EPR pair:}
 
 $$ |+\ra = \frac{ |00\ra + |11\ra }{ \sqrt 2 } $$
 
-Although it may seem harmless at first glance, this state has been responsible for many surprises during the development of quantum physics \cite{Bellt1964}. Let us have a first look into it, although we will come back to it in section [TODOref seccion de la EPR Paradox].
+Although it may seem harmless at first glance, this state has been responsible for many surprises during the development of quantum physics \cite{Bellt1964}. Let us have a first look into it, although we will come back to it later on.
 
 The first thing to notice about this state is that it can be expressed as a single tensor product of state vector: $|+\ra \neq |a\ra|b\ra$. This means that this state is not describing two independent physical systems put together with their respective vector states independently, it describes a \textbf{relation} between both systems too. It means that those systems are somehow interfering with each other. So we may affect one by disrupting the other.
 
@@ -812,7 +812,7 @@ When measuring using the previously defined projectors $P_0$ and $P_1$ we obtain
 
 $$ \frac{ |00\ra / \sqrt 2 }{ \sqrt p_0 } = |00\ra $$
 
-Meaning that the second qubit also collapsed to 0. Note that we only affected the first qubit and the second one was disturbed. These are the consequences of entanglement, key in the appearance of impressive results such as the EPR Paradox [TODOref EPR paradox].
+Meaning that the second qubit also collapsed to 0. Note that we only affected the first qubit and the second one was disturbed. These are the consequences of entanglement, key in the appearance of impressive phenomenoms and discussions such as the EPR Paradox \cite{Einstein1935}, \cite{Bellt1964}.
 
 Let us finally consider the more general case. In an n-qubits system our computational (orthonormal) basis would consist of the sates $|x_1 x_2 \dotsc x_n\ra$, where $x_i \in \{0,1\}$. As we already know, in a single qubit system we have two amplitudes $\alpha_0$ and $\alpha_1$. We have four amplitudes for a 2-qubits system, eight for a 3-qubits system... And $2^n$ for an n-qubits system. This means that the number of amplitudes grows exponentially as we add qubits to the system. An immense increment compared to the classical case where the quantity of information that our system holds grows linearly with the numbers of bits. Of course, it is not that simple, since there are huge limitations on how we may access this information in the quantum realm such as how a qubit collapses upon measurement and the no-cloning theorem. However, we can already glimpse the power of quantum computing versus the classical one.
 
@@ -856,15 +856,3 @@ Operations between n-qubits (n-qubits gates) must preserve their norm, thus they
 	
 	Which only holds if $\la\varphi|\psi\ra$ equals to either $0$ or $1$, which means $|\varphi\ra$ and $|\psi\ra$ are either equal or orthonormal. But those vectors were arbitrary, thus such a general cloning operator is impossible. 
 \end{proof}
-
-
-
-TODO: Creo que me gustaría añadir aquí una sección sobre la EPR Paradox / teleportación cuántica.
-
-
-
-
-TODO: CNOT gate explained
-
-
-
