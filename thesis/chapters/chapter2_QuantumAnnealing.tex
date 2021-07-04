@@ -20,15 +20,27 @@ Quantum tunneling is a quantum mechanical phenomenon where a wavefunction (i.e. 
 	\label{fig 2.1}
 \end{figure}
 
-The main advantage of quantum tunneling compared to classical thermal fluctuations is that the probability of the system shifting depends to only on the height of the potential barrier but also on its width. Thus, application of QA may pottentially outperform SA in problems where the energy (cost) landscape consists on very high and thin barries surronding local minimums. Both theoricaticall analysis \cite{Morita2008} and numerical evidences \cite{Farhi2000} suggests such outperformance under certain conditions.
+The main advantage of quantum tunneling compared to classical thermal fluctuations is that the probability of the system shifting depends to only on the height of the potential barrier but also on its width. Thus, application of QA may pottentially outperform SA in problems where the energy (cost) landscape consists on very high and thin barries surronding local minimums. 
 
 Particularly, as studied in \cite{Ray1989}, let $\Delta$ be the height of a barrier and $\omega$ its width. The probability of a thermal transition ocurring is dictated by $exp\{-\frac{\Delta}{k_B T}\}$ where $T$ y the temperatue of the system and $k_B$ is the Boltzmann constant. On the other hand, the probability of a quantum tunneling transition ocurring through the same barrier (asumming isolation) is $exp\{-\frac{\sqrt \Delta \omega}{\Gamma}\}$, where $\Gamma$ is the tunneling field. Thus, the probability is much higher for the quantum tunneling effect on a high and thin barriers.
 
 We may also observe looking at the previous expressions how the tunneling field and the temperature play a similar roles in the different methods. Thus, the annealing schedule of the QA system is controlled using the tunneling field just like the temperature is used in SA.
 
-Let us deepen into some QA simulations in order to understand it better. (Quantum annealing: a new method for minimizing multidimensional functions)
+There are many examples in the literature of QA simulations using classical computers, both theoretical \cite{Morita2008} and numerical -most of them using Quantum Monte Carlo (QMC) methods \cite{Isakov2016} \cite{Farhi2000}-. This evidence suggests outperformance of SA by simulated QA under certain conditions. It is resonable to wonder what happens if instead of simulating QA we could somehow encode our problems in a real physical system that tends to its lower energy state (ground state), thus using quantum tunneling naturally. This is precisely what the D-Wave system does.
+
+In the next few sections we will depeen in the technicalities of quantum annealing, how it is implemented and how to use in the D-Wave system.
 
 
+\section{The D-Wave architecture}
+
+
+
+
+
+
+
+
+https://journals.aps.org/prl/pdf/10.1103/PhysRevLett.117.180402
 
 
 

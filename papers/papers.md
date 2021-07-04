@@ -28,18 +28,26 @@ Este es el paper del que os hablaba, formulación en hamiltonianos de Ising para
 https://www.fz-juelich.de/ias/jsc/EN/Expertise/Workshops/Conferences/QUAASI16/Programme/Talks/quaasi16-ewald.pdf?__blob=publicationFile
 e incluye referencias al paper original de Quantum Annealing: 
 
+Los que lo propusieron fueron los dos siguientes:
 
 - Quantum annealing: a new method for minimizing multidimensional functions (1994) (descargado)
-
 - Quantum annealing in the transverse Ising model (1998) (descargado)
 	* Intro FANTÁSTICA sobre enfriamiento simulado
 
 -  Quantum computation by adiabatic evolution (2000) (descargado)
+https://en.wikipedia.org/wiki/Adiabatic_theorem
 
 - A quantum adiabatic evolution algorithm applied to random instances of an NP-complete problem (2001) (descargado)
 
 
-- Optimization by Simulated Annealing <- Paper original sobre enfriamiento simulado
+
+### D-Wave vs QMC
+
+- Quantum versus classical annealing of Ising spin glasses: https://science.sciencemag.org/content/sci/348/6231/215.full.pdf
+
+- Experimental, D-wave >>>> SA.
+https://journals.aps.org/prx/abstract/10.1103/PhysRevX.6.031015
+
 
 
 ### Presentación LANL sobre el proceso de optimización combinatoria con Quantum Annealers (ellos tienen un D-wave), señalan la densidad del grafo/hamiltoniano como uno de los cuellos de botella en la implementación de problemas grandes:  
