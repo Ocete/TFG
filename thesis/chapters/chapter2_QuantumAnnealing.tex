@@ -1,0 +1,35 @@
+\chapter{The D-Wave Quantum Computer}
+
+
+TODO: intro del capítulo
+
+
+\section{Quantum Annealing}
+
+
+Simulated annealing (SA) is an general optimization technique that was first introduced in 1983 by Kirkpatrick \emph{et al.} \cite{Kirkpatrick1983}. The main idea is to mimic how thermal fluctuations work to let the system escape from local minimums in the cost function. The \emph{temperature} of the system dictates the probability with which the is allowed to jump to worse solutions (higher values of the cost function). The \emph{annealing schedule} is the decrease rate of the temperature, controlled by the programmer. Under the appropiate one, the system would be able to scape from local minimums to reach the global one. If the temperature decreases too quickly, the system converges prematurely to a local minimum. If it decreases too slowly, the technique transforms into a random walker, reaching the global minimum at some point but being worthless time-wise.
+
+Inspiration in thermal fluctuations are used in SA so the system may escape from local minima. Similarly, \emph{quantum tunneling} is used in Quantum Annealing (QA) in order to escape from local minimums. This new technique was introduced in its present form by two similar proposals \cite{Finnila1994} \cite{Kadowaki1998}.
+
+Quantum tunneling is a quantum mechanical phenomenon where a wavefunction (i.e. a quantum state) may propagate through a potetial barrier \cite{Nimtz2008}. The probability of this event occuring depends on the height and width of the barrier (see figure \ref{fig 2.1})
+
+\begin{figure}[h]
+	\includegraphics[scale=.8]{QuantumTunneling.jpg}
+	\centering
+	\caption{Thermal jumps vs quantum tunneling.}
+	\label{fig 2.1}
+\end{figure}
+
+The main advantage of quantum tunneling compared to classical thermal fluctuations is that the probability of the system shifting depends to only on the height of the potential barrier but also on its width. Thus, application of QA may pottentially outperform SA in problems where the energy (cost) landscape consists on very high and thin barries surronding local minimums. Both theoricaticall analysis \cite{Morita2008} and numerical evidences \cite{Farhi2000} suggests such outperformance under certain conditions.
+
+Particularly, as studied in \cite{Ray1989}, let $\Delta$ be the height of a barrier and $\omega$ its width. The probability of a thermal transition ocurring is dictated by $exp\{-\frac{\Delta}{k_B T}\}$ where $T$ y the temperatue of the system and $k_B$ is the Boltzmann constant. On the other hand, the probability of a quantum tunneling transition ocurring through the same barrier (asumming isolation) is $exp\{-\frac{\sqrt \Delta \omega}{\Gamma}\}$, where $\Gamma$ is the tunneling field. Thus, the probability is much higher for the quantum tunneling effect on a high and thin barriers.
+
+We may also observe looking at the previous expressions how the tunneling field and the temperature play a similar roles in the different methods. Thus, the annealing schedule of the QA system is controlled using the tunneling field just like the temperature is used in SA.
+
+Let us deepen into some QA simulations in order to understand it better. (Quantum annealing: a new method for minimizing multidimensional functions)
+
+
+
+
+
+
