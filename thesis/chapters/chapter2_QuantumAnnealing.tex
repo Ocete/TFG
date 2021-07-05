@@ -28,10 +28,58 @@ We may also observe looking at the previous expressions how the tunneling field 
 
 There are many examples in the literature of QA simulations using classical computers, both theoretical \cite{Morita2008} and numerical -most of them using Quantum Monte Carlo (QMC) methods \cite{Isakov2016} \cite{Farhi2000}-. This evidence suggests outperformance of SA by simulated QA under certain conditions. It is resonable to wonder what happens if instead of simulating QA we could somehow encode our problems in a real physical system that tends to its lower energy state (ground state), thus using quantum tunneling naturally. This is precisely what the D-Wave system does.
 
-In the next few sections we will depeen in the technicalities of quantum annealing, how it is implemented and how to use in the D-Wave system.
+In section \ref{quantum-annealing-dwave} we will depeen in the technicalities of quantum annealing, how it is implemented and how to use in the D-Wave system.
 
 
-\section{The D-Wave architecture}
+\section{QUBO and Ising problems}
+
+
+
+
+
+TODO: completar sección
+
+
+
+
+
+\section{D-Wave Systems}
+
+
+\textbf{D-Wave Systems Inc.} is a Canadian company dedicated to quantum computing. In 2011, they announced the first commercial quantum computer system, D-Wave One. During the following two decades, the D-Wave team have developed a series of computing computers dedicated to quantum annealing. The last one being the Advantage System (figure \ref{fig 2.2}).
+
+\begin{figure}[h]
+	\includegraphics[scale=.1]{advantage_system.png}
+	\centering
+	\caption{Advantage$^{TM}$ system}.
+	\label{fig 2.2}
+\end{figure}
+
+The quantum processing unit (QPU) of this system consist of $5640$ qubits and $40,484$ \emph{couplers} (links between qubits that allow entanglement between a pair of qubits). The number of couplers is especially relevant. It tells us that not every qubit can be entangled with every other qubit. We will come back to this in section [TODOref]. Since the QPU must be isolated to operate, it is encapsulated in a system at temperatures below 15 mK. In addition, radio frequency (RF)-shielded enclousre and magnetic shieldings are used to protect it from electromagnetic interferience \cite{DWaveDoc}.
+
+\begin{figure}[h]
+	\includegraphics[scale=.2]{qpu.png}
+	\centering
+	\caption{D-Wave QPU}.
+	\label{fig 2.3}
+\end{figure}
+
+D-Wave provides an easy-to-use software enviroment to solve problems using quantum annealing. We will explain in depth in section [TODOref].
+
+
+\subsection{Quantum Annealing in D-Wave}
+\label{quantum-annealing-dwave}
+
+
+For this section we refer to the D-Wave documentation, which explains how quantum annealing is implemented and may be exploited in the D-Wave systems \cite{DWaveDoc-QuantumAnnealing}.
+
+
+
+
+TODO: rephrasear la cita en el contexto anterior
+
+
+
 
 
 
