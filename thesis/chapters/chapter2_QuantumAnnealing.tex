@@ -28,14 +28,108 @@ We may also observe looking at the previous expressions how the tunneling field 
 
 There are many examples in the literature of QA simulations using classical computers, both theoretical \cite{Morita2008} and numerical -most of them using Quantum Monte Carlo (QMC) methods \cite{Isakov2016} \cite{Farhi2000}-. This evidence suggests outperformance of SA by simulated QA under certain conditions. It is resonable to wonder what happens if instead of simulating QA we could somehow encode our problems in a real physical system that tends to its lower energy state (ground state), thus using quantum tunneling naturally. This is precisely what the D-Wave system does.
 
-In section \ref{quantum-annealing-dwave} we will depeen in the technicalities of quantum annealing, how it is implemented and how to use in the D-Wave system.
+Let us farther deepen into the technicalities of quantum annealing in order to understand how it is implemented in the D-Wave system.
+
+
+\section{Adiabatic Evolution}
+
+
+The alternative form of the third postulate of quantum mechanics (section \ref{postulate-3'}) stated that the evolution of a quantum system is described by the Schrodinger equation:
+
+$$ i \hbar \frac{d|\varphi\ra}{dt} = H|\varphi\ra $$
+
+By better understanding the Hamiltonian $H$ we may controll this evolution. Suppose that at the evolution of a given quantum system is described by a Hamiltonian $\hat H(t)$. Suppose that at some initial time $t_0$ our quantum system is in an eigenstate $|\varphi(t_0)\ra$ of $\hat H(t_0)$. Since the evolution is continuous, at some other time $t_1 > t_0$ we could expect our system to be in the corresponding eigenstate $|\varphi(t_1)\ra$ of $\hat H(t_1)$. This fact critically depends on the time $\tau = t_1 - t_0$ during which the modification takes places, as stated by the adiabatic theorem, first proposed by Max Born and Vladimir Fock (1928) \cite{Born1928}.
+
+\begin{theorem}[Adiabatic Theorem]
+\label{adiabatic-theorem}
+	A physical system remains in its instantaneous eigenstate if a given perturbation is acting on it slowly enough and if there is a gap between the eigenvalue and the rest of the Hamiltonian's spectrum.
+\end{theorem}
+
+Thus, we may define diabatic and adiabatic processes depending on how they adapt to the system changes \cite{Kato1950}.
+
+\begin{definition}
+	A \emph{diabatic process} is a process where rapidly changing conditions prevent the system from adapting its configuration during the process. Typically there is no eigenstate of the final Hamiltonian with the same functional form as the initial state. The system ends in a linear combination of the states.
+\end{definition}
+
+\begin{definition}
+	An \emph{adiabatic process} is a process where gradually changing conditions allow the system to adapt its configuration. If the system starts in an eigenstate of the initial Hamiltonian, it will end in the corresponding eigenstate of the final Hamiltonian.
+\end{definition}
+
+The 'gap condition' that appears in theorem \ref{adiabatic-theorem} refers to an additional requiremente: the spectrum of $\hat H(t)$ is \emph{nondegenerate}, meaning there are no two equal eigenvalues at fixed time $t$. This condition is also called the \emph{no-crossing} condition, and allow us to sort the eigenstates using the eigenvalues without any ambiguity.
+
+As a classical annalogy, consider a simple pendulum. If the pendulum's support point is moved, the oscillation of the pendulum may change. In fact, violent changes on the support point will dramatically affect the pendulum's movement, changing it completely. However, if the support point is moved slowly enough, the pendulum will remain unchange. These are examples of diabatic and adiabatic processes respectively.
+
+
+\subsection{Avoided crossing}
+
+
+Let us consider a important physical example known as the \emph{avoided crossing}. Consider a two-state quantum system, i.e. a qubit. Suppose its Hamiltonian to be:
+
+$$
+	H = 
+	\begin{pmatrix}
+		E_1 & 0 \\
+		0 & E_2 
+	\end{pmatrix}
+$$
+
+Whose eigenvalues are $E_1$ and $E_2$, and eigenvectors,
+
+$$
+	|0\ra = 
+	\begin{pmatrix}
+	1 \\
+	0 
+	\end{pmatrix}, \quad
+	|1\ra = 
+	\begin{pmatrix}
+	0 \\
+	1 
+	\end{pmatrix}
+$$
+
+which will be used as our base. Thus, a state vector describing the system may be written as a superposition of both states:
+
+$$ |\varphi\ra = \alpha(t)|0\ra + \beta(t)|1\ra $$
+
+Supposing adiabatic evolution, if the system is prepared in either one of the eigenstates it will remain as such as long as the gap condition is suffied: $E_1 \neq E_2$. However, if $E_1 = E_2$, any superposition of states will be an eigenstate, thus remaining unchanged. Hence, independently of $E_1$ and $E_2$, any system prepared in an eigenstate will remain as such, supposed adiabatic evolution.
+
+Let us consider a $P$ perturbation into our original system. For simplicity we only consider perturbations with degenerated diagonal. Our new Hamiltonian will be the following:
+
+$$
+	H' = H + P =
+	\begin{pmatrix}
+	E_1 & 0 \\
+	0 & E_2 
+	\end{pmatrix} +
+	\begin{pmatrix}
+	0 & \omega \\
+	\overline \omega & 0 
+	\end{pmatrix} = 
+	\begin{pmatrix}
+	E_1 & \omega \\
+	\overline \omega & E_2 
+	\end{pmatrix}
+$$
+
+where $\omega \in \C$. Note that by setting $\omega$, the other value in the antidiagonal is fixed since $H'$ must be Hermitian. By using the characteristic equation we may compute $H'$ eigenvectors:
+
+$$ E_+ = \frac{1}{2}(E_1 + E_2) + \frac{1}{2}\sqrt{(E_1 - E_2)^2 + 4|\omega|^2} $$
+$$ E_- = \frac{1}{2}(E_1 + E_2) - \frac{1}{2}\sqrt{(E_1 - E_2)^2 + 4|\omega|^2} $$
+
+TODO1: Calcular a mano los eigenvalues y vectors a mano,
+TODO2: Explicar que pasa cuando variamos ($E_1 - E_2$) y pintarlo en geogebra bonito
+TODO3: Conclusion: en un qubit siempre se da el gap.
+TODO4: Explicar que pasa en evolucion no adiabatica.
+
+TODO: añadir autoria a las imagenes
 
 
 \section{QUBO and Ising problems}
 
-
-
-
+\subsection{example 1}
+\subsection{example 2}
+\subsection{example 3}
 
 TODO: completar sección
 

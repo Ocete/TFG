@@ -387,7 +387,7 @@ The third postulate of quantum mechanics modulates the evolution of a quantum sy
 Eigenvalues and their associated eigenvectors will usually be denoted with the same letter for simplicity: $\lambda$ and $|\lambda\ra$. We assume the reader is familiar with eigenvectors and values basic notions. For instance, that they may be calculated using the \emph{characteristic equation}: $|I - \lambda A| = 0$.
 
 \begin{definition}
-	A \emph{diagonal representation} of an operator $A$ is a representation $\sum_i \lambda_i |\lambda_i\ra\la\lambda_i|$ where the $|\lambda_i\ra$ form an orthonormal set of A's eigenvectors and $\lambda_i$ are the respective eigenvalues. An operator is said to be \emph{diagonalizable} if it allows a diagonal representation.
+	A \emph{diagonal representation} of an operator $A$ is a representation $\sum_i \lambda_i |\lambda_i\ra\la\lambda_i|$ where the $|\lambda_i\ra$ form an orthonormal set of A's eigenvectors and $\lambda_i$ are the respective eigenvalues. An operator is said to be \emph{diagonalizable} if it allows a diagonal representation. The \emph{spectrum} of an operator is the set of its eigenvalues.
 \end{definition}
 
 \begin{exampleth}
@@ -429,6 +429,7 @@ Since Hermitian and unitary operators are normal, it follows the next
 
 
 \subsection{Postulate 3 statement}
+\label{postulate-3-section}
 
 \begin{postulate}
 	The evolution of a \emph{closed} quantum system is described by a \emph{unitary transformation}. That is, the state $|\varphi\ra$ of the system at time $t_1$ is related to the state $|\varphi'\ra$ of the system at time $t_2$ by a unitary operator $U$ which depends only on the times $t_1$ and $t_2$,
@@ -471,6 +472,7 @@ Just like the first postulate does not provide the state space or state vector o
 The description of the system evolution provided by Postulate 3 only bears information for those fixed times $t_1$ and $t_2$. A continuous time-description of this evolution is provided by the Schrodinger equation, which provides a redefinition of the second postulate.
 
 \begin{postulate 3'}
+\label{postulate-3'}
 	The time evolution of the state of a \emph{closed} quantum system is described by the Schrodinger equation:
 	
 	$$ i \hbar \frac{d|\varphi\ra}{dt} = H|\varphi\ra $$
