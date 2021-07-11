@@ -17,12 +17,16 @@
 3) Paper by Sohn y Nam. 2018 (descargado)
 
 
-# Otros
+# QUBO e Ising:
 
-### Ising formulation of NP problems:
+- **Ising formulation of NP problems**:
 https://www.frontiersin.org/articles/10.3389/fphy.2014.00005/full
 Este es el paper del que os hablaba, formulación en hamiltonianos de Ising para distintos problemas NP, en abstracto. Muy recomendado. 
 
+- **Quantum Bridge Analytics I: A Tutorial on Formulating and Using QUBO Models** (descargado) contiene ejemplos a tope, en aprticular coloreado de Grafos.
+
+- Puede que este paper tambien merezca la pena meterlo, e suna revision bibliografica general sobre los qubos e isings. https://leeds-faculty.colorado.edu/glover/454%20-%20xQx%20survey%20article%20as%20published%202014.pdf
+# Otros
 
 ### Presentación “an introduction to Quantum Computing, D-wave style”, muestra cómo se vende D-wave:
 https://www.fz-juelich.de/ias/jsc/EN/Expertise/Workshops/Conferences/QUAASI16/Programme/Talks/quaasi16-ewald.pdf?__blob=publicationFile

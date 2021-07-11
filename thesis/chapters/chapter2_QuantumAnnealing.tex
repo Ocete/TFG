@@ -55,7 +55,7 @@ Thus, we may define diabatic and adiabatic processes depending on how they adapt
 	An \emph{adiabatic process} is a process where gradually changing conditions allow the system to adapt its configuration. If the system starts in an eigenstate of the initial Hamiltonian, it will end in the corresponding eigenstate of the final Hamiltonian.
 \end{definition}
 
-The 'gap condition' that appears in theorem \ref{adiabatic-theorem} refers to an additional requiremente: the spectrum of $\hat H(t)$ is \emph{nondegenerate}, meaning there are no two equal eigenvalues at fixed time $t$. This condition is also called the \emph{no-crossing} condition, and allow us to sort the eigenstates using the eigenvalues without any ambiguity.
+The 'gap condition' that appears in theorem \ref{adiabatic-theorem} refers to an additional requirement: the spectrum of $\hat H(t)$ is \emph{nondegenerate}, meaning there are no two equal eigenvalues at fixed time $t$. This condition is also called the \emph{no-crossing} condition, and allow us to sort the eigenstates using the eigenvalues without any ambiguity.
 
 As a classical annalogy, consider a simple pendulum. If the pendulum's support point is moved, the oscillation of the pendulum may change. In fact, violent changes on the support point will dramatically affect the pendulum's movement, changing it completely. However, if the support point is moved slowly enough, the pendulum will remain unchange. These are examples of diabatic and adiabatic processes respectively.
 
@@ -112,27 +112,117 @@ $$
 	\end{pmatrix}
 $$
 
-where $\omega \in \C$. Note that by setting $\omega$, the other value in the antidiagonal is fixed since $H'$ must be Hermitian. By using the characteristic equation we may compute $H'$ eigenvectors:
+where $\omega \in \C$. Note that by setting $\omega$, the other value in the antidiagonal is fixed since $H'$ must be Hermitian. By using the characteristic equation we may compute the eigenvalues of $H'$:
 
 $$ E_+ = \frac{1}{2}(E_1 + E_2) + \frac{1}{2}\sqrt{(E_1 - E_2)^2 + 4|\omega|^2} $$
 $$ E_- = \frac{1}{2}(E_1 + E_2) - \frac{1}{2}\sqrt{(E_1 - E_2)^2 + 4|\omega|^2} $$
 
-TODO1: Calcular a mano los eigenvalues y vectors a mano,
-TODO2: Explicar que pasa cuando variamos ($E_1 - E_2$) y pintarlo en geogebra bonito
-TODO3: Conclusion: en un qubit siempre se da el gap.
-TODO4: Explicar que pasa en evolucion no adiabatica.
 
-TODO: añadir autoria a las imagenes
+A continuación quiero añadir una imagen, seguramente como la de \href{https://en.wikipedia.org/wiki/Avoided_crossing}{wikipedia} (figura \ref{temp}):
+
+\begin{figure}[H]
+	\includegraphics[scale=1]{wiki.jpg}
+	\centering
+	\caption{Figura de wikipedia}.
+	\label{temp}
+\end{figure}
+
+He hecho una versión propia en Geogebra, tomando $E_1 = -E_2$ (luego $E_1 + E_2 = 0$ y $E_1 - E_2 = 2E$, he llamado $x \equiv 2E$). En la simulación, podemos ajustar el valor de $\omega$, que he llamado $a$ utilizando el slider, reproduciendo el efecto del gif de \href{https://en.wikipedia.org/wiki/Avoided_crossing}{wikipedia} (figura \ref{temp}):
+
+\href{https://www.geogebra.org/graphing/svkrnu3s}{https://www.geogebra.org/graphing/svkrnu3s}
+
+Sin embargo, me salen las ramas de las hiperbolas giradas 90 grados. Esperaba que la rama superior fuese $E_+$ y la inferior $E_-$ pero cada rama tiene parte de las dos. Cual es mi fallo al pintar las gráficas?
+
+%TODO2: Explicar que pasa cuando variamos ($E_1 - E_2$) y pintarlo en geogebra bonito
+%TODO3: Conclusion: en un qubit siempre se da el gap.
+%TODO4: Explicar que pasa en evolucion no adiabatica.
+%TODO5: relacion con quantum annealing
 
 
-\section{QUBO and Ising problems}
+%TODO: añadir autoria a las imagenes
+
+
+
+\subsection{Solving problems using adiabatic evolution}
+
+
+In order to use adiabatic evolution to solve optimization problems we will configure our own Hamiltonian for the system. In particular, the Hamiltonian will be a linear combination of two Hamiltonians:
+
+$$ H(t) = f(t) \cdot H_{initial} + g(t) \cdot H_{final} \quad \forall t \in [t_{initial}, t_{final}] $$
+
+where $f,g: [t_{initial}, t_{final}] \longrightarrow \R^+_0$. The initial Hamiltonian, $H_{initial}$, will be an easy configuration so we may prepare our system to start in the ground state of $H_{initial}$. The final Hamiltonian, $H_{final}$, will encapsulate the cost function of our problem such that the minimum value is reached in the ground state. 
+
+Functions $f$ and $g$ fulfil that $g(t_{initial}) = f(t_{final}) = 0$. When times elapses and supposing adiabatic evolution, the system will stay on the ground state of $H$ and by $t = t_{final}$, the system will be in the $H_{final}$'s ground state, codifying the minimum of our cost function.
+
+However, we cannot always grant the necessary conditions for perfect adiabatic evolution. In some cases, the gap condition does not suffies at the system will jump with certain probability to other eigenstates, providing suboptimal solutions but still useful ones. This depends of the eigenvalues of the final Hamiltonian, which at the same time entirely depends on the problem being studied.
+
+The only question remaining is how to encode our cost function in a Hamiltonian.
+
+
+\section{QUBO problems and Ising models}
+
+
+The QUBO and Ising problems can be easily represented with a Hamiltonian. In practice, non-optimization problems are transformed into optimization problems and then codified as either QUBO or Ising to be solved using quantum annealing. Let us explore this type of problems and some examples of these transformations.
+
+Let $B = \{0,1\}$, $[n] = \{1, 2, \cdot, n\}$ and $f: \B \longrightarrow \R $ be a quadratic polynomial over binary variables:
+
+$$ f_Q(x) = \sum_{i=1}^n \sum_{j=1}^i q_{ij} x_i x_j $$
+
+where $x_i \in \B$ for $i \in [n]$ and the coefficients $q_{ij} \in \R$ for $1 \leq j \leq i \leq n$. A \textbf{quadratic unconstrained binary optimization (QUBO) problem} consists of finding a binary vector $x'$ such that $x'$ is a minimum of $f$:
+
+$$ x' = \underset {x \in \B^n }{\arg \min} ~ f(x) $$
+
+QUBO problems can be formulated in its more compact matrix form:
+
+$$ f_Q(x) = x^T Q x $$
+
+where $Q$ is a $n \times n$ symmetric matrix containing $q_{ii}$ and its diagonal and $q_{ij} / 2$ in position $(i,j)$ where $i \neq j$. Let us explore some simple properties of QUBO problems:
+
+\begin{itemize}
+	\item Multiplying the coefficients $q_{ij}$ by a constant $a \in \R^+$ scales the output by exactly $a$. Thus, $x'$ remains the minimum:
+	
+		$$ f_{aQ}(x) = \sum_{i<j} (a q_{ij}) x_i x_j  = a \sum_{i<j} q_{ij} x_i x_j = a f_Q(x) $$
+		
+	\item Flipping the sign of the coefficients flips the sign of $f_Q(x)$. Thus, $x'$ is the maximum of $f_{-Q}(x)$
+	
+		$$ f_{-Q}(x) = \sum_{i<j} (-q_{ij}) x_i x_j  = - \sum_{i<j} q_{ij} x_i x_j = -f_Q(x) $$
+		
+	\item If all coefficients are positive the minimum is $x = (0, \cdots, 0)$. Analogously, if all coefficients are negative, the minimum is $x = (1, \cdots, 1)$. 
+\end{itemize}
+
+The \textbf{Ising models}, on the other hand, find their inspiration in phisics. They are named after the phisic Ernst Ising who solved the one-dimensional model in his 1924 thesis \cite{Ising1924}. They are stated using a Hamiltonian function $H: \{-1, 1\}^n \longrightarrow \R$:
+
+$$ H(\sigma) = - \sum_{\la i ~ j \ra} J_{ij} \sigma_i \sigma_j - \mu \sum_j h_j \sigma_j $$
+
+with parameters $h_j, J_{ij}, \mu \in \R$. The \emph{spin variables} $\sigma_i$ are in $\{-1, 1\}$ instead of $\B$. Moreover, the spin variables are arranged in a graph, tipically a \emph{lattice}, where the local structure repeats periodically. Only pair of variables $\la i ~ j \ra$ which are neighbor nodes in the graph may have non-zero coefficients $J_{ij}$. Let us see the connection between QUBO problems and Ising models by using the identity $\sigma \mapsto 2x -1$:
+
+\begin{equation*}
+	\begin{split}
+		f(x)	& = \sum_{\la i ~ j \ra} - J_{ij} (2x_i - 1) (2x_j - 1) - \sum_j \mu h_j (2x_j - 1) \\
+				& = \sum_{\la i ~ j \ra} - 4J_{ij} x_i x_j + 2J_{ij} x_i + 2J_{ij} x_j - J_{ij} + \sum_j 2 \mu h_j x_j - \mu h_j \qquad \text{using }  x_j = x_jx_j \\
+				& = \sum_{i=1}^n \sum_{j=1}^i q_{ij} x_i x_j + C
+	\end{split}
+\end{equation*}
+
+where 
+
+\begin{equation*}
+	q_{ij} = 
+		\begin{dcases}
+			-4 J_{ij} 																	& \text{if } i \neq j \\
+			\sum_{\la k ~ i \ra} 2 J_{ki} + \sum_{\la i ~ l \ra} 2 J_{il} + 2 \mu h_i	& \text{if } i = j
+		\end{dcases}
+\end{equation*}
+
+$$ C = - \sum_{\la i ~ j \ra} J_{ij} - \mu \sum h_j $$
+
+Since adding a constat does not change the minimum $x'$, it can be omited during optimization and only be used for transforming one type of problem into another.
+
+In practice, a given problem would be translated into either QUBO or Ising. It is useful to learn both type of problems since they both are popular among the literature. Let us deepen it the translation of different NP problems.
 
 \subsection{example 1}
 \subsection{example 2}
 \subsection{example 3}
-
-TODO: completar sección
-
 
 
 
