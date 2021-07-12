@@ -218,11 +218,26 @@ $$ C = - \sum_{\la i ~ j \ra} J_{ij} - \mu \sum h_j $$
 
 Since adding a constat does not change the minimum $x'$, it can be omited during optimization and only be used for transforming one type of problem into another.
 
-In practice, a given problem would be translated into either QUBO or Ising. It is useful to learn both type of problems since they both are popular among the literature. Let us deepen it the translation of different NP problems.
+In practice, a given problem would be translated into either QUBO or Ising. It is useful to learn both type of problems since they both are popular among the literature. Let us deepen it the translation of different NP problems. These examples are from \cite{Glover2019} and \cite{Lucas2014}. For an extense literature review on QUBO and Ising translations of NP problems refer to \cite{Kochenberger2014}.
 
-\subsection{example 1}
-\subsection{example 2}
-\subsection{example 3}
+\subsection{The Max Cut problem}
+
+One of the first famous problems that was encoded as a QUBO was the max-cut problem due its natural translation. It reads as follows: Given an undirected graph $G(V, E)$ with vertex set $V$ and edge set $E$, seek a partition of $V$ such that the number of edges between both sets is a large as possible.
+
+The max-cut problem can be modeled by setting variable $x_j = 1$ if vertex $j$ is in one set and $x_j = 0$ if it is in the other one, for every vertex $j$ in $V$. The quantity $C_{ij} \equiv (x_i + x_j - 2 x_i x_j)$ marks whether the edge $(i,j)$ is in the cut. That is, $C_{ij} = 1$ if and only if the vertices $x_i$ and $x_j$ are in different sets.
+
+Thus, maximazing the number of edges in the cut is encoded as a QUBO as:
+
+$$ \text{Maximize } \sum_{(i,j) \in E} \big( x_i + x_j - 2 x_i x_j \big) $$
+
+TODO:numerical example
+%Pag. 8 de 46
+
+
+\subsection{Graph Coloring}
+\subsection{Salesman}
+
+\subsection{3-SAT}
 
 
 

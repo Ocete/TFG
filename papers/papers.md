@@ -26,6 +26,8 @@ Este es el paper del que os hablaba, formulación en hamiltonianos de Ising para
 - **Quantum Bridge Analytics I: A Tutorial on Formulating and Using QUBO Models** (descargado) contiene ejemplos a tope, en aprticular coloreado de Grafos.
 
 - Puede que este paper tambien merezca la pena meterlo, e suna revision bibliografica general sobre los qubos e isings. https://leeds-faculty.colorado.edu/glover/454%20-%20xQx%20survey%20article%20as%20published%202014.pdf
+
+
 # Otros
 
 ### Presentación “an introduction to Quantum Computing, D-wave style”, muestra cómo se vende D-wave:
@@ -44,14 +46,12 @@ https://en.wikipedia.org/wiki/Adiabatic_theorem
 - A quantum adiabatic evolution algorithm applied to random instances of an NP-complete problem (2001) (descargado)
 
 
-
 ### D-Wave vs QMC
 
 - Quantum versus classical annealing of Ising spin glasses: https://science.sciencemag.org/content/sci/348/6231/215.full.pdf
 
 - Experimental, D-wave >>>> SA.
 https://journals.aps.org/prx/abstract/10.1103/PhysRevX.6.031015
-
 
 
 ### Presentación LANL sobre el proceso de optimización combinatoria con Quantum Annealers (ellos tienen un D-wave), señalan la densidad del grafo/hamiltoniano como uno de los cuellos de botella en la implementación de problemas grandes:  
