@@ -218,20 +218,75 @@ $$ C = - \sum_{\la i ~ j \ra} J_{ij} - \mu \sum h_j $$
 
 Since adding a constat does not change the minimum $x'$, it can be omited during optimization and only be used for transforming one type of problem into another.
 
-In practice, a given problem would be translated into either QUBO or Ising. It is useful to learn both type of problems since they both are popular among the literature. Let us deepen it the translation of different NP problems. These examples are from \cite{Glover2019} and \cite{Lucas2014}. For an extense literature review on QUBO and Ising translations of NP problems refer to \cite{Kochenberger2014}.
+In practice, a given problem would be translated into either QUBO or Ising. It is useful to learn both type of problems since they both are popular among the literature. Let us deepen it the translation of different NP problems. The resolution of QUBO and Ising models will not be study, but only the These examples are from \cite{Glover2019} and \cite{Lucas2014}. For an extense literature review on QUBO and Ising translations of NP problems refer to \cite{Kochenberger2014}.
 
 \subsection{The Max Cut problem}
 
 One of the first famous problems that was encoded as a QUBO was the max-cut problem due its natural translation. It reads as follows: Given an undirected graph $G(V, E)$ with vertex set $V$ and edge set $E$, seek a partition of $V$ such that the number of edges between both sets is a large as possible.
 
-The max-cut problem can be modeled by setting variable $x_j = 1$ if vertex $j$ is in one set and $x_j = 0$ if it is in the other one, for every vertex $j$ in $V$. The quantity $C_{ij} \equiv (x_i + x_j - 2 x_i x_j)$ marks whether the edge $(i,j)$ is in the cut. That is, $C_{ij} = 1$ if and only if the vertices $x_i$ and $x_j$ are in different sets.
+The max-cut problem can be modeled by setting variable $x_j = 1$ if vertex $j$ is in one set and $x_j = 0$ if it is in the other one, for every vertex $j$ in $V$. The quantity $(x_i + x_j - 2 x_i x_j)$ marks whether the edge $(i,j)$ is in the cut. That is, $(x_i + x_j - 2 x_i x_j) = 1$ if the vertices $x_i$ and $x_j$ are in different sets, and $0$ otherwise.
 
 Thus, maximazing the number of edges in the cut is encoded as a QUBO as:
 
-$$ \text{Maximize } \sum_{(i,j) \in E} \big( x_i + x_j - 2 x_i x_j \big) $$
+$$ \text{Maximize } f(x) = \sum_{(i,j) \in E} \big( x_i + x_j - 2 x_i x_j \big) $$
 
-TODO:numerical example
-%Pag. 8 de 46
+
+\newparagraph{Numerical example}
+
+
+Consider the following graph:
+
+\begin{figure}[H]
+	\includegraphics[scale=1]{graphs/max-cut-example.pdf}
+	\centering
+\end{figure}
+
+We would have five variables: $x_1, \cdots, x_5$. The cost associated to edge $(1,2)$ is $x_1 + x_2 - 2 x_1 x_2$. By repeating this process for every edge in the graph we obtain the cost function:
+
+$$ \text{Maximize  } f(x) = (x_1 + x_2 - 2 x_1 x_2) + (x_1 + x_3 - 2 x_1 x_3) + (x_2 + x_4 - 2 x_2 x_4) $$
+$$ +(x_3 + x_4 - 2 x_3 x_4) + (x_3 + x_5 - 2 x_3 x_5) + (x_4 + x_5 - 2 x_4 x_5) $$
+
+or equivalently:
+
+$$ \text{Maximize  } f(x) = 2x_1 + 2x_2 + 3x_3 + 3x_4 + 2x_5$$ 
+$$ - 2x_1x_2 - 2x_1x_3 - 2x_2x_4 - 2x_3x_4 - 2x_3x_5 - 2x_4x_5 $$
+
+We can transform the problem using the following symmetric matrix:
+
+$$
+	Q = 
+	\begin{pmatrix}
+	2 & -1 & -1 & 0 & 0 \\
+	-1 & 2 & 0 & -1 & 0 \\
+	-1 & 0 & 3 & -1 & -1 \\
+	0 & -1 & -1 & 3 & -1 \\
+	0 & 0 & -1 & -1 & 2
+	\end{pmatrix}
+$$
+
+Yielding the following compact form:
+
+$$ \text{Maximize  } f_Q(x) = x^T Q x$$ 
+
+The minimum value of $f_Q(x)$ is $x = (0, 1, 1, 0, 0)$. Thus, vertices $2$ and $3$ are in one set and vertices $1$, $4$ and $5$ are in the other one.
+
+In order to encode the max-cut problem as a QUBO we made use of a transformation: \emph{$x_i$ and $x_j$ should not be in the same set} translated into the penalty $P(x_i + x_j - 2 x_i x_j)$, which might be counternituive at first. Some similar transformations are encoded in table \ref{penalties-table}, 
+
+\begin{table}[h]
+	\label{penalties-table}
+	\centering
+	\begin{tabular}{cc}
+		Classical Constraint & Equivalent Penalty   \\ \hline
+		$x + y \leq 1$       & $P(xy)$              \\
+		$x + y \geq 1$       & $P(1 - x - y + xy)$  \\
+		$x + y = 1$          & $P(1 - x - y + 2xy)$ \\
+		$x \leq y$           & $P(x - xy)$          \\
+		$x_1 + x_2 + x_3$    & $P(xy)$              \\
+		$x = y$              & $P(x + y - 2xy)$    
+	\end{tabular}
+\end{table}
+
+% TODO: finish description of the table.
 
 
 \subsection{Graph Coloring}
