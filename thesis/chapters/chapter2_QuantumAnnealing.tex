@@ -164,11 +164,11 @@ The only question remaining is how to encode our cost function in a Hamiltonian.
 
 The QUBO and Ising problems can be easily represented with a Hamiltonian. In practice, non-optimization problems are transformed into optimization problems and then codified as either QUBO or Ising to be solved using quantum annealing. Let us explore this type of problems and some examples of these transformations.
 
-Let $B = \{0,1\}$, $[n] = \{1, 2, \cdot, n\}$ and $f: \B \longrightarrow \R $ be a quadratic polynomial over binary variables:
+Let $B = \{0,1\}$ and $f: \B \longrightarrow \R $ be a quadratic polynomial over binary variables:
 
 $$ f_Q(x) = \sum_{i=1}^n \sum_{j=1}^i q_{ij} x_i x_j $$
 
-where $x_i \in \B$ for $i \in [n]$ and the coefficients $q_{ij} \in \R$ for $1 \leq j \leq i \leq n$. A \textbf{quadratic unconstrained binary optimization (QUBO) problem} consists of finding a binary vector $x'$ such that $x'$ is a minimum of $f$:
+where $x_i \in \B$ for $i \in \{1, \cdots, n\}$ and the coefficients $q_{ij} \in \R$ for $1 \leq j \leq i \leq n$. A \textbf{quadratic unconstrained binary optimization (QUBO) problem} consists of finding a binary vector $x'$ such that $x'$ is a minimum of $f$:
 
 $$ x' = \underset {x \in \B^n }{\arg \min} ~ f(x) $$
 
@@ -220,7 +220,9 @@ Since adding a constat does not change the minimum $x'$, it can be omited during
 
 In practice, a given problem would be translated into either QUBO or Ising. It is useful to learn both type of problems since they both are popular among the literature. Let us deepen it the translation of different NP problems. The resolution of QUBO and Ising models will not be study, but only the These examples are from \cite{Glover2019} and \cite{Lucas2014}. For an extense literature review on QUBO and Ising translations of NP problems refer to \cite{Kochenberger2014}.
 
+
 \subsection{The Max Cut problem}
+
 
 One of the first famous problems that was encoded as a QUBO was the max-cut problem due its natural translation. It reads as follows: Given an undirected graph $G(V, E)$ with vertex set $V$ and edge set $E$, seek a partition of $V$ such that the number of edges between both sets is a large as possible.
 
@@ -270,31 +272,96 @@ $$ \text{Maximize  } f_Q(x) = x^T Q x$$
 
 The minimum value of $f_Q(x)$ is $x = (0, 1, 1, 0, 0)$. Thus, vertices $2$ and $3$ are in one set and vertices $1$, $4$ and $5$ are in the other one.
 
-In order to encode the max-cut problem as a QUBO we made use of a transformation: \emph{$x_i$ and $x_j$ should not be in the same set} translated into the penalty $P(x_i + x_j - 2 x_i x_j)$, which might be counternituive at first. Some similar transformations are encoded in table \ref{penalties-table}, 
+
+\subsection{Graph Coloring}
+
+
+Consider the following problem: Given a graph $G$ and $K$-colors, assign a single color to each vertex in $V$ such that no two adjacent vertices have the same color. Let $x_{ij}$ be a binary variable that is set to $1$ if and only if the $i$-th node is assigned the color $j$-th. We may develop the following two constraints. First, since all nodes must be colored exactly once:
+
+$$ \sum_{j=1}^K x_{ij} = 1 \quad \forall i \in \{1, \cdots, n\} $$
+
+where $n$ is the number of nodes. Moreover, the condition that two adjacent nodes cannot have the same color is translated into:
+
+$$ x_{ic} + x_{jc} \leq 1 \quad \forall c \in \{1, \cdots, K\} $$
+
+for every pair of adjancent nodes $(i,j)$ in $G$.
+
+Thus, by finding a vector configuration for the variables $x_{ij}$ that satisfy this constraint, we find a solution of the graph coloring problem. This is called a satisfiability problem, and not an optimization one as QUBO required it to be. In fact, QUBO problems are also \emph{unconstrained}, and our problem has many constrains. Can this formulation of the graph coloring problem be encoded as a QUBO?
+
+The answer is positive. Furthermore, any quadratic optimization problem with linear constraints and any linear satisfiability problem may be transformed into a QUBO. Let us first study a simple case. Consider the following problem:
+
+\begin{gather*}
+	\text{Minimize } f(x_1, x_2) \\
+	\text{subject to the constraint} \\
+	x_1 + x_2 \leq 1
+\end{gather*}
+
+where $x_1, x_2 \in \B$. We may transform our linear constraint into a penalty $P(x_1x_2)$ for some positive scalar $P$. This term equals $0$ if and only if our constraint is satisfied by the variables. Thus, by adding the penalty to our cost function, for $P$ large enough, the problem
+
+\begin{gather*}
+\text{Minimize } f(x_1, x_2) + Px_1x_2
+\end{gather*}
+
+will minimize $f(x_1, x_2)$ and, at the same time, satisfy the constraint. Namely, the constraint translates into adding a non-negativa value to the cost function. Some other useful translations can be found in table \ref{penalties-table}. In general, if the cost function is being minimized we may substitute constraints by non-negative terms that only equal zero if they are satisfied, multiplied by a large-enough positive value $P$. Thus, we may remove the associated constraints by simply adding these terms to the cost function. 
 
 \begin{table}[h]
 	\label{penalties-table}
 	\centering
 	\begin{tabular}{cc}
-		Classical Constraint & Equivalent Penalty   \\ \hline
-		$x + y \leq 1$       & $P(xy)$              \\
-		$x + y \geq 1$       & $P(1 - x - y + xy)$  \\
-		$x + y = 1$          & $P(1 - x - y + 2xy)$ \\
-		$x \leq y$           & $P(x - xy)$          \\
-		$x_1 + x_2 + x_3$    & $P(xy)$              \\
-		$x = y$              & $P(x + y - 2xy)$    
+		Classical Constraint 		& Equivalent Penalty   			\\ \hline
+		$x + y \leq 1$       		& $P(xy)$              			\\
+		$x + y \geq 1$       		& $P(1 - x - y + xy)$  			\\
+		$x + y = 1$          		& $P(1 - x - y + 2xy)$ 			\\
+		$x \leq y$       			& $P(x - xy)$          			\\
+		$x_1 + x_2 + x_3 \leq 1$	& $P(x_1x_2 + x_1x_3 + x_2x_3)$	\\
+		$x = y$              		& $P(x + y - 2xy)$    
 	\end{tabular}
 \end{table}
 
-% TODO: finish description of the table.
+Specifically, let us study the more general case:
+
+$$ \text{Minimize } f(x) = x^T C x $$
+$$ \text{subject to the constraints} $$
+$$ Ax = b $$
+
+where $x \in \B^n$, $k$ is the number of constraints, $b \in \R^k$, $C$ is a $n \times n$ matrix and $A$ is a $k \times n$ matrix. This accomodates to both linear and quadratic cost function since elements in the diagonal are $c_{ii} x_i^2 = c_{ii} x_i$. For a positive scalar $P$, the quadratic penalty $P (Ax - b)^T (Ax - b)$ is added to the cost function to obtain:
+
+\begin{equation*}
+	\begin{split}
+		f'(x)	& = x^T C x + P (Ax - b)^T (Ax - b) \\
+				& = x^T C x + P (x^TA^TAx - x^TA^Tb - b^TAx + b^Tb) \\
+				& = x^T C x + x^T D x + c \\
+				& = x^T Q x + c 
+	\end{split}
+\end{equation*}
+
+where $D = P(A^TA)$, $c = P(- x^TA^Tb - b^TAx + b^Tb)$ and $Q = C + D$. Since the constant $c$ does not affect where the minimum is reached, $f$ and $f'$ share this minimum. Therefore, we may simply solve:
+
+$$ \text{Minimize } f(x) = x^T Q x $$
+
+which is a QUBO problem.
+
+In this development we only considered equality constraints. There is also a general method to transform inequality constraints into equality ones by introducing \emph{slack variables} \cite{Hull2003}. In practice, the general case will not be necessary since the constraints are usually quite simple.
 
 
-\subsection{Graph Coloring}
+
+
+
+
+% TODO explain satisfability problems
+% TODO explain the graph coloring example
+% TODO split the graph coloring section into two new sections
+
+
 \subsection{Salesman}
+
+
+% TODO finish section
 
 \subsection{3-SAT}
 
 
+% TODO finish section
 
 
 \section{D-Wave Systems}
