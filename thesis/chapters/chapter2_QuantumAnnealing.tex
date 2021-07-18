@@ -273,22 +273,12 @@ $$ \text{Maximize  } f_Q(x) = x^T Q x$$
 The minimum value of $f_Q(x)$ is $x = (0, 1, 1, 0, 0)$. Thus, vertices $2$ and $3$ are in one set and vertices $1$, $4$ and $5$ are in the other one.
 
 
-\subsection{Graph Coloring}
+\subsection{General translation method}
 
 
-Consider the following problem: Given a graph $G$ and $K$-colors, assign a single color to each vertex in $V$ such that no two adjacent vertices have the same color. Let $x_{ij}$ be a binary variable that is set to $1$ if and only if the $i$-th node is assigned the color $j$-th. We may develop the following two constraints. First, since all nodes must be colored exactly once:
+The previous problem was naturally transform  into QUBO due to its particular constraints. However, can any quadratic optimization problem be encoded as a QUBO?
 
-$$ \sum_{j=1}^K x_{ij} = 1 \quad \forall i \in \{1, \cdots, n\} $$
-
-where $n$ is the number of nodes. Moreover, the condition that two adjacent nodes cannot have the same color is translated into:
-
-$$ x_{ic} + x_{jc} \leq 1 \quad \forall c \in \{1, \cdots, K\} $$
-
-for every pair of adjancent nodes $(i,j)$ in $G$.
-
-Thus, by finding a vector configuration for the variables $x_{ij}$ that satisfy this constraint, we find a solution of the graph coloring problem. This is called a satisfiability problem, and not an optimization one as QUBO required it to be. In fact, QUBO problems are also \emph{unconstrained}, and our problem has many constrains. Can this formulation of the graph coloring problem be encoded as a QUBO?
-
-The answer is positive. Furthermore, any quadratic optimization problem with linear constraints and any linear satisfiability problem may be transformed into a QUBO. Let us first study a simple case. Consider the following problem:
+The answer is positive. Furthermore, any quadratic optimization problem with linear constraints may be transformed into a QUBO. Let us first study a simple case. Consider the following problem:
 
 \begin{gather*}
 	\text{Minimize } f(x_1, x_2) \\
@@ -299,23 +289,26 @@ The answer is positive. Furthermore, any quadratic optimization problem with lin
 where $x_1, x_2 \in \B$. We may transform our linear constraint into a penalty $P(x_1x_2)$ for some positive scalar $P$. This term equals $0$ if and only if our constraint is satisfied by the variables. Thus, by adding the penalty to our cost function, for $P$ large enough, the problem
 
 \begin{gather*}
-\text{Minimize } f(x_1, x_2) + Px_1x_2
+	\text{Minimize } f(x_1, x_2) + Px_1x_2
 \end{gather*}
 
 will minimize $f(x_1, x_2)$ and, at the same time, satisfy the constraint. Namely, the constraint translates into adding a non-negativa value to the cost function. Some other useful translations can be found in table \ref{penalties-table}. In general, if the cost function is being minimized we may substitute constraints by non-negative terms that only equal zero if they are satisfied, multiplied by a large-enough positive value $P$. Thus, we may remove the associated constraints by simply adding these terms to the cost function. 
 
 \begin{table}[h]
-	\label{penalties-table}
 	\centering
 	\begin{tabular}{cc}
 		Classical Constraint 		& Equivalent Penalty   			\\ \hline
 		$x + y \leq 1$       		& $P(xy)$              			\\
 		$x + y \geq 1$       		& $P(1 - x - y + xy)$  			\\
 		$x + y = 1$          		& $P(1 - x - y + 2xy)$ 			\\
-		$x \leq y$       			& $P(x - xy)$          			\\
+		$x \leq y$       			& $P(x - xy)$      
+		
+		   			\\
 		$x_1 + x_2 + x_3 \leq 1$	& $P(x_1x_2 + x_1x_3 + x_2x_3)$	\\
 		$x = y$              		& $P(x + y - 2xy)$    
 	\end{tabular}
+	\caption{}
+	\label{penalties-table}
 \end{table}
 
 Specifically, let us study the more general case:
@@ -329,9 +322,9 @@ where $x \in \B^n$, $k$ is the number of constraints, $b \in \R^k$, $C$ is a $n 
 \begin{equation*}
 	\begin{split}
 		f'(x)	& = x^T C x + P (Ax - b)^T (Ax - b) \\
-				& = x^T C x + P (x^TA^TAx - x^TA^Tb - b^TAx + b^Tb) \\
-				& = x^T C x + x^T D x + c \\
-				& = x^T Q x + c 
+		& = x^T C x + P (x^TA^TAx - x^TA^Tb - b^TAx + b^Tb) \\
+		& = x^T C x + x^T D x + c \\
+		& = x^T Q x + c 
 	\end{split}
 \end{equation*}
 
@@ -343,14 +336,116 @@ which is a QUBO problem.
 
 In this development we only considered equality constraints. There is also a general method to transform inequality constraints into equality ones by introducing \emph{slack variables} \cite{Hull2003}. In practice, the general case will not be necessary since the constraints are usually quite simple.
 
+Finally, we may also consider satisfiability problems. That is, given a set of constrains for the variables, find a configuration of them such that all the constraints are satisfied. If the constraints are linear, these problems may be transformed into QUBO by setting the cost function as constant and following the same method. Suppose the constraints over $x$ can be written as $Ax = b$. The equivalent optimization problem is written as:
+
+$$ \text{Minimize } f(x) = 0 $$
+$$ \text{subject to the constraints} $$
+$$ Ax = b $$
+
+Any solution satisfaying the constraint will yield $0$ on the penalties, thus minimizing the transformed cost function $f'(x) = x^T Q x$. 
+
+Let us explore some more complicated examples to expand this ideas.
 
 
+\subsection{Graph Coloring}
 
 
+Consider the following problem: Given a graph $G$ and $K$-colors, assign a single color to each vertex in $V$ such that no two adjacent vertices have the same color. Let $x_{ij}$ be a binary variable that is set to $1$ if and only if the $i$-th node is assigned the color $j$-th. We may develop the following two constraints. First, since all nodes must be colored exactly once:
 
-% TODO explain satisfability problems
-% TODO explain the graph coloring example
-% TODO split the graph coloring section into two new sections
+$$ \sum_{j=1}^K x_{ij} = 1 \quad \forall i \in \{1, \cdots, n\} $$
+
+where $n$ is the number of nodes. Moreover, the condition that two adjacent nodes cannot have the same color is translated into:
+
+$$ x_{ic} + x_{jc} \leq 1 \quad \forall c \in \{1, \cdots, K\} $$
+
+for every pair of adjancent nodes $(i,j)$ in $G$.
+
+Thus, by finding a vector configuration for the variables $x_{ij}$ that satisfy this constraint, we find a solution of the graph coloring problem. This is what we introduced before as a satisfiability problem. Therefore, 
+it may be written as:
+
+$$ \text{Minimize } f(x) = 0 $$
+$$ \text{subject to the constraints} $$
+$$ \sum_{j=1}^K x_{ij} = 1 \quad \forall i \in \{1, \cdots, n\} \quad \text{and}$$
+$$ x_{ic} + x_{jc} \leq 1 \quad \forall c \in \{1, \cdots, K\} \quad \text{for all adjacent nodes i and j}$$
+
+
+\newparagraph{Numerical Example}
+
+
+Given the following graph, find a coloring using three colors.
+
+\begin{figure}[H]
+	\includegraphics[scale=1]{graphs/graph-coloring-example.pdf}
+	\centering
+\end{figure}
+
+For this particular graph there are $15$ variables $x_{ij}$ for all $i \in \{1, \cdots, 5\}$ and for all $j \in \{1, 2, 3\}$. The associated constraints are:
+
+$$ x_{i1} + x_{i2} + x_{i3} = 1 \quad \forall i \in \{1, \cdots, 5\} $$
+$$ x_{ic} + x_{jc} \leq 1 \quad \forall c \in \{1, 2, 3\} \quad \text{for all adjacent nodes i and j} $$
+
+a total of $26$: $5$ for  assigning one and only one color to each node, and $3$ additional ones per edge in the graph ($7$) for no adjacent equally colored nodes. First, let us rename our variables from $1$ to $15$ as follows:
+
+$$ (x_{11}, x_{12}, x_{13}, x_{21}, x_{22}, x_{23}, x_{31},\dots, x_{52}, x_{53}) =
+	(x_1, x_2, x_3, x_4, x_5, x_6, x_7, \dots, x_{15}, x_{16}) $$
+
+The first set of constraints may be substitued by $P(x_{i1} + x_{i2} + x_{i3} - 1)^2$, which only equals $0$ if the constraint is satisfied. For instance, for the first node $P(x_1 + x_2 + x_3 - 1)^2$ is tranformed to $P(- x_1 - x_2 - x_3 + 2 x_1 x_2 + 2 x_1 x_3 + 2 x_2 x_3) + P$. By chosing a value for $P=4$ and dropping the constant we can  insert these penalties into an under developed $Q$ matrix:
+
+$$
+Q = 
+\left(
+\begin{array}{*{15}c}
+	-4 & 4 & 4 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+	4 & -4 & 4 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+	4 & 4 & -4 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+	0 & 0 & 0 & -4 & 4 & 4 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+	0 & 0 & 0 & 4 & -4 & 4 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+	0 & 0 & 0 & 4 & 4 & -4 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+	0 & 0 & 0 & 0 & 0 & 0 & -4 & 4 & 4 & 0 & 0 & 0 & 0 & 0 & 0 \\
+	0 & 0 & 0 & 0 & 0 & 0 & 4 & -4 & 4 & 0 & 0 & 0 & 0 & 0 & 0 \\
+	0 & 0 & 0 & 0 & 0 & 0 & 4 & 4 & -4 & 0 & 0 & 0 & 0 & 0 & 0 \\
+	0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & -4 & 4 & 4 & 0 & 0 & 0 \\
+	0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 4 & -4 & 4 & 0 & 0 & 0 \\
+	0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 4 & 4 & -4 & 0 & 0 & 0 \\
+	0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & -4 & 4 & 4 \\
+	0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 4 & -4 & 4 \\
+	0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 4 & 4 & -4 
+\end{array}
+\right)
+$$
+
+Secondly, in order to transform $x + y \leq 1$ we can refer to table \ref{penalties-table} and use $P(xy)$. We add these penalties to the previous matrix in the proper places:
+
+$$
+Q = 
+\left(
+\begin{array}{*{15}c}
+-4 & 4 & 4 & 2 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 2 & 0 & 0 \\
+4 & -4 & 4 & 0 & 2 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 2 & 0 \\
+4 & 4 & -4 & 0 & 0 & 2 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 2 \\
+2 & 0 & 0 & -4 & 4 & 4 & 2 & 0 & 0 & 2 & 0 & 0 & 2 & 0 & 0 \\
+0 & 2 & 0 & 4 & -4 & 4 & 0 & 2 & 0 & 0 & 2 & 0 & 0 & 2 & 0 \\
+0 & 0 & 2 & 4 & 4 & -4 & 0 & 0 & 2 & 0 & 0 & 2 & 0 & 0 & 2 \\
+0 & 0 & 0 & 2 & 0 & 0 & -4 & 4 & 4 & 2 & 0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 2 & 0 & 4 & -4 & 4 & 0 & 2 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 & 2 & 4 & 4 & -4 & 0 & 0 & 2 & 0 & 0 & 0 \\
+0 & 0 & 0 & 2 & 0 & 0 & 2 & 0 & 0 & -4 & 4 & 4 & 2 & 0 & 0 \\
+0 & 0 & 0 & 0 & 2 & 0 & 0 & 2 & 0 & 4 & -4 & 4 & 0 & 2 & 0 \\
+0 & 0 & 0 & 0 & 0 & 2 & 0 & 0 & 2 & 4 & 4 & -4 & 0 & 0 & 2 \\
+2 & 0 & 0 & 2 & 0 & 0 & 0 & 0 & 0 & 2 & 0 & 0 & -4 & 4 & 4 \\
+0 & 2 & 0 & 0 & 2 & 0 & 0 & 0 & 0 & 0 & 2 & 0 & 4 & -4 & 4 \\
+0 & 0 & 2 & 0 & 0 & 2 & 0 & 0 & 0 & 0 & 0 & 2 & 4 & 4 & -4 
+\end{array}
+\right)
+$$
+
+Since the matrix above incorporate all the constraints, finding a graph coloring is equivalent to finding a minimum of:
+
+$$ \text{Minimize } f(x) = x^T Q x $$
+
+Solving this model yields $x_2 = x_4 = x_9 = x_{11} = x_{15} = 1$, and $0$ for the rest of the variables. Meaning, nodes $1$ and $4$ are assigned color number $2$, node $2$ is assigned color number $1$, and nodes $3$ and $5$ are assigned color number $3$.
+
+As a final remark, this method of graph coloring has proven to be computationally useful for graphs with up to $450$ nodes and $9757$ edges \cite{Kochenberger2005}.
 
 
 \subsection{Salesman}
