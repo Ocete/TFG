@@ -77,11 +77,13 @@ Convert adjacency matrix of pair-wise overlap for TSP to QUBO matrix of TSP
 def tspAdjM_to_quboAdjM(tspAdjM, p0, p1, p2):
 	n_reads = len(tspAdjM)
 	# Initialize
-	Q_matrix = np.zeros((n_reads**2,n_reads**2)) # Qubit index semantics: {c(0)t(0) |..| c(i)-t(j) | c(i)t(j+1) |..| c(i)t(n-1) | c(i+1)t(0) |..| c(n-1)t(n-1)}
+	Q_matrix = np.zeros((n_reads**2,n_reads**2)) # Qubit index semantics: {c(0)t(0) |..| c(i)t(j) | c(i)t(j+1) |..| c(i)t(n-1) | c(i+1)t(0) |..| c(n-1)t(n-1)}
+	
 	# Assignment reward (self-bias)
 	p0 = -1.6
 	for ct in range(0,n_reads**2):
 		Q_matrix[ct][ct] += p0
+
 	# Multi-location penalty
 	p1 = -p0 # fixed emperically by trail-and-error
 	for c in range(0,n_reads):
@@ -89,6 +91,7 @@ def tspAdjM_to_quboAdjM(tspAdjM, p0, p1, p2):
 			for t2 in range(0,n_reads):
 				if t1!=t2:
 					Q_matrix[c*n_reads+t1][c*n_reads+t2] += p1
+
 	# Visit repetation penalty
 	p2 = p1
 	for t in range(0,n_reads):
@@ -96,6 +99,7 @@ def tspAdjM_to_quboAdjM(tspAdjM, p0, p1, p2):
 			for c2 in range(0,n_reads):
 				if c1!=c2:
 					Q_matrix[c1*n_reads+t][c2*n_reads+t] += p2
+
 	# Path cost
 	# kron of tspAdjM and a shifted diagonal matrix
 	for ci in range(0,n_reads):
@@ -214,10 +218,10 @@ Solve de novo assembly on D-Wave annealer
 """
 def deNovo_on_DWave(reads, print_solutions=False):
 	tspAdjM = reads_to_tspAdjM(reads)
-	#print('tspAdjM: {}'.format(tspAdjM))
+	print('tspAdjM: {}'.format(tspAdjM))
 
 	quboAdjM = tspAdjM_to_quboAdjM(tspAdjM, -1.6, 1.6, 1.6) # self-bias, multi-location, repetation
-	#print('quboAdjM: {}'.format(quboAdjM))
+	print('quboAdjM: {}'.format(quboAdjM))
 
 	quboDict = quboAdjM_to_quboDict(quboAdjM)
 	#print('quboDict: {}'.format(quboDict))
@@ -383,10 +387,10 @@ def run_test_4():
 				result, length, read_length, fixed_overlap,
 				creation_time, solving_time))
 
-#run_test_1()
+run_test_1()
 #run_test_2()
 #run_test_3()
-run_test_4()
+#run_test_4()
 
 # quboDict = quboFile_to_quboDict("denovo_001.qubo")
 # print(quboDict)

@@ -448,16 +448,29 @@ Solving this model yields $x_2 = x_4 = x_9 = x_{11} = x_{15} = 1$, and $0$ for t
 As a final remark, this method of graph coloring has proven to be computationally useful for graphs with up to $450$ nodes and $9757$ edges \cite{Kochenberger2005}.
 
 
-\subsection{Salesman}
+\subsection{The Travelling Salesman problem}
 
 
-% TODO finish section
+In order to formulate our next problem, a couple of extra definitions are needed. Given a graph, a \emph{Hamiltonian path} is a path -a sequence of conected nodes- such that it only passes through each node exactly once. A \emph{cycle} is a path that starts and ends in the same node. A \emph{Hamiltonian cycle} is a cycle that passes through each node a single time, except for the first/last node which appears twice in the cycle. Additionally, a weighted graph $G =(V, E, W)$ is a graph with a series of weigths $w_e \in \R$ associated to each edge $e \in E$.
+
+The Travelling Salesman problem is the following: Given a directed weighted graph, find a Hamiltonian cycle with minimum total weight. The problem is sometimes stated with a Hamiltonian path instead of Hamiltonian cyle, but as it will be seen in section [TODOref], for our pourposes the cycle-statement will be of better use.
+
+We may supposse without lossing generality that the graph is completed. That is, there is always an edge from every two nodes in every direction. If the given graph is not complete, we may add the remaining edges with a high enough weigth so that they are never used.
+
+Since solutions to this problem are a series of $n \equiv |V|$ nodes -the number of nodes in the graph-, we will encode $n$-nodes cycles as $(v_{k_0}, \cdots, v_{k_{n-1}})$, where nodes $e_{k_0}$ and $e_{k_{n-1}}$ are also conected. Thus, our problem may originally may stated as:
+
+$$ \text{Minimize } \sum_{i=0}^{n-1} w_{k_i, k_{i+1}} $$
+$$ \text{subject to the constraint that } (v_{k_0}, \cdots, v_{k_{n-1}}) \text{ is a Hamiltonian cycle}$$
+
+where the $k_n \equiv k_0$. %TODO: reformulate as QUBO
+
+
 
 \subsection{3-SAT}
 
 
 % TODO finish section
-
+% TODO fix sources of each example
 
 \section{D-Wave Systems}
 
