@@ -1,7 +1,7 @@
 \chapter{The D-Wave Quantum Computer}
 
 
-TODO: intro del capítulo
+% TODO: intro del capítulo
 
 
 \section{Quantum Annealing}
@@ -159,7 +159,7 @@ However, we cannot always grant the necessary conditions for perfect adiabatic e
 The only question remaining is how to encode our cost function in a Hamiltonian.
 
 
-\section{QUBO problems and Ising models}
+\section{QUBO and Ising models}
 
 
 The QUBO and Ising problems can be easily represented with a Hamiltonian. In practice, non-optimization problems are transformed into optimization problems and then codified as either QUBO or Ising to be solved using quantum annealing. Let us explore this type of problems and some examples of these transformations.
@@ -194,7 +194,7 @@ The \textbf{Ising models}, on the other hand, find their inspiration in phisics.
 
 $$ H(\sigma) = - \sum_{\la i ~ j \ra} J_{ij} \sigma_i \sigma_j - \mu \sum_j h_j \sigma_j $$
 
-with parameters $h_j, J_{ij}, \mu \in \R$. The \emph{spin variables} $\sigma_i$ are in $\{-1, 1\}$ instead of $\B$. Moreover, the spin variables are arranged in a graph, tipically a \emph{lattice}, where the local structure repeats periodically. Only pair of variables $\la i ~ j \ra$ which are neighbor nodes in the graph may have non-zero coefficients $J_{ij}$. Let us see the connection between QUBO problems and Ising models by using the identity $\sigma \mapsto 2x -1$:
+with parameters $h_j, J_{ij}, \mu \in \R$. The \emph{spin variables} $\sigma_i$ are in $\{-1, 1\}$ instead of $\B$. Moreover, the spin variables are arranged in a graph, tipically a \emph{lattice}, where the local structure repeats periodically. Only pair of variables $\la i ~ j \ra$ which are neighbor nodes in the graph may have non-zero coefficients $J_{ij}$. Let us see the connection between the QUBO and Ising models by using the identity $\sigma \mapsto 2x -1$:
 
 \begin{equation*}
 	\begin{split}
@@ -386,7 +386,7 @@ $$ x_{ic} + x_{jc} \leq 1 \quad \forall c \in \{1, 2, 3\} \quad \text{for all ad
 
 a total of $26$: $5$ for  assigning one and only one color to each node, and $3$ additional ones per edge in the graph ($7$) for no adjacent equally colored nodes. First, let us rename our variables from $1$ to $15$ as follows:
 
-$$ (x_{11}, x_{12}, x_{13}, x_{21}, x_{22}, x_{23}, x_{31},\dots, x_{52}, x_{53}) =
+$$ (x_{11}, x_{12}, x_{13}, x_{21}, x_{22}, x_{23}, x_{31}, \dots, x_{52}, x_{53}) =
 	(x_1, x_2, x_3, x_4, x_5, x_6, x_7, \dots, x_{15}, x_{16}) $$
 
 The first set of constraints may be substitued by $P(x_{i1} + x_{i2} + x_{i3} - 1)^2$, which only equals $0$ if the constraint is satisfied. For instance, for the first node $P(x_1 + x_2 + x_3 - 1)^2$ is tranformed to $P(- x_1 - x_2 - x_3 + 2 x_1 x_2 + 2 x_1 x_3 + 2 x_2 x_3) + P$. By chosing a value for $P=4$ and dropping the constant we can  insert these penalties into an under developed $Q$ matrix:
@@ -420,7 +420,12 @@ $$
 Q = 
 \left(
 \begin{array}{*{15}c}
--4 & 4 & 4 & 2 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 2 & 0 & 0 \\
+-4 & 4 & 4 & 2 & 0 & 0 & 0 &
+% TODO: rephrasear la cita en el contexto anterior
+
+
+
+ 0 & 0 & 0 & 0 & 0 & 2 & 0 & 0 \\
 4 & -4 & 4 & 0 & 2 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 2 & 0 \\
 4 & 4 & -4 & 0 & 0 & 2 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 2 \\
 2 & 0 & 0 & -4 & 4 & 4 & 2 & 0 & 0 & 2 & 0 & 0 & 2 & 0 & 0 \\
@@ -451,19 +456,179 @@ As a final remark, this method of graph coloring has proven to be computationall
 \subsection{The Travelling Salesman problem}
 
 
-In order to formulate our next problem, a couple of extra definitions are needed. Given a graph, a \emph{Hamiltonian path} is a path -a sequence of conected nodes- such that it only passes through each node exactly once. A \emph{cycle} is a path that starts and ends in the same node. A \emph{Hamiltonian cycle} is a cycle that passes through each node a single time, except for the first/last node which appears twice in the cycle. Additionally, a weighted graph $G =(V, E, W)$ is a graph with a series of weigths $w_e \in \R$ associated to each edge $e \in E$.
+In order to formulate our next problem, a couple of extra definitions are needed. Given a graph, a \emph{Hamiltonian path} is a path -a sequence of conected nodes- such that it only passes through each node exactly once. A \emph{cycle}, also called \emph{tour}, is a path that starts and ends in the same node. A \emph{Hamiltonian cycle} is a cycle that passes through each node a single time, except for the first/last node which appears twice in the cycle. Additionally, a weighted graph $G =(V, E, W)$ is a graph with a series of weigths $w_e \in \R$ associated to each edge $e \in E$.
 
 The Travelling Salesman problem is the following: Given a directed weighted graph, find a Hamiltonian cycle with minimum total weight. The problem is sometimes stated with a Hamiltonian path instead of Hamiltonian cyle, but as it will be seen in section [TODOref], for our pourposes the cycle-statement will be of better use.
 
-We may supposse without lossing generality that the graph is completed. That is, there is always an edge from every two nodes in every direction. If the given graph is not complete, we may add the remaining edges with a high enough weigth so that they are never used.
+We may supposse without lossing generality that the graph is complete. That is, there is always an edge from every two nodes in every direction. If the given graph is not complete, we may add the remaining edges with a high enough weigth so that they are never used.
 
-Since solutions to this problem are a series of $n \equiv |V|$ nodes -the number of nodes in the graph-, we will encode $n$-nodes cycles as $(v_{k_0}, \cdots, v_{k_{n-1}})$, where nodes $e_{k_0}$ and $e_{k_{n-1}}$ are also conected. Thus, our problem may originally may stated as:
+Since solutions to this problem are a series of $n \equiv |V|$ nodes -the number of nodes in the graph-, we will encode $n$-nodes cycles as $(v_{k_0}, \ldots, v_{k_{n-1}})$, where nodes $e_{k_0}$ and $e_{k_{n-1}}$ are also conected. Thus, our problem may originally may stated as:
 
 $$ \text{Minimize } \sum_{i=0}^{n-1} w_{k_i, k_{i+1}} $$
 $$ \text{subject to the constraint that } (v_{k_0}, \cdots, v_{k_{n-1}}) \text{ is a Hamiltonian cycle}$$
 
-where the $k_n \equiv k_0$. %TODO: reformulate as QUBO
+where the $k_n \equiv k_0$. The binary variables $x_{i,p}$ will be used, where $i,p \in \{0, \ldots, n-1\}$. $x_{i,p}$ will equal $1$ if and only if node $i$ is in position $p$ in our cycle. Thus, we will have $n^2$ variables under the following constraints:
 
+\begin{enumerate}
+	\item Every node must be assigned. Thus, node assigment will be rewarded with a non-positive weight (favorable bias) called \textbf{self-bias} with an associated non-positive penalty:
+	
+	$$ a x_{i,p} \quad \forall i,p \in \{0, \ldots, n-1\} $$
+	
+	where $a \leq 0$. In practice, this will not be necessary for every problem. We may remove the self-bias by setting $a=0$. Adding these penalties for every node and position yields:
+	
+	\begin{equation}
+		\label{eqn:salesman-constrain1}
+		a \sum_{i=0}^{n-1} \sum_{p=0}^{n-1} x_{i,p}
+	\end{equation}
+	
+	\item Every node must be assigned to only one position. This constraint will be called \textbf{repetition}:
+	
+	$$ \sum_{p=0}^{n-1} x_{i,p} = 1 \quad \forall p \in \{0, \ldots, n-1\} $$
+	
+	Resulting in the following penalty:
+	
+	$$ b \Big( \sum_{p=0}^{n-1} x_{i,p} - 1 \Big)^2 \quad \forall p \in \{0, \ldots, n-1\} $$
+
+	where $b$ is a positive parameter. Adding these $n$ penalties we obtain:
+	
+	\begin{equation}
+		\label{eqn:salesman-constrain2}
+		b \sum_{i=0}^{n-1} \Big( \sum_{p=0}^{n-1} x_{i,p} - 1 \Big)^2
+	\end{equation}
+		
+	\item Every position must be assigned only one node. This constraint will be called \textbf{colocation}:
+	
+	$$ \sum_{i=0}^{n-1} x_{i,p} = 1 \quad \forall i \in \{0, \ldots, n-1\} $$
+	
+	Resulting in the following penalty:
+	
+	\begin{equation}
+		\label{eqn:salesman-constrain3}
+		c \sum_{p=0}^{n-1} \Big( \sum_{i=0}^{n-1} x_{i,p} - 1 \Big)^2
+	\end{equation}
+	
+	where $c$ is a positive parameter.	
+\end{enumerate}
+
+Finally, we may re-write the cost function in terms of the binary variables. Weight $w_{ij}$ must be added in the cost function if and only if nodes $i$ and $j$ follow each other in the path. That is, if and only if $x_{i,p}x_{j,p+1} = 1$ for any position $p$. In fact, it may be needed to add it multiple times if the previous equality holds for multiple positions. Thus, the penalty associated to weight $w_{i,j}$ is:
+
+$$ w_{i,j} \sum_{p=0}^{n-1} x_{i,p}x_{j,p+1} $$
+
+Adding up the penalties associated to every weigth yields the cost function:
+
+$$ \text{Minimize } \sum_{i=0}^{n-1} \sum_{j=0}^{n-1} w_{i,j}\sum_{p=0}^{n-1} x_{i,p}x_{j,p+1} $$
+
+The final QUBO model is obtained by adding the penalties \ref{eqn:salesman-constrain1}, \ref{eqn:salesman-constrain2} and \ref{eqn:salesman-constrain3} to the cost function:
+
+% Using an extra column for left aligment.
+\begin{equation}
+	\begin{alignedat}{3}
+		& \text{Minimize }	&& \sum_{i=0}^{n-1} \sum_{j=0}^{n-1} w_{i,j}\sum_{p=0}^{n-1} x_{i,p}x_{j,p+1} & \\
+		& && + a \sum_{i=0}^{n-1} \sum_{p=0}^{n-1} x_{i,p} & \qquad \text{(self-bias)} \\
+		& && + b \sum_{i=0}^{n-1} \Big( \sum_{p=0}^{n-1} x_{i,p} - 1 \Big)^2 & \qquad \text{(repetition)} \\
+		& && + c \sum_{p=0}^{n-1} \Big( \sum_{i=0}^{n-1} x_{i,p} - 1 \Big)^2 & \qquad \text{(colocation)}
+	\end{alignedat}
+	\label{eqn:salesman-cost-funct}
+\end{equation}
+
+
+Since this is a quadratic unconstraint function, this is already a QUBO. The conversion to matrix is straight-forward. Let us see this in an example.
+
+
+\newparagraph{Numerical Example}
+
+
+Given the following graph:
+
+\begin{figure}[H]
+	\includegraphics[scale=1.1]{graphs/salesman-example.pdf}
+	\centering
+\end{figure}
+
+Find a Hamiltonian cycle with minimum cost. 
+
+First of all, let us take a deeper look into our possible solutions. There are $(n-1)!$ cycles in a graph with $n$ nodes. For our $4$-nodes graph there are $3! = 6$ type of cycles:
+
+\begin{itemize}
+	\item Type A: $0 \rightarrow 1 \rightarrow 2 \rightarrow 3 \rightarrow 0$
+	\item Type B: $0 \rightarrow 3 \rightarrow 2 \rightarrow 1 \rightarrow 0$
+	\item Type C: $0 \rightarrow 2 \rightarrow 1 \rightarrow 3 \rightarrow 0$
+	\item Type D: $0 \rightarrow 3 \rightarrow 1 \rightarrow 2 \rightarrow 0$
+	\item Type E: $0 \rightarrow 1 \rightarrow 3 \rightarrow 2 \rightarrow 0$
+	\item Type F: $0 \rightarrow 2 \rightarrow 3 \rightarrow 1 \rightarrow 0$
+\end{itemize}
+
+We may see this graphically in table \ref{tbl:salesman-cycles}.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ccc}		
+		\includegraphics[scale=1]{graphs/salesman-cycleA.pdf} &
+		\includegraphics[scale=1]{graphs/salesman-cycleB.pdf} &
+		\includegraphics[scale=1]{graphs/salesman-cycleC.pdf} \\
+		
+		Type A & Type B & Type C \\
+		
+		\includegraphics[scale=1]{graphs/salesman-cycleD.pdf} &
+		\includegraphics[scale=1]{graphs/salesman-cycleE.pdf} &
+		\includegraphics[scale=1]{graphs/salesman-cycleF.pdf} \\
+		
+		Type D & Type E & Type F \\
+	\end{tabular}
+	\caption{Type of cycles in a $4$-nodes graph}
+	\label{tbl:salesman-cycles}
+\end{table}
+
+These six are the only possible cycles through our graph and of them will be the one with minimum cost. Since our binary encoding additionally depends on the node position, there are $4$ solutions of our encoding that represent the same cycle. For example, ($0 \rightarrow 1 \rightarrow 2 \rightarrow 3 \rightarrow 0$) and ($1 \rightarrow 2 \rightarrow 3 \rightarrow 0 \rightarrow 1$) both represent cycle type A. In this case, type A will be the tour with minimum cost.
+
+A graphical representation of the different penalties interactions is shown in figure \ref{fig:salesman-penalties}, based on the constraints defined above.
+
+\begin{table}[]
+	\centering
+	\makebox[\textwidth][c]{
+		\begin{tabular}{ccc}		
+			\includegraphics[scale=0.2]{salesman-penalties1.png} &
+			\includegraphics[scale=0.2]{salesman-penalties2.png} &
+			\includegraphics[scale=0.2]{salesman-penalties3.png} \\
+			
+			1: Self-bias & 2: Repetition & 3: Colocation \\
+			
+			\includegraphics[scale=0.2]{salesman-penalties4.png} &
+			\includegraphics[scale=0.2]{salesman-penalties5.png} &
+			\includegraphics[scale=0.2]{salesman-penalties6.png} \\
+			
+			4: Type A tours & 5: Type B tours & 6: Type C tours \\
+			
+			\includegraphics[scale=0.2]{salesman-penalties7.png} &
+			\includegraphics[scale=0.2]{salesman-penalties8.png} &
+			\includegraphics[scale=0.2]{salesman-penalties9.png} \\
+			
+			7: Type D tours & 8: Type E tours & 9: Type F tours \\
+		\end{tabular}
+	}
+	\caption{Graphical representation of penalties between interactions \cite{Sarkar2020}}
+	\label{fig:salesman-penalties}
+\end{table}
+
+We start the problem refactoring by renaming the variables:
+
+$$ (x_{0,0}, x_{0,1}, x_{0,2}, x_{0,3}, x_{1,0}, x_{1,1}, x_{1,2}, \dots, x_{3,2}, x_{3,3}) =
+(x_1, x_2, x_3, x_4, x_5, x_6, x_7, \dots, x_{15}, x_{16}) $$
+
+Each of the terms in the cost function \ref{eqn:salesman-cost-funct} may be transformed into a matrix. The term associated to the weights is additionally splitted using the different types of cycles in which they appear. We thus obtain nine adjacency matrices, found on figure \ref{fig:salesman-adj-matrices}.
+
+\begin{figure}[H]
+	\makebox[\textwidth][c]{
+		\includegraphics[scale=0.5]{salesman-adj-matrices.png}
+	}
+	\centering
+	\label{fig:salesman-adj-matrices}
+	\caption{Caption}
+\end{figure}
+
+Note that the matrices associated with the constraints are all symmetric since they only depend on the graph topology and not on the weights. On the other hand, since the cost of going back and forth between a pair of nodes is never the same, the matrices associated with the cycles are never symmetric.
+
+% TODO: Finish the example
 
 
 \subsection{3-SAT}
@@ -471,6 +636,7 @@ where the $k_n \equiv k_0$. %TODO: reformulate as QUBO
 
 % TODO finish section
 % TODO fix sources of each example
+
 
 \section{D-Wave Systems}
 
@@ -503,9 +669,8 @@ D-Wave provides an easy-to-use software enviroment to solve problems using quant
 For this section we refer to the D-Wave documentation, which explains how quantum annealing is implemented and may be exploited in the D-Wave systems \cite{DWaveDoc-QuantumAnnealing}.
 
 
-
-
-TODO: rephrasear la cita en el contexto anterior
+% TODO: rephrasear la cita en el contexto anterior
+% TODO: change fig labels in this section
 
 
 

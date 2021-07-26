@@ -44,6 +44,7 @@ cleardoublepage=empty,abstractoff,BCOR=5mm,paper=a4,fontsize=12pt,main=english]{
 \usepackage{minted} % Código fuente.
 \usepackage[T1]{fontenc}
 \usepackage[numbers]{natbib}
+\usepackage{booktabs} % Para tablas de figuras (ejemplo en salesman)
 
 % Plantilla classicthesis
 \usepackage[beramono,eulerchapternumbers,linedheaders,parts,a5paper,dottedtoc,
@@ -93,6 +94,9 @@ manychapters,pdfspacing]{classicthesis}
 \usepackage{wallpaper}
 \usepackage[main=spanish]{babel}
 
+% Cambiar la caption por defecto de las tablas
+\renewcommand\spanishtablename{Table}
+\renewcommand\spanishfigurename{Figure}
 
 \begin{document}
 

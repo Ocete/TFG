@@ -1,0 +1,21 @@
+\documentclass[tikz]{standalone}
+\usetikzlibrary{automata,positioning}
+
+\newcommand{\smallDist}{2cm}
+
+\begin{document}
+	
+\begin{tikzpicture}[>=stealth,node distance=2cm, on grid, auto, thick, initial text=] 
+	\tikzset{edge/.style = {->,> = latex'}}
+	
+	\node[state] (0) {0}; 
+	\node[state] (1) [right=\smallDist of 0] {1};
+	\node[state] (2) [below=\smallDist of 1] {2};
+	\node[state] (3) [below=\smallDist of 0] {3};
+	
+	\draw[->] (0) to (3);
+	\draw[->] (3) to (2);
+	\draw[->] (2) to (1);
+	\draw[->] (1) to (0);
+\end{tikzpicture}
+\end{document}
