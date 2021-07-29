@@ -758,22 +758,38 @@ Which corresponds to the four ways of encoding type A cycles with our notation.
 \section{D-Wave Systems}
 
 
-\textbf{D-Wave Systems Inc.} is a Canadian company dedicated to quantum computing. In 2011, they announced the first commercial quantum computer system, D-Wave One. During the following two decades, the D-Wave team have developed a series of computing computers dedicated to quantum annealing. The last one being the Advantage System (figure \ref{fig 2.2}).
+\textbf{D-Wave Systems Inc.} is a Canadian company dedicated to quantum computing. In 2011, they announced the first commercial quantum computer system, D-Wave One. During the following two decades, the D-Wave team have developed a series of computing computers dedicated to quantum annealing. The last one being the Advantage System (figure \ref{fig:advantage}).
 
 \begin{figure}[h]
 	\includegraphics[scale=.1]{advantage_system.png}
 	\centering
 	\caption{Advantage$^{TM}$ system}
-	\label{fig 2.2}
+	\label{fig:advantage}
 \end{figure}
 
-The quantum processing unit (QPU) of this system consist of $5640$ qubits and $40,484$ \emph{couplers} (links between qubits that allow entanglement between a pair of qubits). The number of couplers is especially relevant. It tells us that not every qubit can be entangled with every other qubit. We will come back to this in section [TODOref]. Since the QPU must be isolated to operate, it is encapsulated in a system at temperatures below 15 mK. In addition, radio frequency (RF)-shielded enclousre and magnetic shieldings are used to protect it from electromagnetic interferience \cite{DWaveDoc}.
+The quantum processing unit (QPU) of this system consist of $5640$ qubits and $40,484$ \emph{couplers} (links between qubits that allow entanglement between a pair of qubits). It can be seen in figure \ref{fig:QPU}. The number of couplers is especially relevant. A coupler is the phisical mechanism that allow two qubits to be entagled. We will explain couplers in depth in section [TODOref]. We will deepend in the topology of the Advantage architecture in section [TODOref]. In table \ref{tab:dwave-comp}, we see comparative between the number of qubits and couplers from the different versions of d-Wave computer system.
+
+\begin{table}[h]
+	\centering
+	\makebox[\textwidth][c]{
+		\begin{tabular}{cccccc}
+							& D-Wave One 	& D-Wave Two	& D-Wave 2X 	& D-Wave 2000Q 	& Advantage \\ \hline
+			Release date 	& May 2011	 	& May 2013 		& August 2015	& January 2017	& 2020   	\\
+			Qubits 			& $128$	 		& $512$ 		& $1152$		& $2048$		& $5640$  	\\
+			Couplers 		& $352$	 		& $1,472$ 		& $3,360$		& $6,016$		& $40,484$  
+		\end{tabular}
+	}
+	\caption{D-Wave historical comparison \cite{DwaveWikipedia}}
+	\label{tab:dwave-comp}
+\end{table}
+
+Since the QPU must be isolated to operate, it is encapsulated in a system at temperatures below 15 mK. In addition, radio frequency (RF)-shielded enclousre and magnetic shieldings are used to protect it from electromagnetic interferience \cite{DWaveDoc}.
 
 \begin{figure}[h]
 	\includegraphics[scale=.2]{qpu.png}
 	\centering
 	\caption{D-Wave QPU}.
-	\label{fig 2.3}
+	\label{fig:QPU}
 \end{figure}
 
 D-Wave provides an easy-to-use software enviroment to solve problems using quantum annealing. We will explain in depth in section [TODOref].
@@ -786,8 +802,7 @@ D-Wave provides an easy-to-use software enviroment to solve problems using quant
 For this section we refer to the D-Wave documentation, which explains how quantum annealing is implemented and may be exploited in the D-Wave systems \cite{DWaveDoc-QuantumAnnealing}.
 
 
-% TODO: rephrasear la cita en el contexto anterior
-% TODO: change fig labels in this section
+% TODO: Complete this section
 
 
 
