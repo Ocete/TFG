@@ -32,6 +32,7 @@ Let us farther deepen into the technicalities of quantum annealing in order to u
 
 
 \section{Adiabatic Evolution}
+\label{sec:adiabatic-evolution}
 
 
 The alternative form of the third postulate of quantum mechanics (section \ref{postulate-3'}) stated that the evolution of a quantum system is described by the Schrodinger equation:
@@ -41,7 +42,7 @@ $$ i \hbar \frac{d|\varphi\ra}{dt} = H|\varphi\ra $$
 By better understanding the Hamiltonian $H$ we may controll this evolution. Suppose that at the evolution of a given quantum system is described by a Hamiltonian $\hat H(t)$. Suppose that at some initial time $t_0$ our quantum system is in an eigenstate $|\varphi(t_0)\ra$ of $\hat H(t_0)$. Since the evolution is continuous, at some other time $t_1 > t_0$ we could expect our system to be in the corresponding eigenstate $|\varphi(t_1)\ra$ of $\hat H(t_1)$. This fact critically depends on the time $\tau = t_1 - t_0$ during which the modification takes places, as stated by the adiabatic theorem, first proposed by Max Born and Vladimir Fock (1928) \cite{Born1928}.
 
 \begin{theorem}[Adiabatic Theorem]
-\label{adiabatic-theorem}
+\label{th:adiabatic-theorem}
 	A physical system remains in its instantaneous eigenstate if a given perturbation is acting on it slowly enough and if there is a gap between the eigenvalue and the rest of the Hamiltonian's spectrum.
 \end{theorem}
 
@@ -55,9 +56,9 @@ Thus, we may define diabatic and adiabatic processes depending on how they adapt
 	An \emph{adiabatic process} is a process where gradually changing conditions allow the system to adapt its configuration. If the system starts in an eigenstate of the initial Hamiltonian, it will end in the corresponding eigenstate of the final Hamiltonian.
 \end{definition}
 
-The 'gap condition' that appears in theorem \ref{adiabatic-theorem} refers to an additional requirement: the spectrum of $\hat H(t)$ is \emph{nondegenerate}, meaning there are no two equal eigenvalues at fixed time $t$. This condition is also called the \emph{no-crossing} condition, and allow us to sort the eigenstates using the eigenvalues without any ambiguity.
+The 'gap condition' that appears in theorem \ref{th:adiabatic-theorem} refers to an additional requirement: the spectrum of $\hat H(t)$ is \emph{nondegenerate}, meaning there are no two equal eigenvalues at fixed time $t$. This condition is also called the \emph{no-crossing} condition, and allow us to sort the eigenstates using the eigenvalues without any ambiguity.
 
-As a classical annalogy, consider a simple pendulum. If the pendulum's support point is moved, the oscillation of the pendulum may change. In fact, violent changes on the support point will dramatically affect the pendulum's movement, changing it completely. However, if the support point is moved slowly enough, the pendulum will remain unchange. These are examples of diabatic and adiabatic processes respectively.
+As a classical annalogy fro adiabatic evolution, consider a simple pendulum. If the pendulum's support point is moved, the oscillation of the pendulum may change. In fact, violent changes on the support point will dramatically affect the pendulum's movement, changing it completely. However, if the support point is moved slowly enough, the pendulum will remain unchange. These are examples of diabatic and adiabatic processes respectively.
 
 
 \subsection{Avoided crossing}
@@ -437,10 +438,10 @@ $$
 Q = 
 \left(
 \begin{array}{cccc}
-1 & 0 & 0 & 0 \\
-0 & 0 & -1/2 & 1/2 \\
-0 & -1/2 & 0 & 1 \\
-0 & 1/2 & 1 & -2 
+	1 & 0 & 0 & 0 \\
+	0 & 0 & -1/2 & 1/2 \\
+	0 & -1/2 & 0 & 1 \\
+	0 & 1/2 & 1 & -2 
 \end{array}
 \right)
 $$
@@ -451,7 +452,6 @@ As a final remark, this method of solving Max 2-SAT problems has proven to be co
 
 
 \subsection{Graph Coloring}
-\label{sec:graph-coloring}
 
 
 Consider the following problem: Given a graph $G$ and $K$-colors, assign a single color to each vertex in $V$ such that no two adjacent vertices have the same color. Let $x_{ij}$ be a binary variable that is set to $1$ if and only if the $i$-th node is assigned the color $j$-th. We may develop the following two constraints. First, since all nodes must be colored exactly once:
@@ -796,7 +796,7 @@ D-Wave provides an easy-to-use software enviroment to solve problems using quant
 
 
 \subsection{Quantum Annealing in D-Wave}
-\label{quantum-annealing-dwave}
+\label{sec:quantum-annealing-dwave}
 
 
 For this section we refer to the D-Wave documentation, which explains how quantum annealing is implemented and may be exploited in the D-Wave systems \cite{DWaveDoc-QuantumAnnealing}.
@@ -834,20 +834,175 @@ Consider the a 2-qubits sytems for following simple example. There will be three
 	\label{fig:dwave-2qubit-landscape}
 \end{figure}
 
-Let us take a look at the underlying quantum physics of this process. We make use of the Hamiltonian of a quantum system, which describes the evolution of the quantum system as per Postulate 3' [TODOref]. It maps the \emph{eigenstates} of the system to their energies. Only when the system is on an eigenstate, the energy of the system is well defined and called \emph{eigenenergy}, which are just the eigenvalues. The set of eigenstates and eigenenegies is called the \emph{eigenspectrum}.
+Let us take a look at the underlying quantum physics of this process. We make use of the Hamiltonian of a quantum system, which describes the evolution of the quantum system as per Postulate 3' [TODOref]. It maps the \emph{eigenstates} of the system to their energies. Only when the system is on an eigenstate, the energy of the system is well defined and called \emph{eigenenergy}, which are just the eigenvalues. The set of eigenstates and eigenenegies is called the \emph{eigenspectrum}. Recall that the lowest energy state is called the \emph{ground state}.
 
 For a D-Wave system, the Hamiltonian may be described as:
 
-$$ H_{ising} = \underbrace{- \frac{A(s)}{2} \bigg( \sum_i \upsigma_x^{(i)} \bigg)}_\text{Initial Hamiltonian} 
+$$ H(s) = \underbrace{- \frac{A(s)}{2} \bigg( \sum_i \upsigma_x^{(i)} \bigg)}_\text{Initial Hamiltonian} 
 			+ \underbrace{\frac{B(s)}{2} \bigg( \sum_i h_i \upsigma_z^{(i)} + \sum_ {i > j} J_{i,j} \upsigma_z^{(i)} \upsigma_z^{(j)} \bigg)}_\text{Final Hamiltonian} $$
 
+where $\sigma^{(i)}_{x,z}$ are the Pauli matrices $X$ and $Z$ respectively operating on qubit $(i)$, $h_i$ are the qubit biases, and $J_{i,j}$ are the couplers weights.
 
-% TODO: finish section
+As explained in the adiabatic evolution section \ref{sec:adiabatic-evolution}, the Hamiltonian is made of two terms:
+
+\begin{itemize}
+	\item The Initial Hamiltonian, also called \emph{tunneling Hamiltonian}, where the ground state is when every qubits is in superposition but no entanglement between qubit takes places.
+	\item The Final Hamiltonian, also called \emph{problem Hamiltonian}, where the biases and weights are such that the ground state is the solution of the problem we are trying to solve.
+\end{itemize}
+
+In fact, the final Hamiltonian is precisely a Ising model. By expressing our problem as an Ising -or, equivalently, a QUBO- we may encode it inside this Hamiltonian using the parameters $h_i$ and $J_{i,j}$.
+
+We may parametrize $s \in [0,1]$ as an abstract parameter that controls the annealing timing. Assuming the initial time is $t_0 = 0$, $s$ is defined as $s \equiv t / t_{final}$. Thus, the annealing occurs when $s$ goes from $0$ to $1$. We may define the annealing functions $A(s), B(s)$ such that $A(0) \gg B(0)$ and $A(1) \ll B(1)$. For instance, as seen in figure \ref{fig:dwave-annealing-functions}.
+
+\begin{figure}[h]
+	\includegraphics[scale=.14]{dwave-annealing-functions.png}
+	\centering
+	\caption{Annealing functions for the D-Wave 2X systems \cite{DWaveDoc-QuantumAnnealing}}
+	\label{fig:dwave-annealing-functions}
+\end{figure}
+
+With these restrictions on the annealing functions, the system's Hamiltonian satisfies $H(0) = H_{initial}$ and $H(1) = H_{final}$. Therefore, the ground state at time $s=0$ matches the ground state of the initial Hamiltonian and at time $t=1$, it matches the final Hamiltonian one. Under adiabatic evolution hypothesis, if the system starts in the initial Hamitolnian's ground state, it will end up in the final Hamiltonian one -which encodes the solution to our problem- at the end of the annealing.
+
+The question remaining is, are the adiabatic evolution hypothesis met? We may control the time that the annealing takes by adjusting our annealing functions, a few microseconds is enough in most cases, but the exact time that would make the annealing adiabatic is never known. The additional hipothesis of the adiabatic theorem (\ref{th:adiabatic-theorem}) mentions the gap between the ground energy and the rest of eigenenergies. Let us look at a visual representation of the evolution of the eigenenergies of a given system against time \ref{fig:dwave-eigenspectrum}.
+
+\begin{figure}[h]
+	\includegraphics[scale=.3]{dwave-eigenspectrum.png}
+	\centering
+	\caption{Example of eigenspectrum evolution \cite{DWaveDoc-QuantumAnnealing}}
+	\label{fig:dwave-eigenspectrum}
+\end{figure}
+
+The ground energy is plotted at the bottom. While the eigenenergies are far (the minimum gap holds), the probability of the system state jumping to another eigenstate are really low. When time elapses, the ground energy gets increasingly closer to the rest of eigenenergies. The closer those energies are, the higher the probability of the system state jumping gets too. For every problem there is a different Hamiltonian and, consequently, a different corresponding eigenspectrum. Generally, the most difficult problems for quantum annealing are those with really small minimum gaps.
+
+In practice, these jumps may occur due to certain factors like thermal fluctuations or running the annealing process to quickly. Either way, a complete adiabatic process in the real world would mean perfect isolation, which is impossible. For some problems, the probability of staying in the ground state is really low, although low-energy states are also useful since they are associated to solutions with low value in our cost function.
 
 
+\subsection{D-Wave's QPU Topologies}
 
 
+In table \ref{tab:dwave-comp}, we saw the number of qubits and couplers of each one of the D-Wave QPUs. These QPUS implement a graph topology where the nodes are qubits and the couplers are the edges connecting two nodes together. However, a complete $n$-nodes graph has $n(n-1)$ nodes, and none of the D-Wave QPUs have as many couplers. For instance, the D-Wave 2000Q has $2048$ qubits and $6016$ couplers, far from the $2048 * 2047 = 4,192,256$ edges that it could have. Let us explore the graph topology underneath this systems in order to understand its problems and how to work around them.
 
+There are two different topologies being used in the D-Wave systems. The \emph{Chimera} topology was used up until the D-Wave 2000Q system, include; while the \emph{Pegasus} topology is only in the recent Advantage system. 
+
+In the \textbf{Chimera topology}, qubits are 'oriented' either horizontally or vertically, as seen in figure \ref{fig:chimera}.
+
+\begin{figure}[h]
+	\includegraphics[scale=.3]{chimera.png}
+	\centering
+	\caption{Qubits represented as horizontal and vertical loops. This graphic shows three rows of 12 vertical qubits and three columns of 12 horizontal qubits for a total of 72 qubits, 36 vertical and 36 horizontal. \cite{DWaveDoc-Architecture}}
+	\label{fig:chimera}
+\end{figure}
+
+For this topology it is conceptually useful to split couplers into two categories: Internal and external couplers. The \textbf{internal couplers} connect pair of orthogonal qubits. For example, in figure \ref{fig:chimera-internal-couplers} we see a green qubit connected to four black qubits through internal couplers.
+
+\begin{figure}[h]
+	\includegraphics[scale=.5]{chimera-internal-couplers.png}
+	\centering
+	\caption{Internal couplers, represented as green dots at the intersections between qubits \cite{DWaveDoc-Architecture}}
+	\label{fig:chimera-internal-couplers}
+\end{figure}
+
+The Chimera structure has a repetitive structure where sets of $4$ by $4$ qubits are grouped together. These are the traslucident green squares in figure \ref{fig:chimera-internal-couplers} and are called \emph{unit cells}.
+
+A unit cell can also be respresented either as a cross or a column, as shown in figure \ref{quimera-unit-cell}. They are $K_{4,4}$ bipartite graphs. Meaning, there are two set of $4$ qubits that does not connect the qubits on the same set but are connected to every qubit of the other one. For example, green qubit labeled as $0$ is connected to all the nodes from the opposing set: $(4,5,6,7)$.
+
+\begin{figure}[h]
+	\includegraphics[scale=.7]{chimera-unit-cell.png}
+	\centering
+	\caption{Chimera unit cells \cite{DWaveDoc-Architecture}}
+	\label{fig:chimera-unit-cell}
+\end{figure}
+
+The \textbf{external} couplers connect pairs of qubits in the same row or column, but from different unit cells. For example, in figure \ref{fig:chimera-external-couplers} the green qubit in the center unit cell is connected to the two blue qubits in other unit cells and to four black qubits in the same unit cell.
+
+\begin{figure}[h]
+	\includegraphics[scale=.5]{chimera-external-couplers.png}
+	\centering
+	\caption{External couplers, represented as blue connections between qubits \cite{DWaveDoc-Architecture}}
+	\label{fig:chimera-external-couplers}
+\end{figure}
+
+Chimera qubits have:
+
+\begin{itemize}
+	\item A \emph{nomial length} of $4$. That is, each qubit is connected to $4$ orthogonal qubits via internal couplers.
+	\item A \emph{degree} of $6$. That is, is qubit is connected to a total of $6$ other qubits.
+\end{itemize}
+
+The $K_{4,4}$ unit cells are connected by external couplers forming what is called a lattice. For instance, figure \ref{fig:chimera-extended} shows four connected unit cells that are part of a bigger topology. The notation $C_n$ refers to a chimera grid with an $N \times N$ grid of unit cells. Figure \ref{fig:chimera-internal-couplers} shows a $C_2$. The D-Wave 2000Q QPU supports a $C_16$ chimera graph.
+
+\begin{figure}[h]
+	\includegraphics[scale=.4]{chimera-extended.png}
+	\centering
+	\caption{Cropped view of four unit cells, part of a bigger Chimera graph \cite{DWaveDoc-Architecture}}
+	\label{fig:chimera-extended}
+\end{figure}
+
+The \textbf{Pegasus topology} is also organized in horizontal and vertical qubits, but they are shifted, as shown in figure \ref{fig:pegasus}. Conceptually, the chimera and the pegasus topology are not that different: the graph is divided into unit cells, connected between them using external couplers. However, a new kind of coupler is introduced in the Pegasus topology: the odd coupler.
+
+\begin{figure}[h]
+	\includegraphics[scale=.08]{pegasus.png}
+	\centering
+	\caption{Pegasus graph \cite{DWaveDoc-Architecture}}
+	\label{fig:pegasus}
+\end{figure}
+
+We will not deepen anymore into the Pegasus graph structure. It sufficies to now that pegasus qubits have a nominal length of $12$ (each qubit is connected to $12$ orthonormal qubits using internal couplers) and total degree $15$. A Pegasus cell contains $24$ qubits. Additionally, $P_n$ represents a Pegasus topology with an $N \times N$ grid of unit cells. The Advantage system supports a $P_{16}$ Pegasus graph.
+
+Then, what are the disadvantages of these topologies? Consider a simple example with three binary variables $(a, b, c)$: find a configuration for the variables such that $a + b + c = 1$.
+
+This simple satisfability problem can be transform using the energy function $E(x) = (1 - a - b - c)^2$, or equivalenty $E(x) = 2ab + 2ac + 2bc - a - b - c + 1$. This matches the following QUBO model:
+
+$$ \text{Minimize } E(x) = x^T Q x + 1$$
+
+where
+
+$$
+Q = 
+\left(
+\begin{array}{ccc}
+	-1 & 1 & 1  \\
+	1 & -1 & 1  \\
+	1 & 1 & -1
+\end{array}
+\right), \quad
+x = 
+\left(
+\begin{array}{c}
+a  \\
+b  \\
+c
+\end{array}
+\right)
+$$
+
+This can be seen as the graph in figure \ref{fig:example-embedding}. Suppose we want to use a Chimera topology to solve this problem. The remaning question is how to embedd this graph into a chimera unit cell such as \ref{fig:chimera-unit-cell-cross}. 
+
+\begin{figure}[h]
+	\includegraphics[scale=.3]{example-embedding.png}
+	\centering
+	\caption{Graph associated to QUBO model \cite{DWaveDoc-MinorEmbedding}}
+	\label{fig:example-embedding}
+\end{figure}
+
+\begin{figure}[h]
+	\includegraphics[scale=.2]{chimera-unit-cell-cross.png}
+	\centering
+	\caption{Chimera unit cell \cite{DWaveDoc-MinorEmbedding}}
+	\label{fig:chimera-unit-cell-cross}
+\end{figure}
+
+However, there are no three nodes in a bipartite graph that form a triangle, so a direct embedding is not possible. Instead, a \emph{chain} is used: adjacent qubits are group together and conceptually assigned to a single node of our QUBO model graph. This process is shown in figure \ref{fig:embedding}. In practice, the coupler between qubits in a chain is set to a great negative value so the probability of both qubits ending up in the same state are really high. We will never manually embedd a graph since D-Wave provides a automatic way of computing an at least suboptimal embedding.
+
+\begin{figure}[h]
+	\includegraphics[scale=.3]{embedding.png}
+	\centering
+	\caption{Embedding process \cite{DWaveDoc-MinorEmbedding}}
+	\label{fig:embedding}
+\end{figure}
+
+
+% TODO: fix figures in last section. Maybe remove the [h]
 % TODO: move figures to different folders.
 
 
