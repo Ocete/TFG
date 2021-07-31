@@ -767,7 +767,7 @@ Which corresponds to the four ways of encoding type A cycles with our notation.
 	\label{fig:advantage}
 \end{figure}
 
-The quantum processing unit (QPU) of this system consist of $5640$ qubits and $40,484$ \emph{couplers} (links between qubits that allow entanglement between a pair of qubits). It can be seen in figure \ref{fig:QPU}. The number of couplers is especially relevant. A coupler is the phisical mechanism that allow two qubits to be entagled. We will explain couplers in depth in section [TODOref]. We will deepend in the topology of the Advantage architecture in section [TODOref]. In table \ref{tab:dwave-comp}, we see comparative between the number of qubits and couplers from the different versions of d-Wave computer system.
+The quantum processing unit (QPU) of this system consist of $5640$ qubits and $40,484$ \emph{couplers} (links between qubits that allow entanglement between a pair of qubits). It can be seen in figure \ref{fig:QPU}. The number of couplers is especially relevant. A coupler is the phisical mechanism that allow two qubits to be entagled. We will explain couplers in depth in the next section. We will deepend in the topology of the Advantage architecture in section [TODOref]. In table \ref{tab:dwave-comp}, we see comparative between the number of qubits and couplers from the different versions of d-Wave computer system.
 
 \begin{table}[h]
 	\centering
@@ -783,12 +783,12 @@ The quantum processing unit (QPU) of this system consist of $5640$ qubits and $4
 	\label{tab:dwave-comp}
 \end{table}
 
-Since the QPU must be isolated to operate, it is encapsulated in a system at temperatures below 15 mK. In addition, radio frequency (RF)-shielded enclousre and magnetic shieldings are used to protect it from electromagnetic interferience \cite{DWaveDoc}.
+Since the QPU must be isolated to operate, it is encapsulated in a system at temperatures below 15 mK. In addition, radio frequency (RF)-shielded enclousure and magnetic shieldings are used to protect it from electromagnetic interferience \cite{DWaveDoc}.
 
 \begin{figure}[h]
 	\includegraphics[scale=.2]{qpu.png}
 	\centering
-	\caption{D-Wave QPU}.
+	\caption{D-Wave QPU}
 	\label{fig:QPU}
 \end{figure}
 
@@ -801,21 +801,53 @@ D-Wave provides an easy-to-use software enviroment to solve problems using quant
 
 For this section we refer to the D-Wave documentation, which explains how quantum annealing is implemented and may be exploited in the D-Wave systems \cite{DWaveDoc-QuantumAnnealing}.
 
+Let us start by describing how qubits are phisically implemented in D-Wave's QPU. Superconducting loops are used for this porpuse, with a circulating current and a magnetic field. Depending on the direction of the current, the qubit will be in state $0$ or $1$; see figure \ref{fig:dwave-qubit}.
 
-% TODO: Complete this section
+\begin{figure}[h]
+	\makebox[\textwidth][c]{
+		\includegraphics[scale=.2]{dwave-qubit.png}
+	}
+	\centering
+	\caption{D-Wave's qubit, using a circulating current \cite{DWaveDoc-QuantumAnnealing}}
+	\label{fig:dwave-qubit}
+\end{figure}
+
+In figure \ref{fig:dwave-annealing} we see a diagram with the evolution of a single qubit's energy during the annealing. By applying a magnetic field to the qubit we may affect the current and put the qubit in a superposition of both states (a). At this point, the energy is represented by a single valley with a single minimum: the superposition state where the qubit starts. Remember that at the end of the annealing we will measure every qubit and make them collapse to either one of those states, so we will never see a superposition in our measurements.
+
+\begin{figure}[h]
+	\includegraphics[scale=.2]{dwave-annealing.png}
+	\centering
+	\caption{Energy diagram changes upon running the annealing and applying bias \cite{DWaveDoc-QuantumAnnealing}}
+	\label{fig:dwave-annealing}
+\end{figure}
+
+Then, the quantum annealing is run, turning the energy diagram into what is called a \emph{double well potential} (b). The lower point of the left valley corresponds to the $0$ state and the right one to the $1$ state. If we measured the qubit now, it would end up with equal probability in either one of both states. However, we may influence the qubit's energy by applying a magnetic field and tilting the double well to one of the base states (c), increasing the probability of ending in that state. This new magnetic field is called \emph{bias} and the qubit minimizes the energy subject to the applied bias.
+
+Biases applied on single qubits alone do not take full advantage of quantum annealing. We will also need \emph{couplers}, devices that entagle qubits to each other. A coupler can make two qubits tend to end in the same state or in opposite states with certain strength. As with bias, the coupler strength, usually called \emph{weight}  may be controlled by the programmer. Together the biases and the weigths are the parameters that define a problem in the D-Wave system. As the reader may already imagined, these are the parameters of a QUBO / Ising model that we may define.
+
+Consider the a 2-qubits sytems for following simple example. There will be three parameters: the 2 qubits biases and the coupler weight between them. As we know, two entagled qubits may be in four posible states: $(0,0)$, $(0,1)$, $(1,0)$ or $(0,0)$. The previous parameters define what is known as the \emph{energy landspace}. Figure \ref{fig:dwave-2qubit-landscape} illustrates this idea. The energy of each state depends on the biases and the single weight.
+
+\begin{figure}[h]
+	\includegraphics[scale=.25]{dwave-2qubit-landscape.png}
+	\centering
+	\caption{Example of 2-qubit energy landscape \cite{DWaveDoc-QuantumAnnealing}}
+	\label{fig:dwave-2qubit-landscape}
+\end{figure}
+
+Let us take a look at the underlying quantum physics of this process. We make use of the Hamiltonian of a quantum system, which describes the evolution of the quantum system as per Postulate 3' [TODOref]. It maps the \emph{eigenstates} of the system to their energies. Only when the system is on an eigenstate, the energy of the system is well defined and called \emph{eigenenergy}, which are just the eigenvalues. The set of eigenstates and eigenenegies is called the \emph{eigenspectrum}.
+
+For a D-Wave system, the Hamiltonian may be described as:
+
+$$ H_{ising} = \underbrace{- \frac{A(s)}{2} \bigg( \sum_i \upsigma_x^{(i)} \bigg)}_\text{Initial Hamiltonian} 
+			+ \underbrace{\frac{B(s)}{2} \bigg( \sum_i h_i \upsigma_z^{(i)} + \sum_ {i > j} J_{i,j} \upsigma_z^{(i)} \upsigma_z^{(j)} \bigg)}_\text{Final Hamiltonian} $$
+
+
+% TODO: finish section
 
 
 
 
 
-
-
-
-
-
-
-https://journals.aps.org/prl/pdf/10.1103/PhysRevLett.117.180402
-
-
+% TODO: move figures to different folders.
 
 
