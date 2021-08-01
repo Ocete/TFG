@@ -1,17 +1,17 @@
 \chapter{The D-Wave Quantum Computer}
 
 
-% TODO: intro del capítulo
+In this second chapter, we aim to understand the D-Wave Quantum systems. In order to achieve that, we start by explaining the basis of quantum annealing that the D-Wave systems used underneath, and how to transform problems into the adequate format for these systems.
 
 
 \section{Quantum Annealing}
 
 
-Simulated annealing (SA) is an general optimization technique that was first introduced in 1983 by Kirkpatrick \emph{et al.} \cite{Kirkpatrick1983}. The main idea is to mimic how thermal fluctuations work to let the system escape from local minimums in the cost function. The \emph{temperature} of the system dictates the probability with which the is allowed to jump to worse solutions (higher values of the cost function). The \emph{annealing schedule} is the decrease rate of the temperature, controlled by the programmer. Under the appropiate one, the system would be able to scape from local minimums to reach the global one. If the temperature decreases too quickly, the system converges prematurely to a local minimum. If it decreases too slowly, the technique transforms into a random walker, reaching the global minimum at some point but being worthless time-wise.
+Simulated annealing (SA) is a general optimization technique that was first introduced in 1983 by Kirkpatrick \emph{et al.} \cite{Kirkpatrick1983}. The main idea is to mimic how thermal fluctuations works to let the system escape from local minimums in the cost function. The \emph{temperature} of the system dictates the probability with which the is allowed to jump to worse solutions (higher values of the cost function). The \emph{annealing schedule} is the decrease rate of the temperature, controlled by the programmer. Under the appropriate one, the system would be able to escape from local minimums to reach the global one. If the temperature decreases too quickly, the system converges prematurely to a local minimum. If it decreases too slowly, the technique transforms into a random walker, reaching the global minimum at some point but being worthless time-wise.
 
-Inspiration in thermal fluctuations are used in SA so the system may escape from local minima. Similarly, \emph{quantum tunneling} is used in Quantum Annealing (QA) in order to escape from local minimums. This new technique was introduced in its present form by two similar proposals \cite{Finnila1994} \cite{Kadowaki1998}.
+Inspiration in thermal fluctuations is used in SA so the system may escape from local minima. Similarly, \emph{quantum tunneling} is used in Quantum Annealing (QA) to escape from local minimums. This new technique was introduced in its present form by two similar proposals \cite{Finnila1994} \cite{Kadowaki1998}.
 
-Quantum tunneling is a quantum mechanical phenomenon where a wavefunction (i.e. a quantum state) may propagate through a potetial barrier \cite{Nimtz2008}. The probability of this event occuring depends on the height and width of the barrier (see figure \ref{fig 2.1})
+Quantum tunneling is a quantum mechanical phenomenon where a wavefunction (i.e. a quantum state) may propagate through a potential barrier \cite{Nimtz2008}. The probability of this event occurring depends on the height and width of the barrier (see figure \ref{fig 2.1})
 
 \begin{figure}[h]
 	\includegraphics[scale=.8]{QuantumTunneling.jpg}
@@ -20,29 +20,29 @@ Quantum tunneling is a quantum mechanical phenomenon where a wavefunction (i.e. 
 	\label{fig 2.1}
 \end{figure}
 
-The main advantage of quantum tunneling compared to classical thermal fluctuations is that the probability of the system shifting depends to only on the height of the potential barrier but also on its width. Thus, application of QA may pottentially outperform SA in problems where the energy (cost) landscape consists on very high and thin barries surronding local minimums. 
+The main advantage of quantum tunneling compared to classical thermal fluctuations is that the probability of the system shifting depends not only on the height of the potential barrier but also on its width. Thus, the application of QA may potentially outperform SA in problems where the energy (cost) landscape consists of very high and thin barriers surrounding local minimums. 
 
-Particularly, as studied in \cite{Ray1989}, let $\Delta$ be the height of a barrier and $\omega$ its width. The probability of a thermal transition ocurring is dictated by $exp\{-\frac{\Delta}{k_B T}\}$ where $T$ y the temperatue of the system and $k_B$ is the Boltzmann constant. On the other hand, the probability of a quantum tunneling transition ocurring through the same barrier (asumming isolation) is $exp\{-\frac{\sqrt \Delta \omega}{\Gamma}\}$, where $\Gamma$ is the tunneling field. Thus, the probability is much higher for the quantum tunneling effect on a high and thin barriers.
+Particularly, as studied in \cite{Ray1989}, let $\Delta$ be the height of a barrier and $\omega$ its width. The probability of a thermal transition occurring is dictated by $exp\{-\frac{\Delta}{k_B T}\}$ where $T$ y the temperature of the system and $k_B$ is the Boltzmann constant. On the other hand, the probability of a quantum tunneling transition occurring through the same barrier (assuming isolation) is $exp\{-\frac{\sqrt \Delta \omega}{\Gamma}\}$, where $\Gamma$ is the tunneling field. Thus, the probability is much higher for the quantum tunneling effect on high and thin barriers.
 
-We may also observe looking at the previous expressions how the tunneling field and the temperature play a similar roles in the different methods. Thus, the annealing schedule of the QA system is controlled using the tunneling field just like the temperature is used in SA.
+We may also observe looking at the previous expressions how the tunneling field and the temperature play similar roles in the different methods. Thus, the annealing schedule of the QA system is controlled using the tunneling field just like the temperature is used in SA.
 
-There are many examples in the literature of QA simulations using classical computers, both theoretical \cite{Morita2008} and numerical -most of them using Quantum Monte Carlo (QMC) methods \cite{Isakov2016} \cite{Farhi2000}-. This evidence suggests outperformance of SA by simulated QA under certain conditions. It is resonable to wonder what happens if instead of simulating QA we could somehow encode our problems in a real physical system that tends to its lower energy state (ground state), thus using quantum tunneling naturally. This is precisely what the D-Wave system does.
+There are many examples in the literature of QA simulations using classical computers, both theoretical \cite{Morita2008} and numerical -most of them using Quantum Monte Carlo (QMC) methods \cite{Isakov2016} \cite{Farhi2000}-. This evidence suggests the outperformance of SA by simulated QA under certain conditions. It is reasonable to wonder what happens if instead of simulating QA we could somehow encode our problems in a real physical system that tends to its lower energy state (ground state), thus using quantum tunneling naturally. This is precisely what the D-Wave system does.
 
-Let us farther deepen into the technicalities of quantum annealing in order to understand how it is implemented in the D-Wave system.
+Let us further deepen into the technicalities of quantum annealing in order to understand how it is implemented in the D-Wave system.
 
 
 \section{Adiabatic Evolution}
 \label{sec:adiabatic-evolution}
 
 
-The alternative form of the third postulate of quantum mechanics (section \ref{postulate-3'}) stated that the evolution of a quantum system is described by the Schrodinger equation:
+The alternative form of the third postulate of quantum mechanics (section \ref{sec:postulate-3}) stated that the evolution of a quantum system is described by the Schrodinger equation:
 
 $$ i \hbar \frac{d|\varphi\ra}{dt} = H|\varphi\ra $$
 
-By better understanding the Hamiltonian $H$ we may controll this evolution. Suppose that at the evolution of a given quantum system is described by a Hamiltonian $\hat H(t)$. Suppose that at some initial time $t_0$ our quantum system is in an eigenstate $|\varphi(t_0)\ra$ of $\hat H(t_0)$. Since the evolution is continuous, at some other time $t_1 > t_0$ we could expect our system to be in the corresponding eigenstate $|\varphi(t_1)\ra$ of $\hat H(t_1)$. This fact critically depends on the time $\tau = t_1 - t_0$ during which the modification takes places, as stated by the adiabatic theorem, first proposed by Max Born and Vladimir Fock (1928) \cite{Born1928}.
+By better understanding the Hamiltonian $H$ we may control this evolution. Suppose that the evolution of a given quantum system is described by a Hamiltonian $\hat H(t)$. Suppose that at some initial time $t_0$ our quantum system is in an eigenstate $|\varphi(t_0)\ra$ of $\hat H(t_0)$. Since the evolution is continuous, at some other time $t_1 > t_0$ we could expect our system to be in the corresponding eigenstate $|\varphi(t_1)\ra$ of $\hat H(t_1)$. This fact critically depends on the time $\tau = t_1 - t_0$ during which the modification takes place, as stated by the adiabatic theorem, first proposed by Max Born and Vladimir Fock (1928) \cite{Born1928}.
 
 \begin{theorem}[Adiabatic Theorem]
-\label{th:adiabatic-theorem}
+	\label{th:adiabatic-theorem}
 	A physical system remains in its instantaneous eigenstate if a given perturbation is acting on it slowly enough and if there is a gap between the eigenvalue and the rest of the Hamiltonian's spectrum.
 \end{theorem}
 
@@ -56,15 +56,15 @@ Thus, we may define diabatic and adiabatic processes depending on how they adapt
 	An \emph{adiabatic process} is a process where gradually changing conditions allow the system to adapt its configuration. If the system starts in an eigenstate of the initial Hamiltonian, it will end in the corresponding eigenstate of the final Hamiltonian.
 \end{definition}
 
-The 'gap condition' that appears in theorem \ref{th:adiabatic-theorem} refers to an additional requirement: the spectrum of $\hat H(t)$ is \emph{nondegenerate}, meaning there are no two equal eigenvalues at fixed time $t$. This condition is also called the \emph{no-crossing} condition, and allow us to sort the eigenstates using the eigenvalues without any ambiguity.
+The 'gap condition' that appears in theorem \ref{th:adiabatic-theorem} refers to an additional requirement: the spectrum of $\hat H(t)$ is \emph{nondegenerate}, meaning there are no two equal eigenvalues at fixed time $t$. This condition is also called the \emph{no-crossing} condition and allows us to sort the eigenstates using the eigenvalues without any ambiguity.
 
-As a classical annalogy fro adiabatic evolution, consider a simple pendulum. If the pendulum's support point is moved, the oscillation of the pendulum may change. In fact, violent changes on the support point will dramatically affect the pendulum's movement, changing it completely. However, if the support point is moved slowly enough, the pendulum will remain unchange. These are examples of diabatic and adiabatic processes respectively.
+As a classical analogy for adiabatic evolution, consider a simple pendulum. If the pendulum's support point is moved, the oscillation of the pendulum may change. In fact, violent changes on the support point will dramatically affect the pendulum's movement, changing it completely. However, if the support point is moved slowly enough, the pendulum will remain unchanged. These are examples of diabatic and adiabatic processes respectively.
 
 
 \subsection{Avoided crossing}
 
 
-Let us consider a important physical example known as the \emph{avoided crossing}. Consider a two-state quantum system, i.e. a qubit. Suppose its Hamiltonian to be:
+Let us consider an important physical example known as the \emph{avoided crossing}. Consider a two-state quantum system, i.e. a qubit. Suppose its Hamiltonian to be:
 
 $$
 	H = 
@@ -91,11 +91,11 @@ $$
 
 which will be used as our base. Thus, a state vector describing the system may be written as a superposition of both states:
 
-$$ |\varphi\ra = \alpha(t)|0\ra + \beta(t)|1\ra $$
+$$ |\varphi\ra = \alpha|0\ra + \beta|1\ra $$
 
-Supposing adiabatic evolution, if the system is prepared in either one of the eigenstates it will remain as such as long as the gap condition is suffied: $E_1 \neq E_2$. However, if $E_1 = E_2$, any superposition of states will be an eigenstate, thus remaining unchanged. Hence, independently of $E_1$ and $E_2$, any system prepared in an eigenstate will remain as such, supposed adiabatic evolution.
+Supposing adiabatic evolution, if the system is prepared in either one of the eigenstates it will remain as such as long as the gap condition is sufficed: $E_1 \neq E_2$. However, if $E_1 = E_2$, any superposition of states will be an eigenstate, thus remaining unchanged. Hence, independently of $E_1$ and $E_2$, any system prepared in an eigenstate will remain as such, supposed adiabatic evolution.
 
-Let us consider a $P$ perturbation into our original system. For simplicity we only consider perturbations with degenerated diagonal. Our new Hamiltonian will be the following:
+Let us consider a perturbation $P$ into our original system. For simplicity, we only consider perturbations with degenerated diagonal. Our new Hamiltonian will be the following:
 
 $$
 	H' = H + P =
@@ -124,7 +124,7 @@ A continuación quiero añadir una imagen, seguramente como la de \href{https://
 \begin{figure}[H]
 	\includegraphics[scale=1]{wiki.jpg}
 	\centering
-	\caption{Figura de wikipedia}.
+	\caption{Figura de wikipedia}
 	\label{temp}
 \end{figure}
 
@@ -147,15 +147,15 @@ Sin embargo, me salen las ramas de las hiperbolas giradas 90 grados. Esperaba qu
 \subsection{Solving problems using adiabatic evolution}
 
 
-In order to use adiabatic evolution to solve optimization problems we will configure our own Hamiltonian for the system. In particular, the Hamiltonian will be a linear combination of two Hamiltonians:
+In order to use adiabatic evolution to solve optimization problems we will configure our own Hamiltonian for the system. In particular, the Hamiltonian will be a time-dependent linear combination of two constant Hamiltonians:
 
 $$ H(t) = f(t) \cdot H_{initial} + g(t) \cdot H_{final} \quad \forall t \in [t_{initial}, t_{final}] $$
 
 where $f,g: [t_{initial}, t_{final}] \longrightarrow \R^+_0$. The initial Hamiltonian, $H_{initial}$, will be an easy configuration so we may prepare our system to start in the ground state of $H_{initial}$. The final Hamiltonian, $H_{final}$, will encapsulate the cost function of our problem such that the minimum value is reached in the ground state. 
 
-Functions $f$ and $g$ fulfil that $g(t_{initial}) = f(t_{final}) = 0$. When times elapses and supposing adiabatic evolution, the system will stay on the ground state of $H$ and by $t = t_{final}$, the system will be in the $H_{final}$'s ground state, codifying the minimum of our cost function.
+Functions $f$ and $g$ fulfill that $g(t_{initial}) = f(t_{final}) = 0$. When times elapses and supposing adiabatic evolution, the system will stay on the ground state of $H$ and by $t = t_{final}$, the system will be in the $H_{final}$'s ground state, codifying the minimum of our cost function.
 
-However, we cannot always grant the necessary conditions for perfect adiabatic evolution. In some cases, the gap condition does not suffies at the system will jump with certain probability to other eigenstates, providing suboptimal solutions but still useful ones. This depends of the eigenvalues of the final Hamiltonian, which at the same time entirely depends on the problem being studied.
+However, we cannot always grant the necessary conditions for perfect adiabatic evolution. In some cases, the gap condition does not suffice at the system will jump with a certain probability to other eigenstates, providing suboptimal solutions which are still useful. This depends on the eigenvalues of the final Hamiltonian, which at the same time entirely depends on the problem being studied.
 
 The only question remaining is how to encode our cost function in a Hamiltonian.
 
@@ -163,9 +163,9 @@ The only question remaining is how to encode our cost function in a Hamiltonian.
 \section{QUBO and Ising models}
 
 
-The QUBO and Ising problems can be easily represented with a Hamiltonian. In practice, non-optimization problems are transformed into optimization problems and then codified as either QUBO or Ising to be solved using quantum annealing. Let us explore this type of problems and some examples of these transformations.
+The QUBO and Ising models can be easily represented with a Hamiltonian. In practice, non-optimization problems are transformed into optimization problems and then codified as either QUBO or Ising to be solved using quantum annealing. Let us explore these types of problems and some examples of these transformations.
 
-Let $B = \{0,1\}$ and $f: \B \longrightarrow \R $ be a quadratic polynomial over binary variables:
+Let $B = \{0,1\}$ and $f: \B^n \longrightarrow \R $ be a quadratic polynomial over binary variables:
 
 $$ f_Q(x) = \sum_{i=1}^n \sum_{j=1}^i q_{ij} x_i x_j $$
 
@@ -173,7 +173,7 @@ where $x_i \in \B$ for $i \in \{1, \cdots, n\}$ and the coefficients $q_{ij} \in
 
 $$ x' = \underset {x \in \B^n }{\arg \min} ~ f(x) $$
 
-QUBO problems can be formulated in its more compact matrix form:
+QUBO problems can be formulated in a more compact matrix form:
 
 $$ f_Q(x) = x^T Q x $$
 
@@ -188,14 +188,14 @@ where $Q$ is a $n \times n$ symmetric matrix containing $q_{ii}$ and its diagona
 	
 		$$ f_{-Q}(x) = \sum_{i<j} (-q_{ij}) x_i x_j  = - \sum_{i<j} q_{ij} x_i x_j = -f_Q(x) $$
 		
-	\item If all coefficients are positive the minimum is $x = (0, \cdots, 0)$. Analogously, if all coefficients are negative, the minimum is $x = (1, \cdots, 1)$. 
+	\item If all coefficients are positive the minimum is $x = (0, \ldots, 0)$. Analogously, if all coefficients are negative, the minimum is $x = (1, \ldots, 1)$. 
 \end{itemize}
 
 The \textbf{Ising models}, on the other hand, find their inspiration in phisics. They are named after the phisic Ernst Ising who solved the one-dimensional model in his 1924 thesis \cite{Ising1924}. They are stated using a Hamiltonian function $H: \{-1, 1\}^n \longrightarrow \R$:
 
-$$ H(\sigma) = - \sum_{\la i ~ j \ra} J_{ij} \sigma_i \sigma_j - \mu \sum_j h_j \sigma_j $$
+$$ H(\upsigma) = - \sum_{\la i ~ j \ra} J_{ij} \upsigma_i \upsigma_j - \mu \sum_j h_j \upsigma_j $$
 
-with parameters $h_j, J_{ij}, \mu \in \R$. The \emph{spin variables} $\sigma_i$ are in $\{-1, 1\}$ instead of $\B$. Moreover, the spin variables are arranged in a graph, tipically a \emph{lattice}, where the local structure repeats periodically. Only pair of variables $\la i ~ j \ra$ which are neighbor nodes in the graph may have non-zero coefficients $J_{ij}$. Let us see the connection between the QUBO and Ising models by using the identity $\sigma \mapsto 2x -1$:
+with parameters $h_j, J_{ij}, \mu \in \R$. The \emph{spin variables} $\upsigma_i$ are in $\{-1, 1\}$ instead of $\B$. Moreover, the spin variables are arranged in a graph, typically a \emph{lattice}, where a local structure repeats periodically. The only pair of variables $\la i ~ j \ra$ which are neighbor nodes in the graph may have non-zero coefficients $J_{ij}$. Let us see the connection between the QUBO and Ising models by using the identity $\upsigma \mapsto 2x -1$:
 
 \begin{equation*}
 	\begin{split}
@@ -217,15 +217,15 @@ where
 
 $$ C = - \sum_{\la i ~ j \ra} J_{ij} - \mu \sum h_j $$
 
-Since adding a constat does not change the minimum $x'$, it can be omited during optimization and only be used for transforming one type of problem into another.
+Since adding a constant does not change the minimum $x'$, it can be omitted during optimization and only be used for transforming one type of problem into another.
 
-In practice, a given problem would be translated into either QUBO or Ising. It is useful to learn both type of problems since they both are popular among the literature. Let us deepen it the translation of different NP problems. The resolution of QUBO and Ising models will not be study, but only the translations into these models. In particular, these examples of QUBO transformations are mainly from \cite{Glover2019} and \cite{Lucas2014}, unless stated otherwise. For an extense literature review on QUBO and Ising translations of NP problems refer to \cite{Kochenberger2014}.
+In practice, a given problem would be translated into either QUBO or Ising. It is useful to learn both types of problems since they both are popular in the literature. Let us deepen in the translation of different NP problems. The resolution of QUBO and Ising models will not be studied, but only the translations into these models. In particular, these examples of QUBO transformations are from \cite{Glover2019} and \cite{Lucas2014} unless stated otherwise. For an extensive literature review on QUBO and Ising translations of NP, problems refer to \cite{Kochenberger2014}.
 
 
 \subsection{The Max Cut problem}
 
 
-One of the first famous problems that was encoded as a QUBO was the max-cut problem due its natural translation. It reads as follows: Given an undirected graph $G(V, E)$ with vertex set $V$ and edge set $E$, seek a partition of $V$ such that the number of edges between both sets is a large as possible.
+One of the first famous problems that was encoded as a QUBO was the max-cut problem due to its natural translation. It reads as follows: Given an undirected graph $G(V, E)$ with vertex set $V$ and edge set $E$, seek a partition of $V$ such that the number of edges between both sets is as large as possible.
 
 The max-cut problem can be modeled by setting variable $x_j = 1$ if vertex $j$ is in one set and $x_j = 0$ if it is in the other one, for every vertex $j$ in $V$. The quantity $(x_i + x_j - 2 x_i x_j)$ marks whether the edge $(i,j)$ is in the cut. That is, $(x_i + x_j - 2 x_i x_j) = 1$ if the vertices $x_i$ and $x_j$ are in different sets, and $0$ otherwise.
 
@@ -271,15 +271,14 @@ Yielding the following compact form:
 
 $$ \text{Maximize  } f_Q(x) = x^T Q x$$ 
 
-The minimum value of $f_Q(x)$ is $x = (0, 1, 1, 0, 0)$. Thus, vertices $2$ and $3$ are in one set and vertices $1$, $4$ and $5$ are in the other one.
+By solving this model using quantum annealing we obtait the minimum value of $f_Q(x)$: $x = (0, 1, 1, 0, 0)$. Thus, vertices $2$ and $3$ are in one set and vertices $1$, $4$ and $5$ are in the other one.
 
 
 \subsection{General translation method}
 
+The previous problem was naturally transformed into QUBO due to its particular constraints. However, can any quadratic optimization problem be encoded as a QUBO?
 
-The previous problem was naturally transform  into QUBO due to its particular constraints. However, can any quadratic optimization problem be encoded as a QUBO?
-
-The answer is positive. Furthermore, any quadratic optimization problem with linear constraints may be transformed into a QUBO. Let us first study a simple case. Consider the following problem:
+The answer to this question is positive. Furthermore, any quadratic optimization problem with linear constraints may be transformed into a QUBO. Let us first study a simple case. Consider the following problem:
 
 \begin{gather*}
 	\text{Minimize } f(x_1, x_2) \\
@@ -293,7 +292,7 @@ where $x_1, x_2 \in \B$. We may transform our linear constraint into a penalty $
 	\text{Minimize } f(x_1, x_2) + Px_1x_2
 \end{gather*}
 
-will minimize $f(x_1, x_2)$ and, at the same time, satisfy the constraint. Namely, the constraint translates into adding a non-negativa value to the cost function. Some other useful translations can be found in table \ref{penalties-table}. In general, if the cost function is being minimized we may substitute constraints by non-negative terms that only equal zero if they are satisfied, multiplied by a large-enough positive value $P$. Thus, we may remove the associated constraints by simply adding these terms to the cost function. 
+will minimize $f(x_1, x_2)$ and, at the same time, satisfy the constraint. Namely, the constraint translates into adding a non-negative value to the cost function. Some other useful translations can be found in table \ref{tab:penalties-table}. In general, if the cost function is being minimized we may substitute constraints by non-negative terms that only equal zero if they are satisfied, multiplied by a large enough positive value $P$. Thus, we may remove the associated constraints by simply adding these terms to the cost function.
 
 \begin{table}[h]
 	\centering
@@ -309,7 +308,7 @@ will minimize $f(x_1, x_2)$ and, at the same time, satisfy the constraint. Namel
 		$x = y$              		& $P(x + y - 2xy)$    
 	\end{tabular}
 	\caption{Constraints and penalties relations}
-	\label{penalties-table}
+	\label{tab:penalties-table}
 \end{table}
 
 Specifically, let us study the more general case:
@@ -318,34 +317,34 @@ $$ \text{Minimize } f(x) = x^T C x $$
 $$ \text{subject to the constraints} $$
 $$ Ax = b $$
 
-where $x \in \B^n$, $k$ is the number of constraints, $b \in \R^k$, $C$ is a $n \times n$ matrix and $A$ is a $k \times n$ matrix. This accomodates to both linear and quadratic cost function since elements in the diagonal are $c_{ii} x_i^2 = c_{ii} x_i$. For a positive scalar $P$, the quadratic penalty $P (Ax - b)^T (Ax - b)$ is added to the cost function to obtain:
+where $x \in \B^n$, $k$ is the number of constraints, $b \in \R^k$, $C$ is a $n \times n$ real matrix and $A$ is a $k \times n$ real matrix. This accomodates to both linear and quadratic cost function since elements in the diagonal are $c_{ii} x_i^2 = c_{ii} x_i$. For a positive scalar $P$, the quadratic penalty $P (Ax - b)^T (Ax - b)$ is added to the cost function to obtain:
 
 \begin{equation*}
 	\begin{split}
 		f'(x)	& = x^T C x + P (Ax - b)^T (Ax - b) \\
-		& = x^T C x + P (x^TA^TAx - x^TA^Tb - b^TAx + b^Tb) \\
+		& = x^T C x + P (x^TA^TAx - \cancelto{}{x^TA^Tb} - \cancelto{}{b^TAx} + b^Tb) \\
 		& = x^T C x + x^T D x + c \\
 		& = x^T Q x + c 
 	\end{split}
 \end{equation*}
 
-where $D = P(A^TA)$, $c = P(- x^TA^Tb - b^TAx + b^Tb)$ and $Q = C + D$. Since the constant $c$ does not affect where the minimum is reached, $f$ and $f'$ share this minimum. Therefore, we may simply solve:
+where $D = P(A^TA)$, $c = P(b^Tb)$ and $Q = C + D$. Since the constant $c$ does not affect where the minimum is reached, $f$ and $f'$ share this minimum. Therefore, we may simply solve:
 
 $$ \text{Minimize } f(x) = x^T Q x $$
 
 which is a QUBO problem.
 
-In this development we only considered equality constraints. There is also a general method to transform inequality constraints into equality ones by introducing \emph{slack variables} \cite{Hull2003}. In practice, the general case will not be necessary since the constraints are usually quite simple.
+In this development, we only considered equality constraints. There is also a general method to transform inequality constraints into equality ones by introducing \emph{slack variables} \cite{Hull2003}. In practice, the general case will not be necessary since the constraints are usually quite simple.
 
-Finally, we may also consider satisfiability problems. That is, given a set of constrains for the variables, find a configuration of them such that all the constraints are satisfied. If the constraints are linear, these problems may be transformed into QUBO by setting the cost function as constant and following the same method. Suppose the constraints over $x$ can be written as $Ax = b$. The equivalent optimization problem is written as:
+Finally, we may also consider satisfiability problems. That is, given a set of constraints for the variables, find a configuration of them such that all the constraints are satisfied. If the constraints are linear, these problems may be transformed into QUBO by setting the cost function as constant and following the same method. Suppose the constraints over $x$ can be written as $Ax = b$. The equivalent optimization problem is written as:
 
 $$ \text{Minimize } f(x) = 0 $$
 $$ \text{subject to the constraints} $$
 $$ Ax = b $$
 
-Any solution satisfaying the constraint will yield $0$ on the penalties, thus minimizing the transformed cost function $f'(x) = x^T Q x$. 
+Any solution satisfying the constraint will yield $0$ on the penalties, thus minimizing the transformed cost function $f'(x) = x^T Q x$. 
 
-Let us explore some more complicated examples to expand this ideas.
+Let us explore some more complicated examples to expand on these ideas.
 
 
 \subsection{Satisfiability problems: Max 2-SAT}
@@ -353,15 +352,15 @@ Let us explore some more complicated examples to expand this ideas.
 
 This example is based on \cite{Glover2019} and \cite{Farhi2000}.
 
-In the previous section we mentioned satisfiability problems, also known simply as SAT. In this section we study these problems from its traditional logic perspective.
+In the previous section, we mentioned satisfiability problems, also known simply as SAT. In this section, we study these problems from its traditional logic perspective.
 
-A \emph{clause} is statement depending on a finite set of binary variables , $C = C(x_1, \ldots, x_k)$, that be either True or False. A \emph{literal} is a variable or its negation: $x$ and $\neg x$. Let $C_1, \ldots, C_n$ be a set of \emph{Clauses} depending on variables $x_1, \ldots, x_m$. The satisbiality problem associated to this problem is to find a configuration for the variables $x_1, \ldots, x_m$ such that every clause is true:
+A \emph{clause} is statement depending on a finite set of binary variables , $C = C(x_1, \ldots, x_k)$, that be either True or False. A \emph{literal} is a variable or its negation: $x$ and $\neg x$ are literals. Let $C_1, \ldots, C_n$ be a set of \emph{Clauses} depending on variables $x_1, \ldots, x_m$. The satisbiality problem associated to this problem is to find a configuration for the variables $x_1, \ldots, x_m$ such that every clause is true:
 
 $$ C_1 \wedge \cdots \wedge C_n $$
 
-SAT was the first problem proven to be NP complete. This result is known as the Cook-Levin theorem, named after Stephen Cook and Leonid Levin \cite{Book1980}. Its relevance in computer science is astronomical. There has been many variations of SAT problems. Let us explore the Max 2-SAT variation and transform it into a QUBO model.
+SAT was the first problem proven to be NP-complete. This result is known as the Cook-Levin theorem, named after Stephen Cook and Leonid Levin \cite{Book1980}. Its relevance in computer science is astronomical. There have been many variations of SAT problems, let us explore one of them, the Max 2-SAT variation, and transform it into a QUBO model.
 
-Max 2-SAT problem is not an optimization problem. Its main restriction is that each clause may depend on at most two literals and it is true if and only if at least one literal is true. The problem consist on finding a configuration of variables such that the number of true clauses is maximized. Each clause $C(x_C, y_C)$ is associated with an energy fuction depending on the variables $(x_C, y_C)$:
+Max 2-SAT problem is an optimization problem. Its main restriction is that each clause may depend on at most two literals and it is true if and only if at least one literal is true. The problem consists of finding a configuration of variables such that the number of true clauses is maximized. Each clause $C(x_C, y_C)$ is associated with an energy function depending on the variables $(x_C, y_C)$:
 
 \begin{equation*}
 E_C(x_C, y_C) = 
@@ -375,9 +374,9 @@ The energy of the whole system, which will work as our cost function, is defined
 
 $$E = \sum_C E_C$$
 
-Clearly $E \geq 0$ and $E = 0$ if and only if every clause is true. Furthermore, the minimum energy of the system $E_0$ will be reached where the maximum number of clauses are satisfied: exactly every clause but $E_0$ will be true. Note that this perpective does not depende on the Max 2-SAT problem. In fact, the same process is use to transform other satisfiability problems.
+Clearly $E \geq 0$ and $E = 0$ if and only if every clause is true. Furthermore, the minimum energy of the system $E_0$ will be reached where the maximum number of clauses are satisfied: exactly every clause but $E_0$ will be true. Note that this perspective does not depend on the Max 2-SAT problem. In fact, the same process is used to transform other satisfiability problems.
 
-The remaining quesiton is how to transform our clauses into energy functions. For the Max 2-SAT problem this is quite straight forward. Each clause may depend on at most two literals. Thus, there are either zero, one or two negations in each clause. We may study this cases separately, as seen in table \ref{tab:penalties-max-2-sat-table}.
+The remaining question is how to transform our clauses into energy functions. For the Max 2-SAT problem this is quite straightforward. Each clause may depend on at most two literals. Thus, there are either zero, one, or two negations in each clause. We may study this cases separately, as seen in table \ref{tab:penalties-max-2-sat-table}.
 
 \begin{table}[h]
 	\centering
@@ -391,17 +390,17 @@ The remaining quesiton is how to transform our clauses into energy functions. Fo
 	\label{tab:penalties-max-2-sat-table}
 \end{table}
 
-Since every energy function is quadratic, their will also be so. This is the cost function used in our QUBO model:
+Since every energy function is quadratic, the total energy will also be quadratic. This is the cost function used in our QUBO model:
 
-$$ \text{Minimize } E(x) $$
+$$ \text{Minimize } E(x) = \sum_C E_C$$
 
-Note that, interestingly enough, our QUBO model does not depend on the number of clauses but only in the number of variables. This means that a problems with $30.000$ clauses and $200$ variables will only use $200$ variables in the associated QUBO model.
+Note that, interestingly enough, our QUBO model does not depend on the number of clauses but only on the number of variables. This means that a problem with $30.000$ clauses and $200$ variables will only use $200$ variables in the associated QUBO model.
 
 
 \newparagraph{Numerical Example}
 
 
-Given the following the set of clauses found in table \ref{tab:penalties-max-2-sat-example}, find a solution to the Max 2-SAT problem associated to them.
+Given the following set of clauses found in table \ref{tab:penalties-max-2-sat-example}, find a solution to the Max 2-SAT problem associated with them.
 
 \begin{table}[h]
 	\centering
@@ -424,7 +423,7 @@ Given the following the set of clauses found in table \ref{tab:penalties-max-2-s
 	\label{tab:penalties-max-2-sat-example}
 \end{table}
 
-A quick look at the first four clauses tells us that we cannot possibly find a configuration of variables that satisfy every clause. In fact, at most three of those four will be true. Adding the energies associated to every clause gives us the energy of the system, and therefore our QUBO model:
+A quick look at the first four clauses tells us that we cannot possibly find a configuration of variables that satisfy every clause. In fact, at most three of those four will be true. Adding the energies associated with every clause gives us the energy of the system, and therefore our QUBO model:
 
 $$ \text{Minimize } E(x) = 3 + x_1 - 2 x_4 - x_2x_3 + x_2x_4 + 2 x_3x_4 $$
 
@@ -446,9 +445,9 @@ Q =
 \right)
 $$
 
-Solving this QUBO gives $x_1 = x_2 = x_3 = 0$ and $x_4 = 1$ with $E(0, 0, 0, 1) = 1$, meaning that all clauses but one are satisfied.
+Solving this QUBO gives $x_1 = x_2 = x_3 = 0$ and $x_4 = 1$ with energy $E(0, 0, 0, 1) = 1$, meaning that all clauses but one are satisfied.
 
-As a final remark, this method of solving Max 2-SAT problems has proven to be computationally useful up to hundreds of variables of thousands of clauses \cite{Kochenberger2005}.
+As a final remark, this method of solving Max 2-SAT problems has proven to be computationally useful up to hundreds of variables and thousands of clauses \cite{Kochenberger2005}.
 
 
 \subsection{Graph Coloring}
@@ -464,7 +463,7 @@ $$ x_{ic} + x_{jc} \leq 1 \quad \forall c \in \{1, \cdots, K\} $$
 
 for every pair of adjancent nodes $(i,j)$ in $G$.
 
-Thus, by finding a vector configuration for the variables $x_{ij}$ that satisfy this constraint, we find a solution of the graph coloring problem. This is what we previously introduced as a satisfiability problem. Therefore, it may be written as:
+Thus, by finding a vector configuration for the variables $x_{ij}$ that satisfy this constraint, we find a solution to the graph coloring problem. This is what we previously introduced as a satisfiability problem. Therefore, it may be written as:
 
 $$ \text{Minimize } f(x) = 0 $$
 $$ \text{subject to the constraints} $$
@@ -482,17 +481,17 @@ Given the following graph, find a coloring using three colors.
 	\centering
 \end{figure}
 
-For this particular graph there are $15$ variables $x_{ij}$ for all $i \in \{1, \cdots, 5\}$ and for all $j \in \{1, 2, 3\}$. The associated constraints are:
+For this particular graph there are $15$ variables: $x_{ij}$ for all $i \in \{1, \cdots, 5\}$ and for all $j \in \{1, 2, 3\}$. The associated constraints are:
 
 $$ x_{i1} + x_{i2} + x_{i3} = 1 \quad \forall i \in \{1, \cdots, 5\} $$
 $$ x_{ic} + x_{jc} \leq 1 \quad \forall c \in \{1, 2, 3\} \quad \text{for all adjacent nodes i and j} $$
 
-a total of $26$: $5$ for  assigning one and only one color to each node, and $3$ additional ones per edge in the graph ($7$) for no adjacent equally colored nodes. First, let us rename our variables from $1$ to $15$ as follows:
+a total of $26$: $5$ for assigning one and only one color to each node, and $3$ additional ones per edge in the graph ($7$) for no adjacent equally colored nodes. First, let us rename our variables from $1$ to $15$ as follows:
 
 $$ (x_{11}, x_{12}, x_{13}, x_{21}, x_{22}, x_{23}, x_{31}, \dots, x_{52}, x_{53}) =
 	(x_1, x_2, x_3, x_4, x_5, x_6, x_7, \dots, x_{15}, x_{16}) $$
 
-The first set of constraints may be substitued by $P(x_{i1} + x_{i2} + x_{i3} - 1)^2$, which only equals $0$ if the constraint is satisfied. For instance, for the first node $P(x_1 + x_2 + x_3 - 1)^2$ is tranformed to $P(- x_1 - x_2 - x_3 + 2 x_1 x_2 + 2 x_1 x_3 + 2 x_2 x_3) + P$. By chosing a value for $P=4$ and dropping the constant we can  insert these penalties into an under developed $Q$ matrix:
+The first set of constraints may be substitued by $P(x_{i1} + x_{i2} + x_{i3} - 1)^2$, which only equals $0$ if the constraint is satisfied. For instance, for the first node $P(x_1 + x_2 + x_3 - 1)^2$ is tranformed to $P(- x_1 - x_2 - x_3 + 2 x_1 x_2 + 2 x_1 x_3 + 2 x_2 x_3 + 1)$. By chosing a value for $P=4$ and dropping the constant we can  insert these penalties into an under developed $Q$ matrix:
 
 $$
 Q = 
@@ -517,7 +516,7 @@ Q =
 \right)
 $$
 
-Secondly, in order to transform $x + y \leq 1$ we can refer to table \ref{penalties-table} and use $P(xy)$. We add these penalties to the previous matrix in the proper places:
+Secondly, in order to transform $x + y \leq 1$ we can refer to table \ref{tab:penalties-table} and use $P(xy)$. We add these penalties to the previous matrix in the proper places:
 
 $$
 Q = 
@@ -542,11 +541,11 @@ Q =
 \right)
 $$
 
-Since the matrix above incorporate all the constraints, finding a graph coloring is equivalent to finding a minimum of:
+Since the matrix above incorporates all the constraints, finding a graph coloring is equivalent to finding a minimum of:
 
 $$ \text{Minimize } f(x) = x^T Q x $$
 
-Solving this model yields $x_2 = x_4 = x_9 = x_{11} = x_{15} = 1$, and $0$ for the rest of the variables. Meaning, nodes $1$ and $4$ are assigned color number $2$, node $2$ is assigned color number $1$, and nodes $3$ and $5$ are assigned color number $3$.
+Solving this model using quantum annealing yields a possible solution: $x_2 = x_4 = x_9 = x_{11} = x_{15} = 1$, and $0$ for the rest of the variables. Meaning, nodes $1$ and $4$ are assigned color number $2$, node $2$ is assigned color number $1$, and nodes $3$ and $5$ are assigned color number $3$.
 
 As a final remark, this method of graph coloring has proven to be computationally useful for graphs with up to $450$ nodes and $9757$ edges \cite{Kochenberger2005}.
 
@@ -556,18 +555,18 @@ As a final remark, this method of graph coloring has proven to be computationall
 
 This example is mainly based on \cite{Glover2019}.
 
-In order to formulate our next problem, a couple of extra definitions are needed. Given a graph, a \emph{Hamiltonian path} is a path -a sequence of conected nodes- such that it only passes through each node exactly once. A \emph{cycle}, also called \emph{tour}, is a path that starts and ends in the same node. A \emph{Hamiltonian cycle} is a cycle that passes through each node a single time, except for the first/last node which appears twice in the cycle. Additionally, a weighted graph $G =(V, E, W)$ is a graph with a series of weigths $w_e \in \R$ associated to each edge $e \in E$.
+In order to formulate our next problem, a couple of extra definitions are needed. Given a graph, a \emph{Hamiltonian path} is a path -a sequence of connected nodes- such that it only passes through each node exactly once. A \emph{cycle}, also called \emph{tour}, is a path that starts and ends in the same node. A \emph{Hamiltonian cycle} is a cycle that passes through each node a single time, except for the first/last node which appears twice in the cycle. Additionally, a weighted graph $G =(V, E, W)$ is a graph with a series of weights $w_e \in \R$, each associated to an edge $e \in E$.
 
-The Travelling Salesman problem is the following: Given a directed weighted graph, find a Hamiltonian cycle with minimum total weight. The problem is sometimes stated with a Hamiltonian path instead of Hamiltonian cyle, but as it will be seen in section [TODOref], for our pourposes the cycle-statement will be of better use.
+The Travelling Salesman problem is the following: Given a directed weighted graph, find a Hamiltonian cycle with minimum total weight. The problem is sometimes stated with a Hamiltonian path instead of a Hamiltonian cycle, but as it will be seen in section [TODOref], for our purposes the cycle-statement will be of better use.
 
-We may supposse without lossing generality that the graph is complete. That is, there is always an edge from every two nodes in every direction. If the given graph is not complete, we may add the remaining edges with a high enough weigth so that they are never used.
+We may suppose without losing generality that the graph is complete. That is, there is always an edge from every two nodes in every direction. If the given graph is not complete, we may add the remaining edges with a high enough weight so that they are never used.
 
-Since solutions to this problem are a series of $n \equiv |V|$ nodes -the number of nodes in the graph-, we will encode $n$-nodes cycles as $(v_{k_0}, \ldots, v_{k_{n-1}})$, where nodes $e_{k_0}$ and $e_{k_{n-1}}$ are also conected. Thus, our problem may originally may stated as:
+Since solutions to this problem are a series of $n \equiv |V|$ nodes -the number of nodes in the graph-, we will encode $n$-nodes cycles as $(v_{k_0}, \ldots, v_{k_{n-1}})$, where nodes $v_{k_0}$ and $v_{k_{n-1}}$ are also conected. Thus, our problem may originally may stated as:
 
 $$ \text{Minimize } \sum_{i=0}^{n-1} w_{k_i, k_{i+1}} $$
 $$ \text{subject to the constraint that } (v_{k_0}, \cdots, v_{k_{n-1}}) \text{ is a Hamiltonian cycle}$$
 
-where the $k_n \equiv k_0$. The binary variables $x_{i,p}$ will be used, where $i,p \in \{0, \ldots, n-1\}$. $x_{i,p}$ will equal $1$ if and only if node $i$ is in position $p$ in our cycle. Thus, we will have $n^2$ variables under the following constraints:
+where the addition is perform under modulus $n$: $k_n \equiv k_0$. The binary variables $x_{i,p}$ will be used, where $i,p \in \{0, \ldots, n-1\}$. $x_{i,p}$ will equal $1$ if and only if node $i$ is in position $p$ in our cycle. Hence, we will have $n^2$ variables under the following constraints:
 
 \begin{enumerate}
 	\item Every node must be assigned. Thus, node assigment will be rewarded with a non-positive weight (favorable bias) called \textbf{self-bias} with an associated non-positive penalty:
@@ -589,7 +588,7 @@ where the $k_n \equiv k_0$. The binary variables $x_{i,p}$ will be used, where $
 	
 	$$ b \Big( \sum_{p=0}^{n-1} x_{i,p} - 1 \Big)^2 \quad \forall p \in \{0, \ldots, n-1\} $$
 
-	where $b$ is a positive parameter. Adding these $n$ penalties we obtain:
+	where $b$ is a positive parameter. Adding these penalties for eveyr node we obtain:
 	
 	\begin{equation}
 		\label{eqn:salesman-constrain2}
@@ -600,7 +599,7 @@ where the $k_n \equiv k_0$. The binary variables $x_{i,p}$ will be used, where $
 	
 	$$ \sum_{i=0}^{n-1} x_{i,p} = 1 \quad \forall i \in \{0, \ldots, n-1\} $$
 	
-	Resulting in the following penalty:
+	Resulting in the following total penalty:
 	
 	\begin{equation}
 		\label{eqn:salesman-constrain3}
@@ -614,7 +613,7 @@ Finally, we may re-write the cost function in terms of the binary variables. Wei
 
 $$ w_{i,j} \sum_{p=0}^{n-1} x_{i,p}x_{j,p+1} $$
 
-Adding up the penalties associated to every weigth yields the cost function:
+Adding up the penalties associated with every weight yields the cost function:
 
 $$ \text{Minimize } \sum_{i=0}^{n-1} \sum_{j=0}^{n-1} w_{i,j}\sum_{p=0}^{n-1} x_{i,p}x_{j,p+1} $$
 
@@ -632,10 +631,19 @@ The final QUBO model is obtained by adding the penalties \ref{eqn:salesman-const
 \end{equation}
 
 
-Since this is a quadratic unconstraint function, this is already a QUBO. The conversion to matrix is straight-forward. Let us see this in an example.
+Since this is a quadratic unconstraint function, this is already a QUBO. The conversion to a matrix is straightforward. Let us see this in an example.
 
 
 \newparagraph{Numerical Example}
+
+
+
+
+
+% TODO: aquidejemilectura, fix the picture posititioning
+
+
+
 
 
 Given the following graph:
@@ -715,7 +723,7 @@ We start the problem refactoring by renaming the variables:
 $$ (x_{0,0}, x_{0,1}, x_{0,2}, x_{0,3}, x_{1,0}, x_{1,1}, x_{1,2}, \dots, x_{3,2}, x_{3,3}) =
 (x_1, x_2, x_3, x_4, x_5, x_6, x_7, \dots, x_{15}, x_{16}) $$
 
-Each of the terms in the cost function \ref{eqn:salesman-cost-funct} may be transformed into a matrix. The term associated to the weights is additionally splitted using the different types of cycles in which they appear. We thus obtain nine adjacency matrices, found on figure \ref{fig:salesman-adj-matrices}.
+Each of the terms in the cost function \ref{eqn:salesman-cost-funct} may be transformed into a matrix. The term associated to the weights is additionally split using the different types of cycles in which they appear. We thus obtain nine adjacency matrices, found on figure \ref{fig:salesman-adj-matrices}.
 
 \begin{figure}[H]
 	\makebox[\textwidth][c]{
@@ -841,7 +849,7 @@ For a D-Wave system, the Hamiltonian may be described as:
 $$ H(s) = \underbrace{- \frac{A(s)}{2} \bigg( \sum_i \upsigma_x^{(i)} \bigg)}_\text{Initial Hamiltonian} 
 			+ \underbrace{\frac{B(s)}{2} \bigg( \sum_i h_i \upsigma_z^{(i)} + \sum_ {i > j} J_{i,j} \upsigma_z^{(i)} \upsigma_z^{(j)} \bigg)}_\text{Final Hamiltonian} $$
 
-where $\sigma^{(i)}_{x,z}$ are the Pauli matrices $X$ and $Z$ respectively operating on qubit $(i)$, $h_i$ are the qubit biases, and $J_{i,j}$ are the couplers weights.
+where $\upsigma^{(i)}_{x,z}$ are the Pauli matrices $X$ and $Z$ respectively operating on qubit $(i)$, $h_i$ are the qubit biases, and $J_{i,j}$ are the couplers weights.
 
 As explained in the adiabatic evolution section \ref{sec:adiabatic-evolution}, the Hamiltonian is made of two terms:
 
