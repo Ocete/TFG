@@ -637,15 +637,6 @@ Since this is a quadratic unconstraint function, this is already a QUBO. The con
 \newparagraph{Numerical Example}
 
 
-
-
-
-% TODO: aquidejemilectura, fix the picture posititioning
-
-
-
-
-
 Given the following graph:
 
 \begin{figure}[H]
@@ -671,15 +662,15 @@ We may see this graphically in table \ref{tbl:salesman-cycles}.
 \begin{table}[H]
 	\centering
 	\begin{tabular}{ccc}		
-		\includegraphics[scale=1]{graphs/salesman-cycleA.pdf} &
-		\includegraphics[scale=1]{graphs/salesman-cycleB.pdf} &
-		\includegraphics[scale=1]{graphs/salesman-cycleC.pdf} \\
+		\includegraphics[scale=.9]{graphs/salesman-cycleA.pdf} &
+		\includegraphics[scale=.9]{graphs/salesman-cycleB.pdf} &
+		\includegraphics[scale=.9]{graphs/salesman-cycleC.pdf} \\
 		
 		Type A & Type B & Type C \\
 		
-		\includegraphics[scale=1]{graphs/salesman-cycleD.pdf} &
-		\includegraphics[scale=1]{graphs/salesman-cycleE.pdf} &
-		\includegraphics[scale=1]{graphs/salesman-cycleF.pdf} \\
+		\includegraphics[scale=.9]{graphs/salesman-cycleD.pdf} &
+		\includegraphics[scale=.9]{graphs/salesman-cycleE.pdf} &
+		\includegraphics[scale=.9]{graphs/salesman-cycleF.pdf} \\
 		
 		Type D & Type E & Type F \\
 	\end{tabular}
@@ -687,7 +678,7 @@ We may see this graphically in table \ref{tbl:salesman-cycles}.
 	\label{tbl:salesman-cycles}
 \end{table}
 
-These six are the only possible cycles through our graph and of them will be the one with minimum cost. Since our binary encoding additionally depends on the node position, there are $4$ solutions of our encoding that represent the same cycle. For example, ($0 \rightarrow 1 \rightarrow 2 \rightarrow 3 \rightarrow 0$) and ($1 \rightarrow 2 \rightarrow 3 \rightarrow 0 \rightarrow 1$) both represent cycle type A. In this case, type A will be the tour with minimum cost.
+These six are the only possible cycles through our graph and one of them will have minimum cost. Since our binary encoding additionally depends on the node position, there are $4$ solutions of our encoding that represent the same cycle. For example, ($0 \rightarrow 1 \rightarrow 2 \rightarrow 3 \rightarrow 0$) and ($1 \rightarrow 2 \rightarrow 3 \rightarrow 0 \rightarrow 1$) both represent cycle type A. In this case, type A will be the tour with minimum cost.
 
 A graphical representation of the different penalties interactions is shown in figure \ref{fig:salesman-penalties}, based on the constraints defined above.
 
@@ -723,8 +714,6 @@ We start the problem refactoring by renaming the variables:
 $$ (x_{0,0}, x_{0,1}, x_{0,2}, x_{0,3}, x_{1,0}, x_{1,1}, x_{1,2}, \dots, x_{3,2}, x_{3,3}) =
 (x_1, x_2, x_3, x_4, x_5, x_6, x_7, \dots, x_{15}, x_{16}) $$
 
-Each of the terms in the cost function \ref{eqn:salesman-cost-funct} may be transformed into a matrix. The term associated to the weights is additionally split using the different types of cycles in which they appear. We thus obtain nine adjacency matrices, found on figure \ref{fig:salesman-adj-matrices}.
-
 \begin{figure}[H]
 	\makebox[\textwidth][c]{
 		\includegraphics[scale=0.5]{salesman-adj-matrices.png}
@@ -734,9 +723,11 @@ Each of the terms in the cost function \ref{eqn:salesman-cost-funct} may be tran
 	\label{fig:salesman-adj-matrices}
 \end{figure}
 
+Each of the terms in the cost function \ref{eqn:salesman-cost-funct} may be transformed into a matrix. The term associated to the weights is additionally split using the different types of cycles in which they appear. We thus obtain nine adjacency matrices, found on figure \ref{fig:salesman-adj-matrices}.
+
 Note that the matrices associated with the constraints are all symmetric. This happens because they only depend on the graph topology and not on the weights. On the other hand, since the cost of going back and forth between a pair of nodes is not the same, the matrices associated with the cycles are never symmetric.
 
-The final $Q$ matrix for our problem is obtained by adding these matrices. Experimental evidence suggests that setting $a = 0$ and $b = c = 13$ and applying quantum annealing yields optimal solutions of the cost function \cite{Sarkar2020}. Using these values for the penalties, the final $Q$ matrix is seen in figure \ref{fig:salesman-Q-matrix}.
+The final $Q$ matrix for our problem is obtained by adding these matrices. Experimental evidence suggests that setting $a = 0$ and $b = c = 13$ and applying quantum annealing yields optimal solutions our the cost function \cite{Sarkar2020}. Using these values for the penalties, the final $Q$ matrix is seen in figure \ref{fig:salesman-Q-matrix}.
 
 \begin{figure}[H]
 	\makebox[\textwidth][c]{
@@ -763,10 +754,11 @@ Finding one of the following minimas:
 Which corresponds to the four ways of encoding type A cycles with our notation.
 
 
+\FloatBarrier
 \section{D-Wave Systems}
 
 
-\textbf{D-Wave Systems Inc.} is a Canadian company dedicated to quantum computing. In 2011, they announced the first commercial quantum computer system, D-Wave One. During the following two decades, the D-Wave team have developed a series of computing computers dedicated to quantum annealing. The last one being the Advantage System (figure \ref{fig:advantage}).
+\textbf{D-Wave Systems Inc.} is a Canadian company dedicated to quantum computing. In 2011, they announced the first commercial quantum computer system, D-Wave One. During the following two decades, the D-Wave team has developed a series of quantum computers dedicated to quantum annealing. The last one being the Advantage System (figure \ref{fig:advantage}).
 
 \begin{figure}[h]
 	\includegraphics[scale=.1]{advantage_system.png}
@@ -775,7 +767,7 @@ Which corresponds to the four ways of encoding type A cycles with our notation.
 	\label{fig:advantage}
 \end{figure}
 
-The quantum processing unit (QPU) of this system consist of $5640$ qubits and $40,484$ \emph{couplers} (links between qubits that allow entanglement between a pair of qubits). It can be seen in figure \ref{fig:QPU}. The number of couplers is especially relevant. A coupler is the phisical mechanism that allow two qubits to be entagled. We will explain couplers in depth in the next section. We will deepend in the topology of the Advantage architecture in section [TODOref]. In table \ref{tab:dwave-comp}, we see comparative between the number of qubits and couplers from the different versions of d-Wave computer system.
+The quantum processing unit (QPU) of this system consists of $5640$ qubits and $40,484$ \emph{couplers} (links between qubits that allow entanglement between a pair of qubits). It can be seen in figure \ref{fig:QPU}. The number of couplers is especially relevant. A coupler is a physical mechanism that allows two qubits to be entangled. We will explain couplers in-depth in the next section. The different D-Wave architectures are explained in section \ref{sec:topologies}. In table \ref{tab:dwave-comp}, we see a comparison between the number of qubits and couplers from the different versions of the D-Wave computer system.
 
 \begin{table}[h]
 	\centering
@@ -791,7 +783,7 @@ The quantum processing unit (QPU) of this system consist of $5640$ qubits and $4
 	\label{tab:dwave-comp}
 \end{table}
 
-Since the QPU must be isolated to operate, it is encapsulated in a system at temperatures below 15 mK. In addition, radio frequency (RF)-shielded enclousure and magnetic shieldings are used to protect it from electromagnetic interferience \cite{DWaveDoc}.
+Since the QPU must be isolated to operate, it is encapsulated in a system at temperatures below 15 mK. In addition, radio frequency (RF)-shielded enclosure and magnetic shieldings are used to protect it from electromagnetic interference \cite{DWaveDoc}.
 
 \begin{figure}[h]
 	\includegraphics[scale=.2]{qpu.png}
@@ -800,16 +792,16 @@ Since the QPU must be isolated to operate, it is encapsulated in a system at tem
 	\label{fig:QPU}
 \end{figure}
 
-D-Wave provides an easy-to-use software enviroment to solve problems using quantum annealing. We will explain in depth in section [TODOref].
+D-Wave provides an easy-to-use software environment to solve problems using quantum annealing. We will explain it in-depth in section [TODOref].
 
 
 \subsection{Quantum Annealing in D-Wave}
 \label{sec:quantum-annealing-dwave}
 
 
-For this section we refer to the D-Wave documentation, which explains how quantum annealing is implemented and may be exploited in the D-Wave systems \cite{DWaveDoc-QuantumAnnealing}.
+For this section, we refer to the D-Wave documentation, which explains how quantum annealing is implemented and may be exploited in the D-Wave systems \cite{DWaveDoc-QuantumAnnealing}.
 
-Let us start by describing how qubits are phisically implemented in D-Wave's QPU. Superconducting loops are used for this porpuse, with a circulating current and a magnetic field. Depending on the direction of the current, the qubit will be in state $0$ or $1$; see figure \ref{fig:dwave-qubit}.
+Let us start by describing how qubits are physically implemented in D-Wave's QPU. Superconducting loops are used for this purpose, with a circulating current and a magnetic field. Depending on the direction of the current, the qubit will be in state $0$ or $1$; see figure \ref{fig:dwave-qubit}.
 
 \begin{figure}[h]
 	\makebox[\textwidth][c]{
@@ -829,11 +821,11 @@ In figure \ref{fig:dwave-annealing} we see a diagram with the evolution of a sin
 	\label{fig:dwave-annealing}
 \end{figure}
 
-Then, the quantum annealing is run, turning the energy diagram into what is called a \emph{double well potential} (b). The lower point of the left valley corresponds to the $0$ state and the right one to the $1$ state. If we measured the qubit now, it would end up with equal probability in either one of both states. However, we may influence the qubit's energy by applying a magnetic field and tilting the double well to one of the base states (c), increasing the probability of ending in that state. This new magnetic field is called \emph{bias} and the qubit minimizes the energy subject to the applied bias.
+Then, the quantum annealing is run, turning the energy diagram into what is called a \emph{double well potential} (b). The lower point of the left valley corresponds to the $0$ state and the right one to the $1$ state. If we measured the qubit now, it would end up with equal probability in either one of both states. However, we may influence the qubit's energy by applying a magnetic field and tilting the double-well to one of the base states (c), increasing the probability of ending in that state. This new magnetic field is called \emph{bias} and the qubit minimizes the energy subject to the applied bias.
 
-Biases applied on single qubits alone do not take full advantage of quantum annealing. We will also need \emph{couplers}, devices that entagle qubits to each other. A coupler can make two qubits tend to end in the same state or in opposite states with certain strength. As with bias, the coupler strength, usually called \emph{weight}  may be controlled by the programmer. Together the biases and the weigths are the parameters that define a problem in the D-Wave system. As the reader may already imagined, these are the parameters of a QUBO / Ising model that we may define.
+Biases applied on single qubits alone do not take full advantage of quantum annealing. We will also need \emph{couplers}, devices that entangle qubits to each other. A coupler can make two qubits tend to end in the same state or in opposite states with certain strength. As with bias, the coupler strength, usually called \emph{weight}  may be controlled by the programmer. Together the biases and the weights are the parameters that define a problem in the D-Wave system. As the reader may already imagine, these are the parameters of a QUBO / Ising model that we may define.
 
-Consider the a 2-qubits sytems for following simple example. There will be three parameters: the 2 qubits biases and the coupler weight between them. As we know, two entagled qubits may be in four posible states: $(0,0)$, $(0,1)$, $(1,0)$ or $(0,0)$. The previous parameters define what is known as the \emph{energy landspace}. Figure \ref{fig:dwave-2qubit-landscape} illustrates this idea. The energy of each state depends on the biases and the single weight.
+Consider a 2-qubits system for the following simple example. There will be three parameters: the 2 qubits biases and the coupler weight between them. As we know, two entangled qubits may be in four possible states: $(0,0)$, $(0,1)$, $(1,0)$ or $(0,0)$. The previous parameters define what is known as the \emph{energy landspace}. Figure \ref{fig:dwave-2qubit-landscape} illustrates this idea. The energy of each state depends on the biases and the single weight.
 
 \begin{figure}[h]
 	\includegraphics[scale=.25]{dwave-2qubit-landscape.png}
@@ -854,11 +846,11 @@ where $\upsigma^{(i)}_{x,z}$ are the Pauli matrices $X$ and $Z$ respectively ope
 As explained in the adiabatic evolution section \ref{sec:adiabatic-evolution}, the Hamiltonian is made of two terms:
 
 \begin{itemize}
-	\item The Initial Hamiltonian, also called \emph{tunneling Hamiltonian}, where the ground state is when every qubits is in superposition but no entanglement between qubit takes places.
+	\item The Initial Hamiltonian, also called \emph{tunneling Hamiltonian}, where the ground state is when every qubit is in superposition but no entanglement between qubit takes place.
 	\item The Final Hamiltonian, also called \emph{problem Hamiltonian}, where the biases and weights are such that the ground state is the solution of the problem we are trying to solve.
 \end{itemize}
 
-In fact, the final Hamiltonian is precisely a Ising model. By expressing our problem as an Ising -or, equivalently, a QUBO- we may encode it inside this Hamiltonian using the parameters $h_i$ and $J_{i,j}$.
+In fact, the final Hamiltonian is precisely an Ising model. By expressing our problem as an Ising -or, equivalently, a QUBO- we may encode it inside this Hamiltonian using the parameters $h_i$ and $J_{i,j}$.
 
 We may parametrize $s \in [0,1]$ as an abstract parameter that controls the annealing timing. Assuming the initial time is $t_0 = 0$, $s$ is defined as $s \equiv t / t_{final}$. Thus, the annealing occurs when $s$ goes from $0$ to $1$. We may define the annealing functions $A(s), B(s)$ such that $A(0) \gg B(0)$ and $A(1) \ll B(1)$. For instance, as seen in figure \ref{fig:dwave-annealing-functions}.
 
@@ -869,9 +861,9 @@ We may parametrize $s \in [0,1]$ as an abstract parameter that controls the anne
 	\label{fig:dwave-annealing-functions}
 \end{figure}
 
-With these restrictions on the annealing functions, the system's Hamiltonian satisfies $H(0) = H_{initial}$ and $H(1) = H_{final}$. Therefore, the ground state at time $s=0$ matches the ground state of the initial Hamiltonian and at time $t=1$, it matches the final Hamiltonian one. Under adiabatic evolution hypothesis, if the system starts in the initial Hamitolnian's ground state, it will end up in the final Hamiltonian one -which encodes the solution to our problem- at the end of the annealing.
+With these restrictions on the annealing functions, the system's Hamiltonian satisfies $H(0) = H_{initial}$ and $H(1) = H_{final}$. Therefore, the ground state at time $s=0$ matches the ground state of the initial Hamiltonian, and at time $t=1$, it matches the final Hamiltonian one. Under adiabatic evolution hypothesis, if the system starts in the initial Hamitolnian's ground state, it will end up in the final Hamiltonian one -which encodes the solution to our problem- at the end of the annealing.
 
-The question remaining is, are the adiabatic evolution hypothesis met? We may control the time that the annealing takes by adjusting our annealing functions, a few microseconds is enough in most cases, but the exact time that would make the annealing adiabatic is never known. The additional hipothesis of the adiabatic theorem (\ref{th:adiabatic-theorem}) mentions the gap between the ground energy and the rest of eigenenergies. Let us look at a visual representation of the evolution of the eigenenergies of a given system against time \ref{fig:dwave-eigenspectrum}.
+The question remaining is, are the adiabatic evolution hypothesis met? We may control the time that the annealing takes by adjusting our annealing functions, a few microseconds are enough in most cases, but the exact time that would make the annealing adiabatic is never known. The additional hypothesis of the adiabatic theorem (\ref{th:adiabatic-theorem}) mentions the gap between the ground energy and the rest of eigenenergies. Let us look at a visual representation of the evolution of the eigenenergies of a given system against time in figure \ref{fig:dwave-eigenspectrum}.
 
 \begin{figure}[h]
 	\includegraphics[scale=.3]{dwave-eigenspectrum.png}
@@ -880,15 +872,16 @@ The question remaining is, are the adiabatic evolution hypothesis met? We may co
 	\label{fig:dwave-eigenspectrum}
 \end{figure}
 
-The ground energy is plotted at the bottom. While the eigenenergies are far (the minimum gap holds), the probability of the system state jumping to another eigenstate are really low. When time elapses, the ground energy gets increasingly closer to the rest of eigenenergies. The closer those energies are, the higher the probability of the system state jumping gets too. For every problem there is a different Hamiltonian and, consequently, a different corresponding eigenspectrum. Generally, the most difficult problems for quantum annealing are those with really small minimum gaps.
+The ground energy is plotted at the bottom. While the eigenenergies are far (the minimum gap holds), the probability of the system state jumping to another eigenstate is really low. When time elapses, the ground energy gets increasingly closer to the rest of the eigenenergies. The closer those energies are, the higher the probability of the system state jumping gets too. For every problem, there is a different Hamiltonian and, consequently, a different corresponding eigenspectrum. Generally, the most difficult problems for quantum annealing are those with really small minimum gaps.
 
-In practice, these jumps may occur due to certain factors like thermal fluctuations or running the annealing process to quickly. Either way, a complete adiabatic process in the real world would mean perfect isolation, which is impossible. For some problems, the probability of staying in the ground state is really low, although low-energy states are also useful since they are associated to solutions with low value in our cost function.
+In practice, these jumps may occur due to certain factors like thermal fluctuations or running the annealing process too quickly. Either way, a complete adiabatic process in the real world would mean perfect isolation, which is impossible. For some problems, the probability of staying in the ground state is really low, although low-energy states are also useful since they are associated to solutions with a low value in our cost function.
 
 
 \subsection{D-Wave's QPU Topologies}
+\label{sec:topologies}
 
 
-In table \ref{tab:dwave-comp}, we saw the number of qubits and couplers of each one of the D-Wave QPUs. These QPUS implement a graph topology where the nodes are qubits and the couplers are the edges connecting two nodes together. However, a complete $n$-nodes graph has $n(n-1)$ nodes, and none of the D-Wave QPUs have as many couplers. For instance, the D-Wave 2000Q has $2048$ qubits and $6016$ couplers, far from the $2048 * 2047 = 4,192,256$ edges that it could have. Let us explore the graph topology underneath this systems in order to understand its problems and how to work around them.
+In table \ref{tab:dwave-comp}, we saw the number of qubits and couplers of each one of the D-Wave QPUs. These QPUs implement a graph topology where the nodes are qubits and the couplers are the edges connecting two nodes together. However, a complete $n$-nodes graph has $n(n-1)$ nodes, and none of the D-Wave QPUs have as many couplers. For instance, the D-Wave 2000Q has $2048$ qubits and $6016$ couplers, far from the $2048 * 2047 = 4,192,256$ edges that it could have. Let us explore the graph topology underneath these systems in order to understand their problems and how to work around them.
 
 There are two different topologies being used in the D-Wave systems. The \emph{Chimera} topology was used up until the D-Wave 2000Q system, include; while the \emph{Pegasus} topology is only in the recent Advantage system. 
 
@@ -903,16 +896,16 @@ In the \textbf{Chimera topology}, qubits are 'oriented' either horizontally or v
 
 For this topology it is conceptually useful to split couplers into two categories: Internal and external couplers. The \textbf{internal couplers} connect pair of orthogonal qubits. For example, in figure \ref{fig:chimera-internal-couplers} we see a green qubit connected to four black qubits through internal couplers.
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\includegraphics[scale=.5]{chimera-internal-couplers.png}
 	\centering
 	\caption{Internal couplers, represented as green dots at the intersections between qubits \cite{DWaveDoc-Architecture}}
 	\label{fig:chimera-internal-couplers}
 \end{figure}
 
-The Chimera structure has a repetitive structure where sets of $4$ by $4$ qubits are grouped together. These are the traslucident green squares in figure \ref{fig:chimera-internal-couplers} and are called \emph{unit cells}.
+The Chimera topology has a repetitive structure where sets of $4$ by $4$ qubits are grouped together. These are the translucent green squares in figure \ref{fig:chimera-internal-couplers} and are called \emph{unit cells}.
 
-A unit cell can also be respresented either as a cross or a column, as shown in figure \ref{quimera-unit-cell}. They are $K_{4,4}$ bipartite graphs. Meaning, there are two set of $4$ qubits that does not connect the qubits on the same set but are connected to every qubit of the other one. For example, green qubit labeled as $0$ is connected to all the nodes from the opposing set: $(4,5,6,7)$.
+A unit cell can also be represented either as a cross or a column, as shown in figure \ref{quimera-unit-cell}. They are $K_{4,4}$ bipartite graphs. Meaning, there are two sets of $4$ qubits, qubits on a given set are connected to every qubit in the opposite set and have no more connections. same set but are connected to every qubit of the other one. For example, the green qubit labeled as $0$ is connected to all the nodes from the opposing set: $(4,5,6,7)$.
 
 \begin{figure}[h]
 	\includegraphics[scale=.7]{chimera-unit-cell.png}
@@ -921,7 +914,7 @@ A unit cell can also be respresented either as a cross or a column, as shown in 
 	\label{fig:chimera-unit-cell}
 \end{figure}
 
-The \textbf{external} couplers connect pairs of qubits in the same row or column, but from different unit cells. For example, in figure \ref{fig:chimera-external-couplers} the green qubit in the center unit cell is connected to the two blue qubits in other unit cells and to four black qubits in the same unit cell.
+The \textbf{external} couplers connect pairs of qubits in the same row or column, but from different unit cells. For example, in figure \ref{fig:chimera-external-couplers} the green qubit in the center unit cell is connected to the two blue qubits in other unit cells and two four black qubits in the same unit cell.
 
 \begin{figure}[h]
 	\includegraphics[scale=.5]{chimera-external-couplers.png}
@@ -955,7 +948,7 @@ The \textbf{Pegasus topology} is also organized in horizontal and vertical qubit
 	\label{fig:pegasus}
 \end{figure}
 
-We will not deepen anymore into the Pegasus graph structure. It sufficies to now that pegasus qubits have a nominal length of $12$ (each qubit is connected to $12$ orthonormal qubits using internal couplers) and total degree $15$. A Pegasus cell contains $24$ qubits. Additionally, $P_n$ represents a Pegasus topology with an $N \times N$ grid of unit cells. The Advantage system supports a $P_{16}$ Pegasus graph.
+We will not deepen anymore into the Pegasus graph structure. It suffices to know that pegasus qubits have a nominal length of $12$ (each qubit is connected to $12$ orthonormal qubits using internal couplers) and a total degree $15$. A Pegasus cell contains $24$ qubits. Additionally, $P_n$ represents a Pegasus topology with an $N \times N$ grid of unit cells. The Advantage system supports a $P_{16}$ Pegasus graph.
 
 Then, what are the disadvantages of these topologies? Consider a simple example with three binary variables $(a, b, c)$: find a configuration for the variables such that $a + b + c = 1$.
 
@@ -984,33 +977,27 @@ c
 \right)
 $$
 
-This can be seen as the graph in figure \ref{fig:example-embedding}. Suppose we want to use a Chimera topology to solve this problem. The remaning question is how to embedd this graph into a chimera unit cell such as \ref{fig:chimera-unit-cell-cross}. 
+This can be seen as the graph in figure \ref{fig:example-embedding}. Suppose we want to use a Chimera topology to solve this problem. The remaining question is how to embed this graph into a chimera unit cell such as \ref{fig:chimera-unit-cell-cross}. 
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\includegraphics[scale=.3]{example-embedding.png}
 	\centering
 	\caption{Graph associated to QUBO model \cite{DWaveDoc-MinorEmbedding}}
 	\label{fig:example-embedding}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\includegraphics[scale=.2]{chimera-unit-cell-cross.png}
 	\centering
 	\caption{Chimera unit cell \cite{DWaveDoc-MinorEmbedding}}
 	\label{fig:chimera-unit-cell-cross}
 \end{figure}
 
-However, there are no three nodes in a bipartite graph that form a triangle, so a direct embedding is not possible. Instead, a \emph{chain} is used: adjacent qubits are group together and conceptually assigned to a single node of our QUBO model graph. This process is shown in figure \ref{fig:embedding}. In practice, the coupler between qubits in a chain is set to a great negative value so the probability of both qubits ending up in the same state are really high. We will never manually embedd a graph since D-Wave provides a automatic way of computing an at least suboptimal embedding.
+However, there are no three nodes in a bipartite graph that form a triangle, so a direct embedding is not possible. Instead, a \emph{chain} is used: adjacent qubits are group together and conceptually assigned to a single node of our QUBO model graph. This process is shown in figure \ref{fig:embedding}. In practice, the coupler between qubits in a chain is set to a great negative value so the probability of both qubits ending up in the same state is really high. We will never manually embed a graph since D-Wave provides an automatic way of computing an (at least) suboptimal embedding.
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\includegraphics[scale=.3]{embedding.png}
 	\centering
 	\caption{Embedding process \cite{DWaveDoc-MinorEmbedding}}
 	\label{fig:embedding}
 \end{figure}
-
-
-% TODO: fix figures in last section. Maybe remove the [h]
-% TODO: move figures to different folders.
-
-
