@@ -1,0 +1,94 @@
+\chapter{Solving the De Novo Genome Assembly}
+
+
+In this last chapter we approach the genome assembly problem with the using quantum annealing. Let us first understand what this problem is. We will then translate it to a QUBO model and solve it using quanutm annealing.
+
+
+\section{The Genome Assembly Problem}
+
+
+The genome of an organism is all its genetic material \cite{Roth2019}. The deoxyribonucleic acid (DNA) is the carrier of that genetic information. It consists of two long chains twisted to form a double helix \cite{Alberts2007}. Each of these chains is composed of a series of nucleotides or bases: adenine (A), guanine (G), cytosine (C), and thymine (T). Since these bases are matched in pairs in the DNA double helix, those are called base pairs (bp).
+
+A genome sequence is the complete list of nucleotides of every chromosome of an organism. With today's technology, automated sequence machines can read up to 1000 bp at a time \cite{Slatko2011} while the human genome contains 3 Mbp, so we cannot simply read the whole genome. This is where genome assembly comes in.
+
+Genome assembly refers to the process of, given a large number of short DNA reads, stitch them together to form a large representation of the original chromosome where the reads came from. The two main techniques used to reconstruct these sequences are the ab initio reference-free alignment and the de novo reference-based assembly.
+
+
+\subsection{Ab initio reference-based alignment}
+
+
+In this method, the DNA reads are matched against a known trusted reference of the same organism. This is essentially a pattern matching problem, where we find the index of a given sub-string in a larger string. However, after the reconstruction is complete the result is compared to the reference in order to identify implications; therefore introducing bias based on the reference \cite{Sarkar2020}.
+
+In the naive approach, the short sub-string is compared to the reference starting at the first index. If the end of the sub-string is reached with a positive, a match is obtained. Otherwise, the sub-string is shifted a single position and we compare again. Heuristic methods that improve on this idea are based on shifting a greater number of spaces after a mismatch.
+
+Different number of strategies have been developed in this direction. For instance, the classic Boyer-Moore and Knuth-Pratt-Morris algorithms \cite{Holmes1999}. However, these in particular are not adequate for genome assembly since these are exact string matching algorithms and DNA reads usually need approximate matches due to reads errors. Other algorithms worth mentioning are the Needleman-Wunsch algorithm \cite{Needleman1970} and the Smith-Waterman algorithm \cite{Smith1981}, for global and local alignment respectively. These are dynamic programming algorithms designed specifically with DNA reads in mind. 
+
+State of the art algorithms trades off accuracy for speed and memory. The approximation and errors introduced prevents the application of this technique to critical areas such as personalized medicine. Given enough computational power, the de novo method yields better results.
+
+
+\subsection{De novo reference-free assembly}
+
+
+On the other hand, the de novo reference-free method is, as its name suggests, reference free. Meaning, it is based only on the DNA reads. Thus, it has no reference bias but it is more computationally complex. It is usually used the first time a species DNA is read.
+
+In this technique, multiple copies of the same DNA are made before slicing it. After chopping each copy at random places the data is redundant and the different reads overlap, making the assembly easier. There are multiple methods for de novo assembly based on different tools: Overlap-Layout Consensus (OLC) methods, de Bruijn graph (DBG) methods, string graphs, greedy and hybrid methods are some of the most famous examples. Depending on the reading method and the number and length of the DNA reads, different methods excel from the rest. For instance, short-read technologies with a large number of reads favor DBG methods while high-quality long reads favor OCL methods. For our purposes, we will focus on the OCL method.
+
+In the OLC graph used for the de novo whole-genome assembly, each node represents a different DNA read. Directed edges are associated a weight depending on how well these two reads are stitched together in a certain order. For example, the directed edge going from reading $r_1$ to read $r_2$ will be assigned a weight depending on how well $r_1r_2$ can be stiched.
+
+The weights computation depends on the implementation. For our purposes, we will use exact matches, no taking reading errors into consideration. Then, the weight assigned to an edge is the length of the overlap between both reads without any errors, with a change of sign. For example, given the reads $r_1 = AATT$ and $r_2 = TTCC$, the perfect stitching will produce $AATTCC$, so the overlap between both reads is $2$, giving a weight of $-2$. We may call this the \emph{distance} between reads $r_1$ and $r_2$ (in that order). It does not fulfill the mathematical definition of distance since it is not even symmetric, but it will be useful to it this way.
+
+A Hamiltonian path in our overlap graph will represent a series of reads in a certain order. By minimizing the total cost of our Hamiltonian path, we maximize the overlap between reads, resulting in the shortest possible final chain. This is exactly the same as solving the Travelling Salesman problem associated with our overlap graph.
+
+Figure \ref{de-novo-process} shows the whole problem resolution \cite{Boev2020}. Given the DNA reads (a) we compute the overlap graph (b) using a distance between the reads. We continue by viewing this problem as a traveling salesman and transforming it into a QUBO model (c). Then, either a simulated quantum annealer (e) or the D-Wave quantum annealer (d) are used to obtain the Hamiltonian path/cycle of minimum cost (f). Finally, we traverse the cycle and build the resulting genome sequence.
+
+\begin{figure}[H]
+	\includegraphics[scale=0.4]{de-novo-process.png}
+	\centering
+	\caption{Resolution diagram for the genome assembly using quantum annealing \cite{Boev2020}}
+	\label{de-novo-process}
+\end{figure}
+
+
+\newparagraph{Numerical example}
+
+
+Let us study a final numerical example based on \cite{Sarkar2020} that shows the whole process. Suppose we are given the following reads:
+
+\begin{itemize}
+	\item $r_0 = ATGGCGTGCA$
+	\item $r_1 = GCGTGCAATG$
+	\item $r_2 = TGCAATGGCG$
+	\item $r_3 = AATGGCGTGC$
+\end{itemize}
+
+We may compute the overlap between the different reads. This results in the overlap graph from figure \ref{fig:overlap-graph}.
+
+\begin{figure}[h]
+	\includegraphics[scale=1.1]{graphs/salesman-example.pdf}
+	\centering
+	\caption{OLC graph}
+	\label{fig:overlap-graph}
+\end{figure}
+
+Which is the same graph studied in the traveling salesman section \ref{sec:salesman-example}. From the study done in that section, we know that there are six types of cycles in the graph, as shown in table \ref{tbl:salesman-cycles}. In figure \ref{fig:overlap-cycles}, we see how these type of cycles represent different ordinations of our DNA reads, as well as their overlaps and the total length of the resulting chain.
+
+\begin{figure}[h]
+	\makebox[\textwidth][c]{
+		\includegraphics[scale=0.35]{overlap-cycles.png}
+	}
+	\centering
+	\caption{Type of cycles and their corresponding overlap analysis \cite{Sarkar2020}}
+	\label{fig:overlap-cycles}
+\end{figure}
+
+As we know, the type of Hamiltonian cycle that minimizes the cost is type A. This type translates into the shortest chain, with a total length of $19$. We can easily compute the resulting assembly by traversing the graph and weaving the reads together.
+
+
+\section{Experimentation}
+
+
+%TODO: complete
+
+
+
+
