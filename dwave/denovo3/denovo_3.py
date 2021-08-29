@@ -389,7 +389,7 @@ def run_test_0():
 	reads = ['ATGGCGTGCA','GCGTGCAATG','TGCAATGGCG','AATGGCGTGC']
 	#reads = ['ATGGCGTGCA', 'CGTGCAATGG', 'CAATGGCGTG', 'GGCGTGC']
 
-	sol = deNovo_on_DWave_exact(reads)
+	sol = deNovo_on_DWave_exact(reads, print_solutions=True)
 	print_test_results(1, expected_sol, sol, print_all=True)
 
 def run_test_1():

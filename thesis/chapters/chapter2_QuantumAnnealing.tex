@@ -22,7 +22,7 @@ Quantum tunneling is a quantum mechanical phenomenon where a wavefunction (i.e. 
 
 The main advantage of quantum tunneling compared to classical thermal fluctuations is that the probability of the system shifting depends not only on the height of the potential barrier but also on its width. Thus, the application of QA may potentially outperform SA in problems where the energy (cost) landscape consists of very high and thin barriers surrounding local minimums. 
 
-Particularly, as studied in \cite{Ray1989}, let $\Delta$ be the height of a barrier and $\omega$ its width. The probability of a thermal transition occurring is dictated by $exp\{-\frac{\Delta}{k_B T}\}$ where $T$ y the temperature of the system and $k_B$ is the Boltzmann constant. On the other hand, the probability of a quantum tunneling transition occurring through the same barrier (assuming isolation) is $exp\{-\frac{\sqrt \Delta \omega}{\Gamma}\}$, where $\Gamma$ is the tunneling field. Thus, the probability is much higher for the quantum tunneling effect on high and thin barriers.
+Particularly, as studied in \cite{Ray1989}, let $\Delta$ be the height of a barrier and $\omega$ its width. The probability of a thermal transition occurring is dictated by $exp\{-\frac{\Delta}{k_B T}\}$ where $T$ and the temperature of the system and $k_B$ is the Boltzmann constant. On the other hand, the probability of a quantum tunneling transition occurring through the same barrier (assuming isolation) is $exp\{-\frac{\sqrt \Delta \omega}{\Gamma}\}$, where $\Gamma$ is an additional constant called the tunneling field \cite{Das2005}. Thus, the probability is much higher for the quantum tunneling effect on high and thin barriers.
 
 We may also observe looking at the previous expressions how the tunneling field and the temperature play similar roles in the different methods. Thus, the annealing schedule of the QA system is controlled using the tunneling field just like the temperature is used in SA.
 
@@ -64,7 +64,7 @@ As a classical analogy for adiabatic evolution, consider a simple pendulum. If t
 \subsection{Avoided crossing}
 
 
-Let us consider an important physical example known as the \emph{avoided crossing}. Consider a two-state quantum system, i.e. a qubit. Suppose its Hamiltonian to be:
+Let us consider an important physical example known as the \emph{avoided crossing} \cite{Cohen-Tannoudji2006}. Consider a two-state quantum system, i.e. a qubit. Suppose its Hamiltonian to be:
 
 $$
 	H = 
@@ -118,30 +118,32 @@ where $\omega \in \C$. Note that by setting $\omega$, the other value in the ant
 $$ E_+ = \frac{1}{2}(E_1 + E_2) + \frac{1}{2}\sqrt{(E_1 - E_2)^2 + 4|\omega|^2} $$
 $$ E_- = \frac{1}{2}(E_1 + E_2) - \frac{1}{2}\sqrt{(E_1 - E_2)^2 + 4|\omega|^2} $$
 
+We may plot $E_+$ and $E_-$ along the vertical axis while varying $(E_1 - E_2)$ in the horizontal axis, and find two branches of a hyperbola. The curves asymptotically approach the original unperturbed states $E_1$ and $E_2$. Analyzing the curves and the previous equations it becoms evident that the new energy staes are no longer equal, even if the original states were degenerate ($E_1 = E_2$). However, if the pertubation is removed, $\omega = 0$, if may find that where the states are degenerate and $(E_1 - E_2) = 0$, the new eigen become equal, $E_+ = E_-$ and the levels cross. Thus, by adding a perturbation efffect, these level crossing are completely avoided.
 
-A continuación quiero añadir una imagen, seguramente como la de \href{https://en.wikipedia.org/wiki/Avoided_crossing}{wikipedia} (figura \ref{temp}):
+In the table of figures \ref{fig:avoided-crossing}, we find a series of plots describing this behavior for different values of $\omega$. The eigenvalues have been set to $E_1 = -E_2$ (thus $E_1 + E_2 = 0$) for simplicity. We can see how as the perturbation $\omega$ becomes smaller, the hyperbola branches adjust better to the original states and the gap becomes thinner and thinner. Finally, when the perturbation is removed, the levels cross. The reader may find an interactive representation using GeoGebra in \cite{GeoGebra-AvoidedCrossing}.
 
-\begin{figure}[H]
-	\includegraphics[scale=1]{wiki.jpg}
+\begin{table}[H]
 	\centering
-	\caption{Figura de wikipedia}
-	\label{temp}
-\end{figure}
+	\makebox[\textwidth][c]{
+		\begin{tabular}{cc}		
+			\includegraphics[scale=0.2]{geogebra1.png} &
+			\includegraphics[scale=0.2]{geogebra2.png} \\
+			
+			$\omega = 1$ & $\omega = 0.5$ \\
+			
+			\includegraphics[scale=0.2]{geogebra3.png} &
+			\includegraphics[scale=0.2]{geogebra4.png}  \\
+			
+			$\omega = 0.2$ & $\omega = 0$ \\
+		\end{tabular}
+	}
+	\caption{Avoided crossing in two-state system \cite{GeoGebra-AvoidedCrossing}. By increasing the perturbation $\omega$, the energy level crossing is avoided. }
+	\label{fig:avoided-crossing}
+\end{table}
 
-He hecho una versión propia en Geogebra, tomando $E_1 = -E_2$ (luego $E_1 + E_2 = 0$ y $E_1 - E_2 = 2E$, he llamado $x \equiv 2E$). En la simulación, podemos ajustar el valor de $\omega$, que he llamado $a$ utilizando el slider, reproduciendo el efecto del gif de \href{https://en.wikipedia.org/wiki/Avoided_crossing}{wikipedia} (figura \ref{temp}):
+In the case of a single qubit, the two original states $|0\la$ and $|1\ra$ are never degenerate by our definition, so the crossing does not occur with or without a perturbation.
 
-\href{https://www.geogebra.org/graphing/svkrnu3s}{https://www.geogebra.org/graphing/svkrnu3s}
-
-Sin embargo, me salen las ramas de las hiperbolas giradas 90 grados. Esperaba que la rama superior fuese $E_+$ y la inferior $E_-$ pero cada rama tiene parte de las dos. Cual es mi fallo al pintar las gráficas?
-
-%TODO2: Explicar que pasa cuando variamos ($E_1 - E_2$) y pintarlo en geogebra bonito
-%TODO3: Conclusion: en un qubit siempre se da el gap.
-%TODO4: Explicar que pasa en evolucion no adiabatica.
-%TODO5: relacion con quantum annealing
-
-
-%TODO: añadir autoria a las imagenes
-
+The implications of energy level crossing in quantum annealing will be better explained in section \ref{sec:quantum-annealing-dwave}. For now, it suffices to now that avoided crossing in energy levels is a strongly desired hypothesis that in practice is difficult to fulfill. It will be partially responsible for suboptimality in the use of quantum annealing.
 
 
 \subsection{Solving problems using adiabatic evolution}
@@ -155,7 +157,7 @@ where $f,g: [t_{initial}, t_{final}] \longrightarrow \R^+_0$. The initial Hamilt
 
 Functions $f$ and $g$ fulfill that $g(t_{initial}) = f(t_{final}) = 0$. When times elapses and supposing adiabatic evolution, the system will stay on the ground state of $H$ and by $t = t_{final}$, the system will be in the $H_{final}$'s ground state, codifying the minimum of our cost function.
 
-However, we cannot always grant the necessary conditions for perfect adiabatic evolution. In some cases, the gap condition does not suffice at the system will jump with a certain probability to other eigenstates, providing suboptimal solutions which are still useful. This depends on the eigenvalues of the final Hamiltonian, which at the same time entirely depends on the problem being studied.
+However, we cannot always grant the necessary conditions for perfect adiabatic evolution. In some cases, the gap condition does not suffice as the system will jump with a certain probability to other eigenstates, providing suboptimal solutions which are still useful. This depends on the eigenvalues of the final Hamiltonian, which at the same time entirely depends on the problem being studied.
 
 The only question remaining is how to encode our cost function in a Hamiltonian.
 
@@ -165,13 +167,13 @@ The only question remaining is how to encode our cost function in a Hamiltonian.
 
 The QUBO and Ising models can be easily represented with a Hamiltonian. In practice, non-optimization problems are transformed into optimization problems and then codified as either QUBO or Ising to be solved using quantum annealing. Let us explore these types of problems and some examples of these transformations.
 
-Let $B = \{0,1\}$ and $f: \B^n \longrightarrow \R $ be a quadratic polynomial over binary variables:
+Let $B = \{0,1\}$ and $f_Q: \B^n \longrightarrow \R $ be a quadratic polynomial over binary variables:
 
 $$ f_Q(x) = \sum_{i=1}^n \sum_{j=1}^i q_{ij} x_i x_j $$
 
-where $x_i \in \B$ for $i \in \{1, \cdots, n\}$ and the coefficients $q_{ij} \in \R$ for $1 \leq j \leq i \leq n$. A \textbf{quadratic unconstrained binary optimization (QUBO) problem} consists of finding a binary vector $x'$ such that $x'$ is a minimum of $f$:
+where $x_i \in \B$ for $i \in \{1, \cdots, n\}$ and the coefficients $q_{ij} \in \R$ for $1 \leq j \leq i \leq n$. A \textbf{quadratic unconstrained binary optimization (QUBO) problem} consists of finding a binary vector $x'$ such that $x'$ is a minimum of $f_Q$:
 
-$$ x' = \underset {x \in \B^n }{\arg \min} ~ f(x) $$
+$$ x' = \underset {x \in \B^n }{\arg \min} ~ f_Q(x) $$
 
 QUBO problems can be formulated in a more compact matrix form:
 
@@ -191,7 +193,9 @@ where $Q$ is a $n \times n$ symmetric matrix containing $q_{ii}$ and its diagona
 	\item If all coefficients are positive the minimum is $x = (0, \ldots, 0)$. Analogously, if all coefficients are negative, the minimum is $x = (1, \ldots, 1)$. 
 \end{itemize}
 
-The \textbf{Ising models}, on the other hand, find their inspiration in phisics. They are named after the phisic Ernst Ising who solved the one-dimensional model in his 1924 thesis \cite{Ising1924}. They are stated using a Hamiltonian function $H: \{-1, 1\}^n \longrightarrow \R$:
+When the dependendy on $Q$ is obvious, it may be left implicit by writting our cost function simply as $f$.
+
+The \textbf{Ising models}, on the other hand, find their inspiration in physics. They are named after the physicist Ernst Ising who solved the one-dimensional model in his 1924 thesis \cite{Ising1924}. They are stated using a Hamiltonian function $H: \{-1, 1\}^n \longrightarrow \R$:
 
 $$ H(\upsigma) = - \sum_{\la i ~ j \ra} J_{ij} \upsigma_i \upsigma_j - \mu \sum_j h_j \upsigma_j $$
 
@@ -219,7 +223,7 @@ $$ C = - \sum_{\la i ~ j \ra} J_{ij} - \mu \sum h_j $$
 
 Since adding a constant does not change the minimum $x'$, it can be omitted during optimization and only be used for transforming one type of problem into another.
 
-In practice, a given problem would be translated into either QUBO or Ising. It is useful to learn both types of problems since they both are popular in the literature. Let us deepen in the translation of different NP problems. The resolution of QUBO and Ising models will not be studied, but only the translations into these models. In particular, these examples of QUBO transformations are from \cite{Glover2019} and \cite{Lucas2014} unless stated otherwise. For an extensive literature review on QUBO and Ising translations of NP, problems refer to \cite{Kochenberger2014}.
+In practice, a given problem would be translated into either QUBO or Ising. It is useful to learn both types of problems since they both are popular in the literature. Let us deepen in the translation of different NP problems. The resolution of QUBO and Ising models will not be studied, but only the translations into these models. In particular, these examples of QUBO transformations are from \cite{Glover2019} and \cite{Lucas2014} unless stated otherwise. For an extensive literature review on QUBO and Ising translations of NP problems, refer to \cite{Kochenberger2014}.
 
 
 \subsection{The Max Cut problem}
@@ -269,7 +273,12 @@ $$
 
 Yielding the following compact form:
 
-$$ \text{Maximize  } f_Q(x) = x^T Q x$$ 
+\begin{equation}
+\ref{eqn:max-cut-function}
+	\text{Maximize  } f_Q(x) = x^T Q x
+\end{equation}
+
+Keep in mind that quadratic elements in the cost function are divided by two when added to the $Q$ matrix, since after multiplying and adding in equation \ref{eqn:max-cut-function} they appear twice.
 
 By solving this model using quantum annealing we obtait the minimum value of $f_Q(x)$: $x = (0, 1, 1, 0, 0)$. Thus, vertices $2$ and $3$ are in one set and vertices $1$, $4$ and $5$ are in the other one.
 
@@ -564,9 +573,9 @@ We may suppose without losing generality that the graph is complete. That is, th
 Since solutions to this problem are a series of $n \equiv |V|$ nodes -the number of nodes in the graph-, we will encode $n$-nodes cycles as $(v_{k_0}, \ldots, v_{k_{n-1}})$, where nodes $v_{k_0}$ and $v_{k_{n-1}}$ are also conected. Thus, our problem may originally may stated as:
 
 $$ \text{Minimize } \sum_{i=0}^{n-1} w_{k_i, k_{i+1}} $$
-$$ \text{subject to the constraint that } (v_{k_0}, \cdots, v_{k_{n-1}}) \text{ is a Hamiltonian cycle}$$
+$$ \text{subject to the constraint that } (v_{k_0}, \cdots, v_{k_{n-1}}) \text{ e}$$
 
-where the addition is perform under modulus $n$: $k_n \equiv k_0$. The binary variables $x_{i,p}$ will be used, where $i,p \in \{0, \ldots, n-1\}$. $x_{i,p}$ will equal $1$ if and only if node $i$ is in position $p$ in our cycle. Hence, we will have $n^2$ variables under the following constraints:
+where $w_{k_i, k_{i+1}}$ is the weight associated to the edge connecting nodes $v_{k_i}$ and $v_{k_{i+1}}$; and where the addition is performed under modulus $n$: $k_n \equiv k_0$. The binary variables $x_{i,p}$ will be used, where $i,p \in \{0, \ldots, n-1\}$. $x_{i,p}$ will equal $1$ if and only if node $i$ is in position $p$ in our cycle. Hence, we will have $n^2$ variables under the following constraints:
 
 \begin{enumerate}
 	\item Every node must be assigned. Thus, node assigment will be rewarded with a non-positive weight (favorable bias) called \textbf{self-bias} with an associated non-positive penalty:
@@ -646,7 +655,32 @@ Given the following graph:
 	\label{fig:salesman-graph} % used in chapter 3
 \end{figure}
 
-Find a Hamiltonian cycle with minimum cost. 
+Find a Hamiltonian cycle with minimum c\begin{table}[H]
+	\centering
+	\makebox[\textwidth][c]{
+		\begin{tabular}{ccc}		
+			\includegraphics[scale=0.2]{salesman-penalties1.png} &
+			\includegraphics[scale=0.2]{salesman-penalties2.png} &
+			\includegraphics[scale=0.2]{salesman-penalties3.png} \\
+			
+			1: Self-bias & 2: Repetition & 3: Colocation \\
+			
+			\includegraphics[scale=0.2]{salesman-penalties4.png} &
+			\includegraphics[scale=0.2]{salesman-penalties5.png} &
+			\includegraphics[scale=0.2]{salesman-penalties6.png} \\
+			
+			4: Type A tours & 5: Type B tours & 6: Type C tours \\
+			
+			\includegraphics[scale=0.2]{salesman-penalties7.png} &
+			\includegraphics[scale=0.2]{salesman-penalties8.png} &
+			\includegraphics[scale=0.2]{salesman-penalties9.png} \\
+			
+			7: Type D tours & 8: Type E tours & 9: Type F tours \\
+		\end{tabular}
+	}
+	\caption{Graphical representation of penalties between interactions \cite{Sarkar2020}}
+	\label{fig:salesman-penalties}
+\end{table}ost. 
 
 First of all, let us take a deeper look into our possible solutions. There are $(n-1)!$ cycles in a graph with $n$ nodes. For our $4$-nodes graph there are $3! = 6$ type of cycles:
 
@@ -729,7 +763,7 @@ Each of the terms in the cost function \ref{eqn:salesman-cost-funct} may be tran
 
 Note that the matrices associated with the constraints are all symmetric. This happens because they only depend on the graph topology and not on the weights. On the other hand, since the cost of going back and forth between a pair of nodes is not the same, the matrices associated with the cycles are never symmetric.
 
-The final $Q$ matrix for our problem is obtained by adding these matrices. Experimental evidence suggests that setting $a = 0$ and $b = c = 13$ and applying quantum annealing yields optimal solutions our the cost function \cite{Sarkar2020}. Using these values for the penalties, the final $Q$ matrix is seen in figure \ref{fig:salesman-Q-matrix}.
+The final $Q$ matrix for our problem is obtained by adding these matrices. Experimental evidence suggests that setting $a = 0$ and $b = c = 13$, and applying quantum annealing yields optimal solutions for our cost function \cite{Sarkar2020}. Using these values for the penalties, the final $Q$ matrix is seen in figure \ref{fig:salesman-Q-matrix}.
 
 \begin{figure}[H]
 	\makebox[\textwidth][c]{
@@ -907,7 +941,7 @@ For this topology it is conceptually useful to split couplers into two categorie
 
 The Chimera topology has a repetitive structure where sets of $4$ by $4$ qubits are grouped together. These are the translucent green squares in figure \ref{fig:chimera-internal-couplers} and are called \emph{unit cells}.
 
-A unit cell can also be represented either as a cross or a column, as shown in figure \ref{quimera-unit-cell}. They are $K_{4,4}$ bipartite graphs. Meaning, there are two sets of $4$ qubits, qubits on a given set are connected to every qubit in the opposite set and have no more connections. same set but are connected to every qubit of the other one. For example, the green qubit labeled as $0$ is connected to all the nodes from the opposing set: $(4,5,6,7)$.
+A unit cell can also be represented either as a cross or a column, as shown in figure \ref{fig:chimera-unit-cell}. They are $K_{4,4}$ bipartite graphs. Meaning, there are two sets of $4$ qubits, qubits on a given set are connected to every qubit in the opposite set and have no more connections. same set but are connected to every qubit of the other one. For example, the green qubit labeled as $0$ is connected to all the nodes from the opposing set: $(4,5,6,7)$.
 
 \begin{figure}[h]
 	\includegraphics[scale=.7]{chimera-unit-cell.png}
@@ -995,7 +1029,7 @@ This can be seen as the graph in figure \ref{fig:example-embedding}. Suppose we 
 	\label{fig:chimera-unit-cell-cross}
 \end{figure}
 
-However, there are no three nodes in a bipartite graph that form a triangle, so a direct embedding is not possible. Instead, a \emph{chain} is used: adjacent qubits are group together and conceptually assigned to a single node of our QUBO model graph. This process is shown in figure \ref{fig:embedding}. In practice, the coupler between qubits in a chain is set to a great negative value so the probability of both qubits ending up in the same state is really high. We will never manually embed a graph since D-Wave provides an automatic way of computing an (at least) suboptimal embedding.
+However, there are no three nodes in a bipartite graph that form a triangle, so a direct embedding is not possible. Instead, a \emph{chain} is used: adjacent qubits are group together and conceptually assigned to a single node of our QUBO model graph. This process is shown in figure \ref{fig:embedding}. In practice, the coupler between qubits in a chain is set to a great negative value so the probability of both qubits ending up in the same state is really high. In most complex cases we will not manually embed a graph since D-Wave provides an automatic way of computing an (at least) suboptimal embedding.
 
 \begin{figure}[H]
 	\includegraphics[scale=.3]{embedding.png}
