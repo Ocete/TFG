@@ -87,13 +87,114 @@ As we know, the type of Hamiltonian cycle that minimizes the cost is type A. Thi
 \section{Experimentation}
 
 
-In this last section, we will explain the experiments reproduced using the D-Wave systems. For this porpouse we used \emph{D-Wave Ocean Software}, a suite of tools provided by D-Wave to use their quantum systems \cite{DWave-OceanDoc}. Using python and the provided packages we may connect to \emph{Leap}, a 'quantum' cloud service that provides access the quantum computers \cite{DWave-Leap}.
+In this last section, we will explain the experiments reproduced using the D-Wave systems. For this porpouse we used \emph{D-Wave Ocean Software}, a suite of tools provided by D-Wave to use their quantum systems \cite{DWave-OceanDoc}. Using python and the provided packages we may connect to \emph{Leap}, a 'quantum' cloud service that provides access the quantum computers \cite{DWave-Leap}. These experiments are based on \cite{Sarkar2020}.
 
 
+\subsection{Experiment 1: Data preparation and exact solving}
 
 
-%TODO: complete
+The first experiment reproduced aims to solve the previously discussed example using the an exact solver provided by the D-Wave systems \emph{dimod} library \cite{Dimod}. The steps taken to transform the given reads to the QUBO matrix that D-Wave's classes and functions use will be shared between the simulated quantum annealer and the real quantum solvers. Therefore, the data preparation applied will be shared between experiments. The pseudocode of the experiment can be seen in the following snippet.
 
+\begin{algorithm}
+	\caption*{\textbf{Experiment 1}}
+	
+	Data prepatation:
+	\begin{itemize}
+		\item Compute the distance between every two reads, creating an adjacency matrix.
+		\item Transform the TSP adjancency matrix into a QUBO $Q$ matrix, as explained in section \ref{sec:tsp-qubo}.
+		\item Transform the QUBO matrix into an adjacency dictionary.
+	\end{itemize}
+
+	Solving:
+	\begin{itemize}
+		\item Initiaize a sampler: a \emph{ExactSolver}.
+		\item Solve the preprared QUBO model using the selected solver.
+	\end{itemize}
+	
+	Print the solutions
+\end{algorithm}
+
+As we already know, using quantum annealing does not guarantee that we will obtain the optimal solution for a given cost function. In order to overcome this problem we use multi-sampling: running the experiment multiple times and and look at the best obtained solutions. D-Wave System's software already implements different types of \emph{samplers} to facilitate this task. In this first experiment we use an \emph{ExactSolver}, which simply check every possible solution. Although time-costly, this method will let us know if our data manipulation before solving the experiment is correct, and how the solutions landscape looks.
+
+The third step in data preparation is a formatting step. D-Wave System's software requires the QUBO and Ising models to be in an adjacency dictionary instead of a matrix. Let us look at an example of this transformation in order to better understand it. Consider a 2-reads, the associated TSP will have $2^2 = 4$ nodes: $n0t0$, $n0t1$, $n1t0$ and $n1t1$. Suppose the following (inconsistency) matrix is the associated $Q$ matrix:
+
+$$
+Q = 
+\left(
+\begin{array}{cccc}
+	1 & 2 & 0 & -1 \\
+	3 & 4 & 0 & 0 \\
+	0 & 0 & 0 & 0 \\
+	0 & 0 & 100 & 200 
+\end{array}
+\right)
+$$
+
+Then, it will be transformed into the dictionary, with $11$ missing entries: 
+
+\begin{minted}[bgcolor=bg]{python}
+quboDict: {
+	('n0t0', 'n0t0'): 1,
+	('n0t0', 'n0t1'): 2,
+	('n0t0', 'n0t2'): 0,
+	('n0t0', 'n0t3'): -1,
+	...
+	('n3t3', 'n3t3'): 200,
+}
+\end{minted}
+
+In particular, this experiment is applied to the already studied example with the following four reads:
+
+\begin{itemize}
+	\item $r_0 = ATGGCGTGCA$
+	\item $r_1 = GCGTGCAATG$
+	\item $r_2 = TGCAATGGCG$
+	\item $r_3 = AATGGCGTGC$
+\end{itemize}
+
+The pair-wise distances are computed, providing a direct measure of much two reads overlap. Then, these values are normalized for easier use. This normalized TSP matrix is transformed into a QUBO matrix using $1.6$ as multi-location and repetition penalties, and $-1.6$ for self-bias, as done in \cite{Sarkar2020}. Finally, we initialize a \emph{ExactSolver} and use it to sample every possible solution.
+
+After the execution is completed, we find the lowest energy in the obtained solutions and print every solution with that energy:
+
+\begin{minted}[bgcolor=bg]{python}
+{'n0t0': 0, 'n0t1': 0, 'n0t2': 1, 'n0t3': 0,
+ 'n1t0': 0, 'n1t1': 0, 'n1t2': 0, 'n1t3': 1,
+ 'n2t0': 1, 'n2t1': 0, 'n2t2': 0, 'n2t3': 0,
+ 'n3t0': 0, 'n3t1': 1, 'n3t2': 0, 'n3t3': 0} --> -7.98113883008419
+
+{'n0t0': 0, 'n0t1': 1, 'n0t2': 0, 'n0t3': 0,
+ 'n1t0': 0, 'n1t1': 0, 'n1t2': 1, 'n1t3': 0, 
+ 'n2t0': 0, 'n2t1': 0, 'n2t2': 0, 'n2t3': 1, 
+ 'n3t0': 1, 'n3t1': 0, 'n3t2': 0, 'n3t3': 0} --> -7.98113883008419
+
+{'n0t0': 1, 'n0t1': 0, 'n0t2': 0, 'n0t3': 0,
+ 'n1t0': 0, 'n1t1': 1, 'n1t2': 0, 'n1t3': 0, 
+ 'n2t0': 0, 'n2t1': 0, 'n2t2': 1, 'n2t3': 0, 
+ 'n3t0': 0, 'n3t1': 0, 'n3t2': 0, 'n3t3': 1} --> -7.98113883008419
+
+{'n0t0': 0, 'n0t1': 0, 'n0t2': 0, 'n0t3': 1,
+ 'n1t0': 1, 'n1t1': 0, 'n1t2': 0, 'n1t3': 0,
+ 'n2t0': 0, 'n2t1': 1, 'n2t2': 0, 'n2t3': 0,
+ 'n3t0': 0, 'n3t1': 0, 'n3t2': 1, 'n3t3': 0} --> -7.98113883008419
+\end{minted}
+
+As expected, these are the four minimums of the cost functions, representing the four ways of describing a type A loop in the used codification.
+
+Finally, let us plot the landscape of solutions for the given reads. We sort the solutions by increasing energy and simply plot their energy, as seen in figure \ref{fig:exp1-landscape}.
+
+\begin{figure}[H]
+	\makebox[\textwidth][c]{
+		\includegraphics[scale=0.7]{experiments/experiment1.png}
+	}
+	\centering
+	\caption{Landscape of solutions}
+	\label{fig:exp1-landscape}
+\end{figure}
+
+
+\subsection{Experiment 2: Simulated Quantum Annealing}
+\subsection{Experiment 3: Quantum Annealing}
+\subsection{Experiment 4: D-Wave's limits}
 
 
 

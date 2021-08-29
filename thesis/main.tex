@@ -41,7 +41,6 @@ cleardoublepage=empty,abstractoff,BCOR=5mm,paper=a4,fontsize=12pt,main=english]{
 \usepackage{capt-of}
 \usepackage[colorlinks=true]{hyperref}
 \usepackage{tikz} % Diagramas conmutativos.
-\usepackage{minted} % Código fuente.
 \usepackage[T1]{fontenc}
 \usepackage[numbers]{natbib}
 \usepackage{booktabs} % Para tablas de figuras (ejemplo en salesman)
@@ -49,6 +48,11 @@ cleardoublepage=empty,abstractoff,BCOR=5mm,paper=a4,fontsize=12pt,main=english]{
 \usepackage{cancel} %Para \cancel
 \usepackage{float} %Para [H] en las figuras
 \usepackage{placeins} % Para \FloatBarrier
+\usepackage{algorithm} % Para begin{algorithm}
+\usepackage{pseudo}
+
+\usepackage{minted} % Código fuente.
+\definecolor{bg}{rgb}{0.95,0.95,0.95} % Code background color
 
 % Plantilla classicthesis
 \usepackage[beramono,eulerchapternumbers,linedheaders,parts,a5paper,dottedtoc,
