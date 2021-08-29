@@ -93,7 +93,7 @@ In this last section, we will explain the experiments reproduced using the D-Wav
 \subsection{Experiment 1: Data preparation and exact solving}
 
 
-The first experiment reproduced aims to solve the previously discussed example using the an exact solver provided by the D-Wave systems \emph{dimod} library \cite{Dimod}. The steps taken to transform the given reads to the QUBO matrix that D-Wave's classes and functions use will be shared between the simulated quantum annealer and the real quantum solvers. Therefore, the data preparation applied will be shared between experiments. The pseudocode of the experiment can be seen in the following snippet.
+The first experiment reproduced aims to solve the previously discussed example using the an exact solver provided by the Ocean's \emph{dimod} library \cite{Dimod}. The steps taken to transform the given reads to the QUBO matrix that Ocean's classes and functions use will be shared between the simulated quantum annealer and the real quantum solvers. Therefore, the data preparation applied will be shared between experiments. The pseudocode of the experiment can be seen in the following snippet.
 
 \begin{algorithm}
 	\caption*{\textbf{Experiment 1}}
@@ -107,16 +107,16 @@ The first experiment reproduced aims to solve the previously discussed example u
 
 	Solving:
 	\begin{itemize}
-		\item Initiaize a sampler: a \emph{ExactSolver}.
+		\item Initiaize a sampler: \textbf{\emph{dimod.ExactSolver}}.
 		\item Solve the preprared QUBO model using the selected solver.
 	\end{itemize}
 	
 	Print the solutions
 \end{algorithm}
 
-As we already know, using quantum annealing does not guarantee that we will obtain the optimal solution for a given cost function. In order to overcome this problem we use multi-sampling: running the experiment multiple times and and look at the best obtained solutions. D-Wave System's software already implements different types of \emph{samplers} to facilitate this task. In this first experiment we use an \emph{ExactSolver}, which simply check every possible solution. Although time-costly, this method will let us know if our data manipulation before solving the experiment is correct, and how the solutions landscape looks.
+As we already know, using quantum annealing does not guarantee that we will obtain the optimal solution for a given cost function. In order to overcome this problem we use multi-sampling: running the experiment multiple times and and look at the best obtained solutions. Ocean already implements different types of \emph{samplers} to facilitate this task. In this first experiment we use an \emph{ExactSolver}, which simply check every possible solution. Although time-costly, this method will let us know if our data manipulation before solving the experiment is correct, and how the solutions landscape looks.
 
-The third step in data preparation is a formatting step. D-Wave System's software requires the QUBO and Ising models to be in an adjacency dictionary instead of a matrix. Let us look at an example of this transformation in order to better understand it. Consider a 2-reads, the associated TSP will have $2^2 = 4$ nodes: $n0t0$, $n0t1$, $n1t0$ and $n1t1$. Suppose the following (inconsistency) matrix is the associated $Q$ matrix:
+The third step in data preparation is a formatting step. Ocean requires the QUBO and Ising models to be in an adjacency dictionary instead of a matrix. Let us look at an example of this transformation in order to better understand it. Consider a 2-reads, the associated TSP will have $2^2 = 4$ nodes: $n0t0$, $n0t1$, $n1t0$ and $n1t1$. Suppose the following (inconsistency) matrix is the associated $Q$ matrix:
 
 $$
 Q = 
@@ -160,22 +160,22 @@ After the execution is completed, we find the lowest energy in the obtained solu
 {'n0t0': 0, 'n0t1': 0, 'n0t2': 1, 'n0t3': 0,
  'n1t0': 0, 'n1t1': 0, 'n1t2': 0, 'n1t3': 1,
  'n2t0': 1, 'n2t1': 0, 'n2t2': 0, 'n2t3': 0,
- 'n3t0': 0, 'n3t1': 1, 'n3t2': 0, 'n3t3': 0} --> -7.98113883008419
+ 'n3t0': 0, 'n3t1': 1, 'n3t2': 0, 'n3t3': 0} --> -7.9811
 
 {'n0t0': 0, 'n0t1': 1, 'n0t2': 0, 'n0t3': 0,
  'n1t0': 0, 'n1t1': 0, 'n1t2': 1, 'n1t3': 0, 
  'n2t0': 0, 'n2t1': 0, 'n2t2': 0, 'n2t3': 1, 
- 'n3t0': 1, 'n3t1': 0, 'n3t2': 0, 'n3t3': 0} --> -7.98113883008419
+ 'n3t0': 1, 'n3t1': 0, 'n3t2': 0, 'n3t3': 0} --> -7.9811
 
 {'n0t0': 1, 'n0t1': 0, 'n0t2': 0, 'n0t3': 0,
  'n1t0': 0, 'n1t1': 1, 'n1t2': 0, 'n1t3': 0, 
  'n2t0': 0, 'n2t1': 0, 'n2t2': 1, 'n2t3': 0, 
- 'n3t0': 0, 'n3t1': 0, 'n3t2': 0, 'n3t3': 1} --> -7.98113883008419
+ 'n3t0': 0, 'n3t1': 0, 'n3t2': 0, 'n3t3': 1} --> -7.9811
 
 {'n0t0': 0, 'n0t1': 0, 'n0t2': 0, 'n0t3': 1,
  'n1t0': 1, 'n1t1': 0, 'n1t2': 0, 'n1t3': 0,
  'n2t0': 0, 'n2t1': 1, 'n2t2': 0, 'n2t3': 0,
- 'n3t0': 0, 'n3t1': 0, 'n3t2': 1, 'n3t3': 0} --> -7.98113883008419
+ 'n3t0': 0, 'n3t1': 0, 'n3t2': 1, 'n3t3': 0} --> -7.9811
 \end{minted}
 
 As expected, these are the four minimums of the cost functions, representing the four ways of describing a type A loop in the used codification.
@@ -193,7 +193,65 @@ Finally, let us plot the landscape of solutions for the given reads. We sort the
 
 
 \subsection{Experiment 2: Simulated Quantum Annealing}
-\subsection{Experiment 3: Quantum Annealing}
+
+
+For our second experiment we aim to solve the previous our example using Simulated Annealing. Although \emph{dimod} provides a simulated annealing sampler, we use for our final experiments the  \emph{SimulatedAnnealingSampler} from \emph{Ocean}'s \emph{Neal} package as it yields more distributed results and has far better computing time. The same experiment was reproduced $10$ times using both samplers in my machine. Dimod's sampler obtained a mean time of $11.76$ seconds while \emph{Neal}'s obtained a mean of $0.0610$ seconds.
+
+The pseudo-code doesn change much from the first experiment to the second one, we simply change the annealer:
+
+\begin{algorithm}
+	\caption*{\textbf{Experiment 2}}
+	
+	Data prepatation:
+	\begin{itemize}
+		\item Compute the distance between every two reads, creating an adjacency matrix.
+		\item Transform the TSP adjancency matrix into a QUBO $Q$ matrix, as explained in section \ref{sec:tsp-qubo}.
+		\item Transform the QUBO matrix into an adjacency dictionary.
+	\end{itemize}
+	
+	Solving:
+	\begin{itemize}
+		\item Initiaize a sampler: \textbf{\emph{neal.SimulatedAnnealingSampler}}.
+		\item Solve the preprared QUBO model using the selected solver.
+	\end{itemize}
+	
+	Print the solutions
+\end{algorithm}
+
+Since \emph{Neal}'s sampler is quite efficient we were able to execute experiments with up to $10.000$ repetitions of the experiment, also called \emph{sample reads} or simply \emph{reads}. We developed an automated and escalable way to check whether a given cycle returned by the annealer was valid, and to recover its type. Using this tools we can easily check the number of occurrences each type of cycle appeared in the obtained sample reads. These resulsts are presented, along with the associated energy to each result, in table \ref{tab:exp2} and figure \ref{fig:exp2-occ}. See fig \ref{fig:overlap-cycles} to recall the cycle types and cost computing.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{lrr}
+		\textbf{Cycle type} & \textbf{Occurences} & \textbf{Energy} \\
+		\hline
+		Type A	& 3722	& -7.9811	\\
+		Type C	& 1474	& -7.4541	\\
+		Type D	& 1469	& -7.4541	\\
+		Type F	& 1458	& -7.4541	\\
+		Type E	& 1431	& -7.4541	\\
+		Type B	& 446	& -6.927                             
+	\end{tabular}
+	\caption{Results of experiment 2}
+	\label{tab:exp2}
+\end{table}
+
+\begin{figure}[H]
+	\makebox[\textwidth][c]{
+		\includegraphics[scale=0.8]{experiments/experiment2.png}
+	}
+	\centering
+	\caption{Ocurrences of each type in a $10.000$ reads experiment using Quantum Annealing}
+	\label{fig:exp2-occ}
+\end{figure}
+
+We can appreciate in figure \ref{fig:exp2-occ} that best type of cycle agglomerates most of the samples, $37.22\%$. In second place, the four type of cycles that have the exact same energy have each almost exactly the same number of samples. This matches our quantum annealing theory: the phisical system has equal probabilities of ending in eigen-states with equal eigen-energies.
+
+It is worth mentioning that there was not a single sample that encoded an invalid cycle. This means that the penalties values used for the experiment ($1.6$ for multiĺocation and repetition, and $-1.6$ for self-bias) are well-based.
+
+Now that we are familiar with the type of results and codifications we may find, let us jump to the real Quantum Realm by using the D-Wave's Quantum Computer Systems.
+
+\subsection{Experiment 3: Quantum Annealing using D-Wave}
 \subsection{Experiment 4: D-Wave's limits}
 
 
