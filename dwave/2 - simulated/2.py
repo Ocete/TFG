@@ -123,10 +123,10 @@ Solve a QUBO model using dimod exact solver
 """
 def solve_qubo_simulated(Q, all=False, print_it=False, save_it=False, num_reads=10000):
 	#solver = dimod.SimulatedAnnealingSampler()
-	solver = neal.SimulatedAnnealingSampler()
+	sampler = neal.SimulatedAnnealingSampler()
 	
 	start = time.time()
-	response = solver.sample_qubo(Q, num_reads=num_reads)
+	response = sampler.sample_qubo(Q, num_reads=num_reads)
 	qpu_time = time.time() - start
 
 	# Count the number of ocurrences
@@ -189,6 +189,6 @@ def compute_mean_time(repeat=10):
 EXPERIMENT 2
 """
 
-deNovo_on_DWave(print_it=False, save_it=True)
+#deNovo_on_DWave(print_it=False, save_it=False)
 
-# compute_mean_time()
+compute_mean_time()

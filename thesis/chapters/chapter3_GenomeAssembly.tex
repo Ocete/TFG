@@ -98,7 +98,7 @@ The first experiment reproduced aims to solve the previously discussed example u
 \begin{algorithm}
 	\caption*{\textbf{Experiment 1}}
 	
-	Data prepatation:
+	Data preparation:
 	\begin{itemize}
 		\item Compute the distance between every two reads, creating an adjacency matrix.
 		\item Transform the TSP adjancency matrix into a QUBO $Q$ matrix, as explained in section \ref{sec:tsp-qubo}.
@@ -108,13 +108,13 @@ The first experiment reproduced aims to solve the previously discussed example u
 	Solving:
 	\begin{itemize}
 		\item Initiaize a sampler: \textbf{\emph{dimod.ExactSolver}}.
-		\item Solve the preprared QUBO model using the selected solver.
+		\item Solve the prepared QUBO model using the selected solver.
 	\end{itemize}
 	
 	Print the solutions
 \end{algorithm}
 
-As we already know, using quantum annealing does not guarantee that we will obtain the optimal solution for a given cost function. In order to overcome this problem we use multi-sampling: running the experiment multiple times and and look at the best obtained solutions. Ocean already implements different types of \emph{samplers} to facilitate this task. In this first experiment we use an \emph{ExactSolver}, which simply check every possible solution. Although time-costly, this method will let us know if our data manipulation before solving the experiment is correct, and how the solutions landscape looks.
+As we already know, using quantum annealing does not guarantee that we will obtain the optimal solution for a given cost function. In order to overcome this problem we use multi-sampling: running the experiment multiple times and and look at the best obtained solutions. Ocean already implements different types of \emph{samplers} to facilitate this task \ref{DWave-OceanDoc-Samplers}. In this first experiment we use an \emph{ExactSolver}, which simply check every possible solution. Although time-costly, this method will let us know if our data manipulation before solving the experiment is correct, and how the solutions landscape looks.
 
 The third step in data preparation is a formatting step. Ocean requires the QUBO and Ising models to be in an adjacency dictionary instead of a matrix. Let us look at an example of this transformation in order to better understand it. Consider a 2-reads, the associated TSP will have $2^2 = 4$ nodes: $n0t0$, $n0t1$, $n1t0$ and $n1t1$. Suppose the following (inconsistency) matrix is the associated $Q$ matrix:
 
@@ -195,14 +195,14 @@ Finally, let us plot the landscape of solutions for the given reads. We sort the
 \subsection{Experiment 2: Simulated Quantum Annealing}
 
 
-For our second experiment we aim to solve the previous our example using Simulated Annealing. Although \emph{dimod} provides a simulated annealing sampler, we use for our final experiments the  \emph{SimulatedAnnealingSampler} from \emph{Ocean}'s \emph{Neal} package as it yields more distributed results and has far better computing time. The same experiment was reproduced $10$ times using both samplers in my machine. Dimod's sampler obtained a mean time of $11.76$ seconds while \emph{Neal}'s obtained a mean of $0.0610$ seconds.
+For our second experiment we aim to solve our example using Simulated Annealing. Although \emph{dimod} provides a simulated annealing sampler, we use for our final experiments the  \emph{SimulatedAnnealingSampler} from \emph{Ocean}'s \emph{Neal} package as it yields more distributed results and has far better computing time. The same experiment was reproduced $10$ times using both samplers in my machine. Dimod's sampler obtained a mean time of $11.76$ seconds while \emph{Neal}'s obtained a mean of $0.0610$ seconds.
 
 The pseudo-code doesn change much from the first experiment to the second one, we simply change the annealer:
 
 \begin{algorithm}
 	\caption*{\textbf{Experiment 2}}
 	
-	Data prepatation:
+	Data preparation:
 	\begin{itemize}
 		\item Compute the distance between every two reads, creating an adjacency matrix.
 		\item Transform the TSP adjancency matrix into a QUBO $Q$ matrix, as explained in section \ref{sec:tsp-qubo}.
@@ -212,11 +212,13 @@ The pseudo-code doesn change much from the first experiment to the second one, w
 	Solving:
 	\begin{itemize}
 		\item Initiaize a sampler: \textbf{\emph{neal.SimulatedAnnealingSampler}}.
-		\item Solve the preprared QUBO model using the selected solver.
+		\item \textbf{Sample from} the prepared QUBO model using the selected \textbf{sampler}.
 	\end{itemize}
 	
 	Print the solutions
 \end{algorithm}
+
+It is worth mentioning that we don \emph{solve} the QUBO model in this experiment, we \emph{sample} different results using simulated annealing.
 
 Since \emph{Neal}'s sampler is quite efficient we were able to execute experiments with up to $10.000$ repetitions of the experiment, also called \emph{sample reads} or simply \emph{reads}. We developed an automated and escalable way to check whether a given cycle returned by the annealer was valid, and to recover its type. Using this tools we can easily check the number of occurrences each type of cycle appeared in the obtained sample reads. These resulsts are presented, along with the associated energy to each result, in table \ref{tab:exp2} and figure \ref{fig:exp2-occ}. See fig \ref{fig:overlap-cycles} to recall the cycle types and cost computing.
 
@@ -237,22 +239,150 @@ Since \emph{Neal}'s sampler is quite efficient we were able to execute experimen
 \end{table}
 
 \begin{figure}[H]
-	\makebox[\textwidth][c]{
-		\includegraphics[scale=0.8]{experiments/experiment2.png}
-	}
+	\includegraphics[scale=0.8]{experiments/experiment2.png}
 	\centering
-	\caption{Ocurrences of each type in a $10.000$ reads experiment using Quantum Annealing}
+	\caption{Ocurrences of each type in a $10.000$ reads experiment using Simulated Annealing}
 	\label{fig:exp2-occ}
 \end{figure}
 
-We can appreciate in figure \ref{fig:exp2-occ} that best type of cycle agglomerates most of the samples, $37.22\%$. In second place, the four type of cycles that have the exact same energy have each almost exactly the same number of samples. This matches our quantum annealing theory: the phisical system has equal probabilities of ending in eigen-states with equal eigen-energies.
+We can appreciate in figure \ref{fig:exp2-occ} that best type of cycle agglomerates most of the samples, $37.22\%$. In second place, the four type of cycles that have the exact same energy have each almost exactly the same number of samples. This matches our quantum annealing theory: the phisical system has equal probability of ending in eigen-states with equal eigen-energies.
 
 It is worth mentioning that there was not a single sample that encoded an invalid cycle. This means that the penalties values used for the experiment ($1.6$ for multiĺocation and repetition, and $-1.6$ for self-bias) are well-based.
 
 Now that we are familiar with the type of results and codifications we may find, let us jump to the real Quantum Realm by using the D-Wave's Quantum Computer Systems.
 
-\subsection{Experiment 3: Quantum Annealing using D-Wave}
-\subsection{Experiment 4: D-Wave's limits}
 
+\subsection{Experiment 3: Quantum Annealing using D-Wave}
+
+
+For our second experiment we aim to solve our example using D-Wave quantum annealers. For this pourpose, we need to add some extra steps to our data processing. Section \ref{sec:embeddings} explained how not every graph can be directly mapped to the existing Chimera / Pegasus topologies that D-Wave systems use, and how we can overcome this problem by embedding our problems graphs into these topologies. The extra steps in our data processing are related to these embeddings: we will need to embed our graph into the fixed topology that will be used, and then translate the solutions from the embedded graph. Ocean provides a set of utilities to deal with embeddings \cite{DWave-OceanDoc-Embedding}.
+
+Additionally, we will need to connect to Leap to send our jobs to the quantum annealers using a \emph{client}. First, a configuration file is created, which includes your API key and some extra configuration details:
+
+\begin{minted}[bgcolor=bg]{bash}
+[ocete]
+solver = {"qpu": true}
+token = DEV-<api key goes here>
+endpoint = https://cloud.dwavesys.com/sapi
+\end{minted}
+
+In our code we initialize a \emph{client} and a \emph{solver} using the configuration file. These are objects that encapsulate the connection functionality and solving problems in the associated machine respectively. We also initialize a sampler as we did before, but this time a production sampler is used: a \emph{DWaveSampler} that also needs our configuration file. The pseudo-code for this experiment looks as follows. Each new step will be explained in detail below.
+
+\begin{algorithm}
+	\caption*{\textbf{Experiment 3}}
+	
+	Initialization:
+	\begin{itemize}
+		\item Initiaize a sampler: \textbf{\emph{system.samplers.DWaveSampler}}.
+		\item \textbf{Initialize a client and obtain an associated solver}.
+	\end{itemize}
+	
+	Data preparation:
+	\begin{itemize}
+		\item Compute the distance between every two reads, creating an adjacency matrix.
+		\item Transform the TSP adjancency matrix into a QUBO $Q$ matrix, as explained in section \ref{sec:tsp-qubo}.
+		\item Transform the QUBO matrix into an adjacency dictionary.
+		\item \textbf{Find an embedding from our graph to the used machine topology (either Chimera or Pegasus)}.
+		\item \textbf{Use the previous embedding to create a new QUBO model equivalent for the embedded graph}.
+	\end{itemize}
+	
+	Solving:
+	\begin{itemize}
+		\item Use the solver to send a job to the client. This job samples from the prepared QUBO model multiple times.
+	\end{itemize}
+	
+	Format the results:
+	\begin{itemize}
+		\item \textbf{Use the computed embedding to translate our answers}.
+	\end{itemize}
+\end{algorithm}
+
+The first thing to be notice is that the initialization now needs to be done before the data preparation. This is because in order to find the embedding, we need to know which exact topology the quantum system will have. This information is provided through the \emph{solver}, previously initialized. The initialization step is as simple as follows:
+
+\begin{minted}[bgcolor=bg]{python}
+import dwave
+
+# Create the solver (connecting to D-Wave) and the Sampler
+config_file='../dwave.conf'
+client = cloud.Client.from_config(config_file, profile='ocete')
+solver = client.get_solver()
+dwsampler = system.samplers.DWaveSampler(config_file=config_file)
+\end{minted}
+
+Suposse $Q$ already holds are computed QUBO model. We can compute an embedding an obtained the new associated model as follows:
+
+\begin{minted}[bgcolor=bg]{python}
+adjacency_dict = embedding.utils.edgelist_to_adjacency(solver.edges)
+embedding = minorminer.find_embedding(Q, solver.edges)
+Q_embedded = embed_qubo(Q, embedding, adjacency_dict)
+\end{minted}
+
+By using the same configuration file, the sampler already knows what machine it is associated to. We will simply sample from it, with the same sintax as in the second experiment:
+
+\begin{minted}[bgcolor=bg]{python}
+response = dwsampler.sample_qubo(Q_embedded, num_reads=num_reads)
+\end{minted}
+
+Where $num\_reads$ is a parameter that sets the number of samples to be read. However, these solutions are associated to the $Q\_embedded$, not to our original $Q$ model. We need to translate the responses to understand them:
+
+\begin{minted}[bgcolor=bg]{python}
+bqm = dimod.BinaryQuadraticModel.from_qubo(Q)
+unembedded_response = embedding.unembed_sampleset(response, embedding, bqm)
+\end{minted}
+
+For this experiment, the D-Wave 2000Q was used (see section \ref{sec:d-wave-systems} to see its characteristics), since it was the default solver. After running the experiment with the same parameters as the simulated anneling experiment ($10.000$ reads and $(-1.6; 1.6; 1.6)$ for the QUBO parameters), we obtained that more than $90\%$ of the samples were invalid, a huge different with the astonishing $0\%$ obtained in the second experiment.
+
+My initial hypothesis was that the QUBO parameters were well adjusted for SA but not for QA, and thus allowed further tunning. After many attempts with different parameters values, this hypothesis was discarded. The only other set of parameters worth presenting is $(-1.5; 1.5; 1.5)$. These results are presented in table \ref{tab:exp3}.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{lrrr}
+		\textbf{Cycle type} & \textbf{Occurences (1.5)} & \textbf{Occurences (1.6)} & \textbf{Energy} \\
+		\hline
+		Type A	& 131	& 50	& -7.9811	\\
+		Type C	& 124	& 46	& -7.4541	\\
+		Type D	& 40	& 91	& -7.4541	\\
+		Type F	& 55	& 117	& -7.4541	\\
+		Type E	& 112	& 118	& -7.4541	\\
+		Type B	& 99	& 64	& -7.4541	\\    
+		Invalid & 9221	& 9194	& $>$ -5.6433                         
+	\end{tabular}
+	\caption{Results of experiment 3}
+	\label{tab:exp3}
+\end{table}
+
+In figures \ref{fig:exp3-occ1} and \ref{fig:exp3-occ2} we see a comparisson of the distribution between the different type of cycles in both experiments. We cannot see a distribution as we did in \ref{fig:exp2-occ}, potentially due to the low numbers of reads that actually represent a valid cycle. We do know that we are not sampling completely random solutions: in a 4-reads problems with obtain a 16 variables QUBO model, with up to $2^16$ possible solutions using our encoding. That is, previous embedding the graph in the topology.
+
+In fact, such distribution between the cycle types is not needed: a single sample with the lowest energy solution will completely solve our genome assembly problem.
+
+\begin{figure}[H]
+	\includegraphics[scale=0.75]{experiments/experiment3 (1.5).png}
+	\centering
+	\caption{Ocurrences of each cycle type in a $10.000$ reads experiment using Quantum Annealing, filtering out invalid cycles, with QUBO parameters $(-1.5; 1.5; 1.5)$}
+	\label{fig:exp3-occ1}
+\end{figure}
+
+\begin{figure}[H]
+	\includegraphics[scale=0.75]{experiments/experiment3 (1.6).png}
+	\centering
+	\caption{Ocurrences of each cycle type in a $10.000$ reads experiment using Quantum Annealing, filtering out invalid cycles, with QUBO parameters $(-1.6; 1.6; 1.6)$}
+	\label{fig:exp3-occ2}
+\end{figure}
+
+Therefore, we have not find a clear improvement precision-wise in our small example, although QA solves the problem. What about time-wise? In figure \ref{fig:exp3-time} we see the time breakdown provided by Ocean after our last experiment. We can see a total QPU sampling time of $2.389$ seconds, while if we repeat the experiment with the same parameters using SA we obtain a mean of $2.525$ sampling seconds, over $10$ experiment repetitions. Keeping in mind that our QA time data comes from a single execution and the small difference between both time measures, we cannot conclude that either approach has any time advantage in such small problems.
+
+However, does QA actually scales better than SA with the problem size? In the next experiment we will study the Pegasus topology to understand what is the maximum problem size that can be tackled using the Advantage system. Finally, the last experiment will try to answer the scalability comparison inquiry.
+
+\begin{figure}[h]
+	\includegraphics[scale=0.5]{experiments/exp3-time.png}
+	\centering
+	\caption{Time breakdown provided by Ocean after the last experiment.}
+	\label{fig:exp3-time}
+\end{figure}
+
+
+\subsection{Experiment 4: D-Wave's Advantage limits}
+
+\subsection{Experiment 5: Scalability comparison between Simulated Annealing and Quantum Annealing}
 
 

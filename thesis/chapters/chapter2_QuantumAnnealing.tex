@@ -793,6 +793,7 @@ Which corresponds to the four ways of encoding type A cycles with our notation.
 
 \FloatBarrier
 \section{D-Wave Systems}
+\label{sec:d-wave-systems}
 
 
 \textbf{D-Wave Systems Inc.} is a Canadian company dedicated to quantum computing. In 2011, they announced the first commercial quantum computer system, D-Wave One. During the following two decades, the D-Wave team has developed a series of quantum computers dedicated to quantum annealing. The last one being the Advantage System (figure \ref{fig:advantage}).
@@ -987,7 +988,11 @@ The \textbf{Pegasus topology} is also organized in horizontal and vertical qubit
 
 We will not deepen anymore into the Pegasus graph structure. It suffices to know that pegasus qubits have a nominal length of $12$ (each qubit is connected to $12$ orthonormal qubits using internal couplers) and a total degree $15$. A Pegasus cell contains $24$ qubits. Additionally, $P_n$ represents a Pegasus topology with an $N \times N$ grid of unit cells. The Advantage system supports a $P_{16}$ Pegasus graph.
 
-Then, what are the disadvantages of these topologies? Consider a simple example with three binary variables $(a, b, c)$: find a configuration for the variables such that $a + b + c = 1$.
+
+\subsection{Embeddings}
+\label{sec:embeddings}
+
+Let us explore the main disadvantages of these topologiesand how to overcome them. Consider a simple example with three binary variables $(a, b, c)$: find a configuration for the variables such that $a + b + c = 1$.
 
 This simple satisfability problem can be transform using the energy function $E(x) = (1 - a - b - c)^2$, or equivalenty $E(x) = 2ab + 2ac + 2bc - a - b - c + 1$. This matches the following QUBO model:
 
