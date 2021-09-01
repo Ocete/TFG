@@ -1,7 +1,7 @@
 \chapter{Solving the De Novo Genome Assembly}
 
 
-In this last chapter we approach the genome assembly problem with the using quantum annealing. Let us first understand what this problem is. We will then translate it to a QUBO model and solve it using quanutm annealing.
+In this last chapter we approach the genome assembly problem with the use of quantum annealing. Let us first understand what this problem is. We will then translate it to a QUBO model and solve it using quanutm annealing.
 
 
 \section{The Genome Assembly Problem}
@@ -35,7 +35,7 @@ In this technique, multiple copies of the same DNA are made before slicing it. A
 
 In the OLC graph used for the de novo whole-genome assembly, each node represents a different DNA read. Directed edges are associated a weight depending on how well these two reads are stitched together in a certain order. For example, the directed edge going from reading $r_1$ to read $r_2$ will be assigned a weight depending on how well $r_1r_2$ can be stiched.
 
-The weights computation depends on the implementation. For our purposes, we will use exact matches, no taking reading errors into consideration. Then, the weight assigned to an edge is the length of the overlap between both reads without any errors, with a change of sign. For example, given the reads $r_1 = AATT$ and $r_2 = TTCC$, the perfect stitching will produce $AATTCC$, so the overlap between both reads is $2$, giving a weight of $-2$. We may call this the \emph{distance} between reads $r_1$ and $r_2$ (in that order). It does not fulfill the mathematical definition of distance since it is not even symmetric, but it will be useful to it this way.
+The weights computation depends on the implementation. For our purposes, we will use exact matches, no taking reading errors into consideration. Then, the weight assigned to an edge is the length of the overlap between both reads without any errors, with a change of sign. For example, given the reads $r_1 = AATT$ and $r_2 = TTCC$, the perfect stitching will produce $AATTCC$, so the overlap between both reads is $2$, giving a weight of $-2$. We may call this the \emph{distance} between reads $r_1$ and $r_2$ (in that order). It does not fulfill the mathematical definition of distance since it is not even symmetric, but it will be useful for us anyway.
 
 A Hamiltonian path in our overlap graph will represent a series of reads in a certain order. By minimizing the total cost of our Hamiltonian path, we maximize the overlap between reads, resulting in the shortest possible final chain. This is exactly the same as solving the Travelling Salesman problem associated with our overlap graph.
 
@@ -70,7 +70,7 @@ We may compute the overlap between the different reads. This results in the over
 	\label{fig:overlap-graph}
 \end{figure}
 
-Which is the same graph studied in the traveling salesman section \ref{sec:salesman-example}. From the study done in that section, we know that there are six types of cycles in the graph, as shown in table \ref{tbl:salesman-cycles}. In figure \ref{fig:overlap-cycles}, we see how these type of cycles represent different ordinations of our DNA reads, as well as their overlaps and the total length of the resulting chain.
+Which is the same graph studied in the traveling salesman section \ref{sec:salesman-example}. From the study done in that section, we know that there are six types of cycles in the graph, as shown in table \ref{tbl:salesman-cycles}. In figure \ref{fig:overlap-cycles}, we see how these types of cycles represent different ordinations of our DNA reads, as well as their overlaps and the total length of the resulting chain.
 
 \begin{figure}[h]
 	\makebox[\textwidth][c]{
@@ -93,7 +93,7 @@ In this last section, we will explain the experiments reproduced using the D-Wav
 \subsection{Experiment 1: Data preparation and exact solving}
 
 
-The first experiment reproduced aims to solve the previously discussed example using the an exact solver provided by the Ocean's \emph{dimod} library \cite{Dimod}. The steps taken to transform the given reads to the QUBO matrix that Ocean's classes and functions use will be shared between the simulated quantum annealer and the real quantum solvers. Therefore, the data preparation applied will be shared between experiments. The pseudocode of the experiment can be seen in the following snippet.
+The first experiment reproduced aims to solve the previously discussed example using an exact solver provided by the Ocean's \emph{dimod} library \cite{Dimod}. The steps taken to transform the given reads to the QUBO matrix that Ocean's classes and functions use will be shared between the simulated quantum annealer and the real quantum solvers. Therefore, the data preparation applied will be shared between experiments. The pseudocode of the experiment can be seen in the following snippet.
 
 \begin{algorithm}
 	\caption*{\textbf{Experiment 1}}
@@ -114,7 +114,7 @@ The first experiment reproduced aims to solve the previously discussed example u
 	Print the solutions
 \end{algorithm}
 
-As we already know, using quantum annealing does not guarantee that we will obtain the optimal solution for a given cost function. In order to overcome this problem we use multi-sampling: running the experiment multiple times and and look at the best obtained solutions. Ocean already implements different types of \emph{samplers} to facilitate this task \ref{DWave-OceanDoc-Samplers}. In this first experiment we use an \emph{ExactSolver}, which simply check every possible solution. Although time-costly, this method will let us know if our data manipulation before solving the experiment is correct, and how the solutions landscape looks.
+As we already know, using quantum annealing does not guarantee that we will obtain the optimal solution for a given cost function. In order to overcome this problem we use multi-sampling: running the experiment multiple times and and look at the best obtained solutions. Ocean already implements different types of \emph{samplers} to facilitate this task \cite{DWave-OceanDoc-Samplers}. In this first experiment we use an \emph{ExactSolver}, which simply check every possible solution. Although time-costly, this method will let us know if our data manipulation before solving the experiment is correct, and how the solutions landscape looks.
 
 The third step in data preparation is a formatting step. Ocean requires the QUBO and Ising models to be in an adjacency dictionary instead of a matrix. Let us look at an example of this transformation in order to better understand it. Consider a 2-reads, the associated TSP will have $2^2 = 4$ nodes: $n0t0$, $n0t1$, $n1t0$ and $n1t1$. Suppose the following (inconsistency) matrix is the associated $Q$ matrix:
 
@@ -351,7 +351,7 @@ My initial hypothesis was that the QUBO parameters were well adjusted for SA but
 	\label{tab:exp3}
 \end{table}
 
-In figures \ref{fig:exp3-occ1} and \ref{fig:exp3-occ2} we see a comparisson of the distribution between the different type of cycles in both experiments. We cannot see a distribution as we did in \ref{fig:exp2-occ}, potentially due to the low numbers of reads that actually represent a valid cycle. We do know that we are not sampling completely random solutions: in a 4-reads problems with obtain a 16 variables QUBO model, with up to $2^16$ possible solutions using our encoding. That is, previous embedding the graph in the topology.
+In figures \ref{fig:exp3-occ1} and \ref{fig:exp3-occ2} we see a comparisson of the distribution between the different type of cycles in both experiments. We cannot see a distribution as we did in \ref{fig:exp2-occ}, potentially due to the low numbers of reads that actually represent a valid cycle. We do know that we are not sampling completely random solutions: in a 4-reads problems with obtain a 16 variables QUBO model, with up to $2^{16}$ possible solutions using our encoding. That is, previous embedding the graph in the topology.
 
 In fact, such distribution between the cycle types is not needed: a single sample with the lowest energy solution will completely solve our genome assembly problem.
 
@@ -369,20 +369,103 @@ In fact, such distribution between the cycle types is not needed: a single sampl
 	\label{fig:exp3-occ2}
 \end{figure}
 
-Therefore, we have not find a clear improvement precision-wise in our small example, although QA solves the problem. What about time-wise? In figure \ref{fig:exp3-time} we see the time breakdown provided by Ocean after our last experiment. We can see a total QPU sampling time of $2.389$ seconds, while if we repeat the experiment with the same parameters using SA we obtain a mean of $2.525$ sampling seconds, over $10$ experiment repetitions. Keeping in mind that our QA time data comes from a single execution and the small difference between both time measures, we cannot conclude that either approach has any time advantage in such small problems.
+Therefore, we have not find a clear improvement precision-wise in our small example, although QA solves the problem. What about time-wise? In figure \ref{fig:exp3-time} we see the time breakdown provided by Leap after our last experiment. We can see a total QPU sampling time of $2.389$ seconds, while if we repeat the experiment with the same parameters using SA we obtain a mean of $2.525$ sampling seconds, over $10$ experiment repetitions. Keeping in mind that our QA time data comes from a single execution and the small difference between both time measures, we cannot conclude that either approach has any time advantage in such small problems.
 
 However, does QA actually scales better than SA with the problem size? In the next experiment we will study the Pegasus topology to understand what is the maximum problem size that can be tackled using the Advantage system. Finally, the last experiment will try to answer the scalability comparison inquiry.
 
 \begin{figure}[h]
 	\includegraphics[scale=0.5]{experiments/exp3-time.png}
 	\centering
-	\caption{Time breakdown provided by Ocean after the last experiment.}
+	\caption{Time breakdown provided by Leap after the last experiment.}
 	\label{fig:exp3-time}
 \end{figure}
 
+%TODO: no se llama simulated annealing!!!, añadele el cuantico por ahi
 
 \subsection{Experiment 4: D-Wave's Advantage limits}
 
+For our fourth experiment we aim to test the limits of the Advantage architecture for our problem. That is, given a number of DNA reads, we will compute the associated QUBO problem and try to embed the obtained graph into the Advantage architecture. We will test these embeddings against a Pegasus 16 ($P_{16}$) topology, since that is the one supported by the Advantage system.
+
+In fact, given a set of $n$ reads, this is simply finding if a $n^2$-nodes complete graph ($K_{n^2}$) can be embedded into a $P_{16}$. The reads themselves are not relevant for the embedding. However, I have developed an automated  way of creating fake tests, originally for a general porpuse, but it can also be used here.
+
+This automated test production works as follows: Given a number of reads, the size of each chain (default value $150$) and the required overlap between adjacent chains (default value $50$), it randomly creates the original DNA chain, and then chop it using the wanted given parameters. This makes sure that adjacent reads have enough overlap so it is basically impossible for two random reads to overlap more than $50$ bps.
+
+Using these random tests we created graphs of an increasing number of reads until we were unable to find an embedding from $K_{n^2}$ to $P_{16}$. The results of the experiment can be seen in table \ref{tab:exp4}. We can see that a valid embedding was found to problem size up to 14 reads ($K_{196}$ associated graph). The embedding time aswell as the test generation time are also displayed. I decided to display both since, as time grew larger and larger, I was not sure whether the test generation were was adding too much of an overload.
+
+\begin{table}[H]
+	\centering
+	\makebox[\textwidth][c]{
+		\begin{tabular}{ccccc}
+			\textbf{Number of reads} & \textbf{Nodes in graph} & \textbf{Test generation time} & \textbf{Embedding time} & \textbf{Total time} \\
+			\hline
+			2   & 4   &  0.000157   &  0.081310   &  0.081708 \\
+			3   & 9   &  0.000216   &  0.108525   &  0.109205 \\
+			4   & 16   &  0.000269   &  0.194807   &  0.196045 \\
+			5   & 25   &  0.000335   &  0.377673   &  0.379814 \\
+			6   & 36   &  0.000392   &  1.147603   &  1.154559 \\
+			7   & 49   &  0.000433   &  3.514801   &  3.523473 \\
+			8   & 64   &  0.000497   &  11.876785   &  11.888235 \\
+			9   & 81   &  0.000558   &  19.226392   &  19.244367 \\
+			10   & 100   &  0.000610   &  43.457666   &  43.477268 \\
+			11   & 121   &  0.000676   &  62.499896   &  62.528545 \\
+			12   & 144   &  0.000724   &  89.277396   &  89.313831 \\
+			13   & 169   &  0.000812   &  63.782066   &  63.827706 \\
+			14   & 196   &  0.000840   &  152.262340   &  152.316223
+		\end{tabular}
+	}
+	\caption{Results of experiment 4}
+	\label{tab:exp4}
+\end{table}
+
+It is worth noting that the algorithm used to find the embeddings does not guarantee to find a valid one if it exists. I tried to run the algorithm $50$ times with $15$ reads and could not find a valid embedding.
+
+The reader might have already notice that the embeddings are quite time consuming. In fact, this is a NP problem itself and time will grow exponentially on input size. However, keep in mind that this embedding does not depend on the reads. Once a single embedding from a $K_{196}$ to a $P_{16}$ has been pre-computed in can be used -or further optimized- for different problems.
+
+Now that we now the maximum number of reads that the Advantage system may tackle, let us put it to the test with 'big' input problems in the next experiment.
+
+
 \subsection{Experiment 5: Scalability comparison between Simulated Annealing and Quantum Annealing}
+
+
+
+
+
+Resultados del SQA:
+
+3	| 10000		| 9564			| 0.000000	| -6.214214	| 1.881374
+4	| 10000		| 6852			| -0.000000	| -8.131935	| 2.178147
+5	| 10000		| 3427			| 0.000000	| -9.999001	| 3.487972
+6	| 10000		| 1308			| -0.000000	| -11.834192	| 5.121054
+7	| 10000		| 351			| -0.000000	| -13.656181	| 7.057235
+8	| 10000		| 108			| -0.000000	| -15.443562	| 9.680610
+9	| 10000		| 21			| 0.000000	| -17.232667	| 12.797996
+10	| 10000		| 3			| 0.000000	| -18.995278	| 16.080461
+11	| 10000		| 0			| -0.625356	| -20.764680	| 20.118828
+12	| 10000		| 0			| -0.601820	| -22.510011	| 25.351562
+13	| 10000		| 0			| -0.570361	| -24.256735	| 30.612547
+14	| 10000		| 0			| -1.378872	| -26.005003	| 34.897780
+
+Resultados del QA:
+
+Reads	| Valid cycles	| Solution reached	| Energy delta	| Best energy	| Time (s)
+3	| 4574		| 3295			| -0.000000	| -6.214214	| X
+4	| 683		| 156			| 0.000000	| -8.131935	| 951.2 ms
+5	| 88		| 6			| -0.000000	| -9.999900	| X
+6	| 2		| 0			| -1.322536	| -11.834014	| 1.099 s
+7	| 1		| 0			| -1.647457	| -13.671186	| 1.259 s
+8	| 0		| 0			| -3.867139	| -15.444996	| 2.444 s
+9	| 0		| 0			| -36.592409	| -17.227226	| 1.302 s
+
+
+
+
+
+
+10 |
+11 |
+12 |
+13 |
+14 |
+
 
 

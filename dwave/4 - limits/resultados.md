@@ -1,0 +1,13 @@
+Successful: 2 reads, 4 nodes graph, 0.000157s test creation time, 0.081310s embedding time, 0.081708s total time
+Successful: 3 reads, 9 nodes graph, 0.000216s test creation time, 0.108525s embedding time, 0.109205s total time
+Successful: 4 reads, 16 nodes graph, 0.000269s test creation time, 0.194807s embedding time, 0.196045s total time
+Successful: 5 reads, 25 nodes graph, 0.000335s test creation time, 0.377673s embedding time, 0.379814s total time
+Successful: 6 reads, 36 nodes graph, 0.000392s test creation time, 1.147603s embedding time, 1.154559s total time
+Successful: 7 reads, 49 nodes graph, 0.000433s test creation time, 3.514801s embedding time, 3.523473s total time
+Successful: 8 reads, 64 nodes graph, 0.000497s test creation time, 11.876785s embedding time, 11.888235s total time
+Successful: 9 reads, 81 nodes graph, 0.000558s test creation time, 19.226392s embedding time, 19.244367s total time
+Successful: 10 reads, 100 nodes graph, 0.000610s test creation time, 43.457666s embedding time, 43.477268s total time
+Successful: 11 reads, 121 nodes graph, 0.000676s test creation time, 62.499896s embedding time, 62.528545s total time
+Successful: 12 reads, 144 nodes graph, 0.000724s test creation time, 89.277396s embedding time, 89.313831s total time
+Successful: 13 reads, 169 nodes graph, 0.000812s test creation time, 63.782066s embedding time, 63.827706s total time
+Successful: 14 reads, 196 nodes graph, 0.000840s test creation time, 152.262340s embedding time, 152.316223s total time

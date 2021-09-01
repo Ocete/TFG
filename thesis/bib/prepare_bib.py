@@ -11,6 +11,8 @@ filedata = filedata.replace('{\_}', '\_')
 filedata = filedata.replace('{\#}', '\#')
 filedata = filedata.replace('{\%}', '\%')
 filedata = filedata.replace('{~}', '~')
+filedata = filedata.replace('{\^}', '^')
+filedata = filedata.replace('{\"}', '"')
 
 # Write the file out again
 with open(filename, 'w') as file:
