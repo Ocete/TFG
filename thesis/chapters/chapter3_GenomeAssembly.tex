@@ -347,7 +347,7 @@ My initial hypothesis was that the QUBO parameters were well adjusted for SA but
 		Type B	& 99	& 64	& -7.4541	\\    
 		Invalid & 9221	& 9194	& $>$ -5.6433                         
 	\end{tabular}
-	\caption{Results of experiment 3}
+	\caption{Results of experiment 3, $10.000$ reads using the quantum annealer.}
 	\label{tab:exp3}
 \end{table}
 
@@ -455,7 +455,7 @@ The results of this experiment using the simulated annealer can be seen in table
 			14	& 10000		& 0				& 1.378872		& -26.005003	& 34.897780
 		\end{tabular}
 	}
-	\caption{Results of experiment 5 using the simulated annealer.}
+	\caption{Results of experiment 5, $10.000$ reads using the simulated annealer.}
 	\label{tab:exp5_1}
 \end{table}
 
@@ -485,7 +485,7 @@ For the second part of test  I run the same experiment but using the quantum ann
 			10	& 0			& 0			& -50.03568		& -18.468571	& 1.276
 		\end{tabular}
 	}
-	\caption{Results of experiment 5 using the quantum annealer.}
+	\caption{Results of experiment 5, $10.000$ reads using the quantum annealer.}
 	\label{tab:exp5_2}
 \end{table}
 
@@ -511,6 +511,22 @@ Not only the responses are not valid, they are quite far from the solution. We c
 
 We can see how in the $4$ reads experiment, most of the samples group around $0$ energy, an only a very few are actually close to the solution, which is actually reached. However, in the $10$ reads experiment, most of the samples are gathered around $00/150$ energy, this solutions arenot only invalid but just unusable.
 
-Lastly, let us comment the QPU sampling time. This value is provided directly by Leap. From our code we cannot separate the connection and other computations from the actual QPU sampling time. We may appreciate how the time does not grow with the input. This is because the time it takes for the annealer to converge is fixed by the annealing schedule, not by an algorithim.
+Lastly, let us comment the QPU sampling time. This value is provided directly by Leap. From our code we cannot separate the connection and other computations from the actual QPU sampling time. We may appreciate how the time does not grow with the input. This is because the time it takes for the annealer to converge is fixed by the anneal schedule. Namely, we may only alter the functions $A(s)$ and $B(s)$ in \ref{fig:dwave-annealing-functions}.
 
-In conclusion, these results are astonishingly awful. The simmulated annealing sampler not only provides closer samples to the solution, but in every seen case it reaches valid samples. My current hypothesis is that the annealing schedule keeps the advantange system from converging to the solutions. In our last experiment I will spent all our remaining QPU time trying to adjust the annealing shcedule to improve this results.
+In conclusion, these results are astonishingly awful. The simmulated annealing sampler not only provides closer samples to the solution, but in every seen case it reaches valid samples. My current hypothesis is that either the anneal schedule is the optimal, or that the values of the parameters can be improved for our specific problem. In our last experiment I will spent all our remaining QPU time checking this hypothesis.
+
+
+\subsection{Experiment 6: Advantage tunning}
+
+
+Params	| Valid cycles	| Solution reached	| E_d	| Best energy	| Max chain length	|Time (s)
+(-1.6, 1.6, 1.6)	| 0		| 0			| -76.344431	| -18.994150	| 18		| 0.041731
+(-3, 3, 3)	| 0		| 0			| -87.263801	| -19.002865	| 18		| 0.042049
+(-5, 5, 5)	| 0		| 0			| -83.657639	| -19.010658	| 15		| 0.036150
+(-20, 20, 20)	| 0		| 0			| -357.917063	| -18.995411	| 15		| 0.040047
+(-50, 50, 50)	| 0		| 0			| -1017.605383	| -18.997603	| 14		| 0.035775
+(-100, 100, 100)	| 0		| 0			| -1418.541757	| -18.994217	| 18		| 0.040348
+
+
+
+
