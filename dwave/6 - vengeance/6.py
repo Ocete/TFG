@@ -327,9 +327,9 @@ def stress_test(_from=3, _to=15, use_QA=False):
 
 	params = [1.6, 3, 5, 10, 20, 50]
 	num_reads = 10
+	_, reads = create_test(num_reads=num_reads)
 
 	for p in params:
-		_, reads = create_test(num_reads=num_reads)
 		total_time, responses, max_chain_length = \
 			solve_denovo_assembly(reads, -p, p, p, label='Param: {}'.format(p), print_solutions=False, use_QA=use_QA)
 

@@ -331,9 +331,9 @@ def stress_test(_from=3, _to=15, use_QA=False):
 	times = [20, 40, 60, 120]
 	p = 1.6
 	num_reads = 10
+	_, reads = create_test(num_reads=num_reads)
 
 	for annealing_time in times:
-		_, reads = create_test(num_reads=num_reads)
 		total_time, responses, max_chain_length = \
 			solve_denovo_assembly(reads, -p, p, p, label='Annealing time: {}'.format(annealing_time),
 									print_solutions=False, use_QA=use_QA, annealing_time=annealing_time)

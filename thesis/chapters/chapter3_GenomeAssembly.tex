@@ -519,24 +519,49 @@ In conclusion, these results are astonishingly awful. The simmulated annealing s
 \subsection{Experiment 6: Advantage tunning}
 
 
+For our last experiment we aim to test our previous hypothesis, and try to solve a $10$ reads problem using the Advantage system. In the first set of iterations I tried to increase the multi-location and repetition penalties in order to icnrease the number of valid cycles sampled. For this experiment, a single test with $10$ reads was created. Its solution energy was  $-18.994150$. The results of the experiment can be found in table \ref{tab:exp6_1}.
+
+% TODO: comentar la tabla y que significa "Parameters"
+
+\begin{table}[H]
+	\centering
+	\makebox[\textwidth][c]{
+		\begin{tabular}{ccccc}
+			\textbf{Parameters} & \textbf{Valid cycles} & \textbf{Times sol. reached} & \textbf{Energy delta} & \textbf{Sampling QPU time} \\
+			\hline
+			(-1.6, 1.6, 1.6)	& 0		& 0			& -76.344431	&	0.041731 \\
+			(-3, 3, 3)			& 0		& 0			& -87.263801	&	0.042049 \\
+			(-5, 5, 5)			& 0		& 0			& -83.657639	&	0.036150 \\
+			(-20, 20, 20)		& 0		& 0			& -357.917063	&	0.040047 \\
+			(-50, 50, 50)		& 0		& 0			& -1017.605383 	&	0.035775 \\
+			(-100, 100, 100)	& 0		& 0			& -1418.541757 	&	0.040348
+		\end{tabular}
+	}
+	\caption{Results of experiment 6, $10.000$ reads using the quantum annealer for different parameters configurations.}
+	\label{tab:exp6_1}
+\end{table}
 
 
+Energy: $-18.998002$
 
-Params	| Valid cycles	| Solution reached	| E_d	| Best energy	| Max chain length	|Time (s)
-(-1.6, 1.6, 1.6)	| 0		| 0			| -76.344431	| -18.994150	| 18		| 0.041731
-(-3, 3, 3)	| 0		| 0			| -87.263801	| -19.002865	| 18		| 0.042049
-(-5, 5, 5)	| 0		| 0			| -83.657639	| -19.010658	| 15		| 0.036150
-(-20, 20, 20)	| 0		| 0			| -357.917063	| -18.995411	| 15		| 0.040047
-(-50, 50, 50)	| 0		| 0			| -1017.605383	| -18.997603	| 14		| 0.035775
-(-100, 100, 100)	| 0		| 0			| -1418.541757	| -18.994217	| 18		| 0.040348
+\begin{table}[H]
+	\centering
+	\makebox[\textwidth][c]{
+		\begin{tabular}{ccccc}
+			\textbf{Annealing time ($\mu$s)} & \textbf{Valid cycles} & \textbf{Times sol. reached} & \textbf{Energy delta} & \textbf{Sampling QPU time} \\
+			\hline
+			20	& 0		& 0			& -33.965357	& 0.037458 \\
+			40	& 0		& 0			& -31.430237	& 0.035382 \\
+			60	& 0		& 0			& -72.925782	& 0.043991 \\
+			120	& 0		& 0			& -51.149790	& 0.037740 \\
+		\end{tabular}
+	}
+	\caption{Results of experiment 6, $10.000$ reads using the quantum annealer for annealing times.}
+	\label{tab:exp6_2}
+\end{table}
 
 
-
-
-Annealing time	| Valid cycles	| Solution reached	| E_d	| Best energy	| Max chain length	|Time (s)
-20	| 0		| 0			| -33.965357	| -18.998002	| 16		| 0.037458
-40	| 0		| 0			| -31.430237	| -18.996473	| 12		| 0.035382
-60	| 0		| 0			| -72.925782	| -18.997137	| 17		| 0.043991
-120	| 0		| 0			| -51.149790	| -18.993157	| 15		| 0.037740
-
+% TODO: añadir al experimento 3 una fotillo de un embedding
+% TODO: añadir una sección de como reproducir los experimentos
+% TODO: añadir sección de futuras líneas.
 
