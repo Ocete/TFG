@@ -39,7 +39,7 @@ The weights computation depends on the implementation. For our purposes, we will
 
 A Hamiltonian path in our overlap graph will represent a series of reads in a certain order. By minimizing the total cost of our Hamiltonian path, we maximize the overlap between reads, resulting in the shortest possible final chain. This is exactly the same as solving the Travelling Salesman problem associated with our overlap graph.
 
-Figure \ref{de-novo-process} shows the whole problem resolution \cite{Boev2020}. Given the DNA reads (a) we compute the overlap graph (b) using a distance between the reads. We continue by viewing this problem as a traveling salesman and transforming it into a QUBO model (c). Then, either a simulated quantum annealer (e) or the D-Wave quantum annealer (d) are used to obtain the Hamiltonian path/cycle of minimum cost (f). Finally, we traverse the cycle and build the resulting genome sequence.
+Figure \ref{de-novo-process} shows the whole problem resolution \cite{Boev2020}. Given the DNA reads (a) we compute the overlap graph (b) using a distance between the reads. We continue by viewing this problem as a traveling salesman and transforming it into a QUBO model (c). Then, either a simulated annealer (e) or the D-Wave quantum annealer (d) are used to obtain the Hamiltonian path/cycle of minimum cost (f). Finally, we traverse the cycle and build the resulting genome sequence.
 
 \begin{figure}[H]
 	\includegraphics[scale=0.4]{de-novo-process.png}
@@ -93,7 +93,7 @@ In this last section, we will explain the experiments reproduced using the D-Wav
 \subsection{Experiment 1: Data preparation and exact solving}
 
 
-The first experiment reproduced aims to solve the previously discussed example using an exact solver provided by the Ocean's \emph{dimod} library \cite{Dimod}. The steps taken to transform the given reads to the QUBO matrix that Ocean's classes and functions use will be shared between the simulated quantum annealer and the real quantum solvers. Therefore, the data preparation applied will be shared between experiments. The pseudocode of the experiment can be seen in the following snippet.
+The first experiment reproduced aims to solve the previously discussed example using an exact solver provided by the Ocean's \emph{dimod} library \cite{Dimod}. The steps taken to transform the given reads to the QUBO matrix that Ocean's classes and functions use will be shared between the simulated annealer and the real quantum solvers. Therefore, the data preparation applied will be shared between experiments. The pseudocode of the experiment can be seen in the following snippet.
 
 \begin{algorithm}
 	\caption*{\textbf{Experiment 1}}
@@ -380,9 +380,9 @@ However, does QA actually scales better than SA with the problem size? In the ne
 	\label{fig:exp3-time}
 \end{figure}
 
-%TODO: no se llama simulated annealing!!!, añadele el cuantico por ahi
 
 \subsection{Experiment 4: D-Wave's Advantage limits}
+
 
 For our fourth experiment we aim to test the limits of the Advantage architecture for our problem. That is, given a number of DNA reads, we will compute the associated QUBO problem and try to embed the obtained graph into the Advantage architecture. We will test these embeddings against a Pegasus 16 ($P_{16}$) topology, since that is the one supported by the Advantage system.
 
@@ -427,45 +427,90 @@ Now that we now the maximum number of reads that the Advantage system may tackle
 \subsection{Experiment 5: Scalability comparison between Simulated Annealing and Quantum Annealing}
 
 
+In our fifth experiment we put the D-Wave's quantum annealers to the test with bigger input problems, and study how they behave compared with the simulated annealing experiments. We will start with a $3$ reads and then progresively increase this value, creating tests of this size and trying to solve them using both the simulated annealer and the Advantage system.
 
+For each fixed number of reads we will sample $10.000$ times using the annealers, with the same set of parameters used for the previous experiments. The number of valid solutions (i.e. valied cycles) will be displayed, along with the number of cycles that reached the real solution, which we know in advance since we created the test.
 
+We will also display the energy of the best sample obtained, along with the difference between the real solution energy and the best sample obtained, which I called \emph{energy delta}. Finally, we will also display the sampling time, not including the time it took to create the test and to prepare the data.
 
-Resultados del SQA:
+The results of this experiment using the simulated annealer can be seen in table \ref{tab:exp5_1}. 
 
-3	| 10000		| 9564			| 0.000000	| -6.214214	| 1.881374
-4	| 10000		| 6852			| -0.000000	| -8.131935	| 2.178147
-5	| 10000		| 3427			| 0.000000	| -9.999001	| 3.487972
-6	| 10000		| 1308			| -0.000000	| -11.834192	| 5.121054
-7	| 10000		| 351			| -0.000000	| -13.656181	| 7.057235
-8	| 10000		| 108			| -0.000000	| -15.443562	| 9.680610
-9	| 10000		| 21			| 0.000000	| -17.232667	| 12.797996
-10	| 10000		| 3			| 0.000000	| -18.995278	| 16.080461
-11	| 10000		| 0			| -0.625356	| -20.764680	| 20.118828
-12	| 10000		| 0			| -0.601820	| -22.510011	| 25.351562
-13	| 10000		| 0			| -0.570361	| -24.256735	| 30.612547
-14	| 10000		| 0			| -1.378872	| -26.005003	| 34.897780
+\begin{table}[H]
+	\centering
+	\makebox[\textwidth][c]{
+		\begin{tabular}{cccccc}
+			\textbf{N. reads} & \textbf{Valid cycles} & \textbf{Times sol. reached} & \textbf{Energy delta} & \textbf{Solution energy} & \textbf{Sampling time} \\
+			\hline
+			3	& 10000		& 9564			& 0				& -6.214214		& 1.881374 \\
+			4	& 10000		& 6852			& 0				& -8.131935		& 2.178147 \\
+			5	& 10000		& 3427			& 0				& -9.999001		& 3.487972 \\
+			6	& 10000		& 1308			& 0				& -11.834192	& 5.121054 \\
+			7	& 10000		& 351			& 0				& -13.656181	& 7.057235 \\
+			8	& 10000		& 108			& 0				& -15.443562	& 9.680610 \\
+			9	& 10000		& 21			& 0				& -17.232667	& 12.797996 \\
+			10	& 10000		& 3				& 0				& -18.995278	& 16.080461 \\
+			11	& 10000		& 0				& 0.625356		& -20.764680	& 20.118828 \\
+			12	& 10000		& 0				& 0.601820		& -22.510011	& 25.351562 \\
+			13	& 10000		& 0				& 0.570361		& -24.256735	& 30.612547 \\
+			14	& 10000		& 0				& 1.378872		& -26.005003	& 34.897780
+		\end{tabular}
+	}
+	\caption{Results of experiment 5 using the simulated annealer.}
+	\label{tab:exp5_1}
+\end{table}
 
-Resultados del QA:
+We stopped at 15 reads since that is the maximum value that will be able to compare with using the quantum annealer. In the experiment results we see how the number of valyd cycles out of $10.000$, which turns out to be every single cycle up to 14 reads. However, the number of samples that reached the best solution go down from $95\%$ to ground cero from $11$ reads onward. However, although we do not obtain the real solution, how close are these samples to it?
 
-Reads	| Valid cycles	| Solution reached	| Energy delta	| Best energy	| Time (s)
-3	| 4574		| 3295			| -0.000000	| -6.214214	| X
-4	| 683		| 156			| 0.000000	| -8.131935	| 951.2 ms
-5	| 88		| 6			| -0.000000	| -9.999900	| X
-6	| 2		| 0			| -1.322536	| -11.834014	| 1.099 s
-7	| 1		| 0			| -1.647457	| -13.671186	| 1.259 s
-8	| 0		| 0			| -3.867139	| -15.444996	| 2.444 s
-9	| 0		| 0			| -36.592409	| -17.227226	| 1.302 s
+The columns related to the energy of the solutions try to answer this question. We may see how the energy goes down to around $-26$, which is totally normal: the more reads in our graph, the higher the number of reads overlap, and the lower is the resulting solution energy. As soon as we cannot find the solution, the energy delta starts to increase, going up to around $1.37$. This means the energy of the best sample is quite close to the actual value. Is this enough?
 
+When we tackle a classic TSP, a near optimal solution is a really valid and useful solution. We do not necesarily need the actual minimum. However, although a valid cycle with low energy represents a valid way of sorting and sewing the genome reads, it does not provide the real genome. It does have some value since it could be further tuned to obtain the solution, but it does not solve our problem.
 
+Lastly, the sampling time seems to grow linearly withthe number of reads. However, using this simple simulated annealer for a real case with up to 3 Mbps would be simply impossible.
 
+For the second part of test  I run the same experiment but using the quantum annealer. Some extra steps come with it, like computing the annealer and connecting to Leap, but they have all been explained in previous experiments. We again sample $10.000$ times a maintain the same values for the self-bias, multi-location and repetition parameters. The results of this experiment can be seen in table \ref{tab:exp5_2}.
 
+\begin{table}[H]
+	\centering
+	\makebox[\textwidth][c]{
+		\begin{tabular}{cccccc}
+			\textbf{N. reads} & \textbf{Valid cycles} & \textbf{Times sol. reached} & \textbf{Energy delta} & \textbf{Solution energy} & \textbf{Sampling QPU time} \\
+			\hline
+			3	& 4574		& 3295		& 0				& -6.214214		& 1.035 \\
+			4	& 683		& 156		& 0				& -8.131935		& 0.962 \\
+			5	& 88		& 6			& 0				& -9.999900		& 1.272 \\
+			6	& 2			& 0			& -1.322536		& -11.834014	& 1.272 \\
+			7	& 1			& 0			& -1.647457		& -13.671186	& 1.206 \\
+			8	& 0			& 0			& -3.867139		& -15.444996	& 1.339 \\
+			9	& 0			& 0			& -36.592409	& -17.227226	& 1.570 \\
+			10	& 0			& 0			& -50.03568		& -18.468571	& 1.276
+		\end{tabular}
+	}
+	\caption{Results of experiment 5 using the quantum annealer.}
+	\label{tab:exp5_2}
+\end{table}
 
+The first thing we may notice is that the experiment did not reach 14 reads. That is because is stopped it before it finished. The available QPU time was quite tight at the moment, and seeing the results of the experiment with number of reads up to $10$ showed my that we were not going to learn anything new by letting the experiment finish.
 
-10 |
-11 |
-12 |
-13 |
-14 |
+Back to the results, we can appreciate the number of valid cycles goes rapidly to $0$, and even quicker the number of reads that reached the solution. At 4 reads we see similar results to what we saw in experiment 3: around $700$ valid cycles and $150$ times the real solution (type A cycle in the third experiment) was reached. Although we have developed this experiment in different machines, D-Wave 2000Q and Advantage, keep in mind that the improvements from one generation to another are size-related: we may tackle bigger (and thus harder) problems by using the Advantage system. It does not mean that its computation is somehow better.
 
+Not only the responses are not valid, they are quite far from the solution. We can see that in how the delta grows hugely as we increase the number of reads. Leap provides a graph for each submitted experiment displaying the samples distribution. In figures \ref{fig:exp5_1} and \ref{fig:exp5_2} we see this distribution for $4$ and $10$ reads respectively. 
 
+\begin{figure}[H]
+	\includegraphics[scale=0.5]{experiments/exp5_1.png}
+	\centering
+	\caption{$10.000$ samples distribuition for $4$ reads using the quantum annealer.}
+	\label{fig:exp5_1}
+\end{figure}
 
+\begin{figure}[H]
+	\includegraphics[scale=0.5]{experiments/exp5_2.png}
+	\centering
+	\caption{$10.000$ samples distribuition for $10$ reads using the quantum annealer.}
+	\label{fig:exp5_2}
+\end{figure}
+
+We can see how in the $4$ reads experiment, most of the samples group around $0$ energy, an only a very few are actually close to the solution, which is actually reached. However, in the $10$ reads experiment, most of the samples are gathered around $00/150$ energy, this solutions arenot only invalid but just unusable.
+
+Lastly, let us comment the QPU sampling time. This value is provided directly by Leap. From our code we cannot separate the connection and other computations from the actual QPU sampling time. We may appreciate how the time does not grow with the input. This is because the time it takes for the annealer to converge is fixed by the annealing schedule, not by an algorithim.
+
+In conclusion, these results are astonishingly awful. The simmulated annealing sampler not only provides closer samples to the solution, but in every seen case it reaches valid samples. My current hypothesis is that the annealing schedule keeps the advantange system from converging to the solutions. In our last experiment I will spent all our remaining QPU time trying to adjust the annealing shcedule to improve this results.
