@@ -87,7 +87,42 @@ As we know, the type of Hamiltonian cycle that minimizes the cost is type A. Thi
 \section{Experimentation}
 
 
-In this last section, we will explain the experiments reproduced using the D-Wave systems. For this porpouse we used \emph{D-Wave Ocean Software}, a suite of tools provided by D-Wave to use their quantum systems \cite{DWave-OceanDoc}. Using python and the provided packages we may connect to \emph{Leap}, a 'quantum' cloud service that provides access the quantum computers \cite{DWave-Leap}. These experiments are based on \cite{Sarkar2020}.
+In this last section, we will explain the experiments reproduced using the D-Wave systems.
+
+
+\subsection{How to reproduce the experiments}
+
+
+In order to run configure the samplers and submit jobs to D-Wave quantum annealers we used the \emph{D-Wave Ocean Software}, a suite of tools provided by D-Wave to use their quantum systems \cite{DWave-OceanDoc}. Using python and the provided packages we may connect to \emph{Leap}, a 'quantum' cloud service that provides access the quantum computers \cite{DWave-Leap}.
+
+Leap provides a minute of free QPU time with the (free) developer plan. We may extend this time by obtaining either commercial or research access. This can be done by contacting the Leap team.
+
+For the pourpose of this thesis I used the developer plan. In total, I submitted $104$ jobs to Leap, out of the allowed $106$. I consumed $59.064$ QPU seconds, as can bee seen in Leap's breakdown in figure \ref{fig:leap-breakdown}. The number of jobs and QPU time used in each system can be seen in table \ref{tab:leap-breakdown}.
+
+\begin{figure}[H]
+	\includegraphics[scale=0.5]{experiments/leap-breakdown.png}
+	\centering
+	\caption{Leap monthly usage summary.}
+	\label{fig:leap-breakdown}
+\end{figure}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{lrr}
+		\textbf{System} & \textbf{Number of jobs} & \textbf{QPU time (s)} \\
+		\hline
+		D-Wave 2000Q	& 26	& 11.015	\\
+		Advantage		& 77	& 46.681	\\
+		Total			& 104	& 59.064                     
+	\end{tabular}
+	\caption{Leap usage summary breakdown between systems.}
+	\label{tableap-breakdown}
+\end{table}
+
+
+Apart from Leap, in order to reproduce this experiments you will need to install tthe following Python packages, available thorugh \emph{pip}: \textbf{\emph{dimod}}, \textbf{\emph{neal}}, \textbf{\emph{minorminer}}, \textbf{\emph{dwave}} and \textbf{\emph{dwave\_networkx}}.
+
+The code I used for this experiments can be found in \cite{thesis-code}, which are inspired on \cite{Sarkar2020}.
 
 
 \subsection{Experiment 1: Data preparation and exact solving}
@@ -208,7 +243,21 @@ The pseudo-code doesn change much from the first experiment to the second one, w
 		\item Transform the TSP adjancency matrix into a QUBO $Q$ matrix, as explained in section \ref{sec:tsp-qubo}.
 		\item Transform the QUBO matrix into an adjacency dictionary.
 	\end{itemize}
-	
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{lrr}
+			\textbf{Cycle type} & \textbf{Occurences} & \textbf{Energy} \\
+			\hline
+			Type A	& 3722	& -7.9811	\\
+			Type C	& 1474	& -7.4541	\\
+			Type D	& 1469	& -7.4541	\\
+			Type F	& 1458	& -7.4541	\\
+			Type E	& 1431	& -7.4541	\\
+			Type B	& 446	& -6.927                             
+		\end{tabular}
+		\caption{Results of experiment 2}
+		\label{tab:exp2}
+	\end{table}
 	Solving:
 	\begin{itemize}
 		\item Initiaize a sampler: \textbf{\emph{neal.SimulatedAnnealingSampler}}.
@@ -380,7 +429,28 @@ However, does QA actually scales better than SA with the problem size? In the ne
 	\label{fig:exp3-time}
 \end{figure}
 
+Lastly, let us plot some logical embeddings using the Chimera graph. In figure \ref{fig:exp2_4reads} we see the embedding of a 4-nodes complete graph into the Chimera topology. The grey nodes represent unused nodes while the nodes with the same color represent a sigle logical qubit mapped into multiple phisical qubits.
 
+\begin{figure}[h]
+	\includegraphics[scale=0.5]{experiments/exp2_4reads.png}
+	\centering
+	\caption{Embedding of a 4-nodes complete graph into a Chimera topology.}
+	\label{fig:exp2_4reads}
+\end{figure}
+
+The last embedding had a \emph{maximum chain length} of $2$. That is, the longest chain in a logical qubit is 2 phisical qubits. This is a critical parameter to be minimized in embeddings: the longer the qubit chain, the more probable it is for the qubits in a logical qubit to desynchornized and end up in different states. Thus, the more difficult it is for the system to stay in the ground state.
+
+In figure \ref{fig:exp2_13reads} we see an embedding of a 13-nodes complete graph into a Chimera topology. In this case, the maximum chain length is $5$, obtained by both the dark blue and cyan logical qubits. In the rest of experiments I looked at the maximum chain length obtained in the pegasus embeddings, obtained lengths up to $15$ qubits. Since I did not have the time to study this characteristic in depth, it will be a future line of work.
+
+\begin{figure}[h]
+	\includegraphics[scale=0.5]{experiments/exp2_13reads.png}
+	\centering
+	\caption{Embedding of a complete 13-nodes complete graph into a Chimera topology.}
+	\label{fig:exp2_13reads}
+\end{figure}
+
+
+\FloatBarrier
 \subsection{Experiment 4: D-Wave's Advantage limits}
 
 
@@ -568,9 +638,3 @@ The anneal time is sec in microseconds, with a default value of $20$. Although t
 \end{table}
 
 Although the energy delta is reduced, the improvement is marginal: we still find no valid cycles and the responses have a high penalty. Probably with even more annealing time we will obtain further refined results.
-
-
-% TODO: añadir al experimento 3 una fotillo de un embedding
-% TODO: añadir una sección de como reproducir los experimentos
-% TODO: añadir sección de futuras líneas.
-
