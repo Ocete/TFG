@@ -1,13 +1,13 @@
 \chapter{Solving the De Novo Genome Assembly}
 
 
-In this last chapter we approach the genome assembly problem with the use of quantum annealing. Let us first understand what this problem is. We will then translate it to a QUBO model and solve it using quanutm annealing.
+In this last chapter, we approach the genome assembly problem with the use of quantum annealing. Let us first understand what this problem is, and then translate it to a QUBO model and solve it using quantum annealing.
 
 
 \section{The Genome Assembly Problem}
 
 
-The genome of an organism is all its genetic material \cite{Roth2019}. The deoxyribonucleic acid (DNA) is the carrier of that genetic information. It consists of two long chains twisted to form a double helix \cite{Alberts2007}. Each of these chains is composed of a series of nucleotides or bases: adenine (A), guanine (G), cytosine (C), and thymine (T). Since these bases are matched in pairs in the DNA double helix, those are called base pairs (bp).
+The genome of an organism is all its genetic material \cite{Roth2019}. The deoxyribonucleic acid (DNA) is the carrier of that genetic information. It consists of two long chains twisted to form a double helix \cite{Alberts2007}. Each of these chains is composed of a series of nucleotides or bases: adenine (A), guanine (G), cytosine (C), and thymine (T). Since these bases are matched in pairs in the DNA double helix, they are called base pairs (bp).
 
 A genome sequence is the complete list of nucleotides of every chromosome of an organism. With today's technology, automated sequence machines can read up to 1000 bp at a time \cite{Slatko2011} while the human genome contains 3 Mbp, so we cannot simply read the whole genome. This is where genome assembly comes in.
 
@@ -23,7 +23,7 @@ In the naive approach, the short sub-string is compared to the reference startin
 
 Different number of strategies have been developed in this direction. For instance, the classic Boyer-Moore and Knuth-Pratt-Morris algorithms \cite{Holmes1999}. However, these in particular are not adequate for genome assembly since these are exact string matching algorithms and DNA reads usually need approximate matches due to reads errors. Other algorithms worth mentioning are the Needleman-Wunsch algorithm \cite{Needleman1970} and the Smith-Waterman algorithm \cite{Smith1981}, for global and local alignment respectively. These are dynamic programming algorithms designed specifically with DNA reads in mind. 
 
-State of the art algorithms trades off accuracy for speed and memory. The approximation and errors introduced prevents the application of this technique to critical areas such as personalized medicine. Given enough computational power, the de novo method yields better results.
+State of the art algorithms trades off accuracy for speed and memory. Given enough computational power, the de novo reference-free method yields better results without introducing any reference bias.
 
 
 \subsection{De novo reference-free assembly}
@@ -35,7 +35,7 @@ In this technique, multiple copies of the same DNA are made before slicing it. A
 
 In the OLC graph used for the de novo whole-genome assembly, each node represents a different DNA read. Directed edges are associated a weight depending on how well these two reads are stitched together in a certain order. For example, the directed edge going from reading $r_1$ to read $r_2$ will be assigned a weight depending on how well $r_1r_2$ can be stiched.
 
-The weights computation depends on the implementation. For our purposes, we will use exact matches, no taking reading errors into consideration. Then, the weight assigned to an edge is the length of the overlap between both reads without any errors, with a change of sign. For example, given the reads $r_1 = AATT$ and $r_2 = TTCC$, the perfect stitching will produce $AATTCC$, so the overlap between both reads is $2$, giving a weight of $-2$. We may call this the \emph{distance} between reads $r_1$ and $r_2$ (in that order). It does not fulfill the mathematical definition of distance since it is not even symmetric, but it will be useful for us anyway.
+The weights computation depends on the implementation. For the purpose of this thesis, we will use exact matches, no taking reading errors into consideration. Then, the weight assigned to an edge is the length of the overlap between both reads without any errors, with a change of sign. For example, given the reads $r_1 = AATT$ and $r_2 = TTCC$, the perfect stitching will produce $AATTCC$, so the overlap between both reads is $2$, giving a weight of $-2$. We may call this the \emph{distance} between reads $r_1$ and $r_2$ (in that order). It does not fulfill the mathematical definition of distance since it is not even symmetric, but it will be useful for us anyway.
 
 A Hamiltonian path in our overlap graph will represent a series of reads in a certain order. By minimizing the total cost of our Hamiltonian path, we maximize the overlap between reads, resulting in the shortest possible final chain. This is exactly the same as solving the Travelling Salesman problem associated with our overlap graph.
 
@@ -70,7 +70,7 @@ We may compute the overlap between the different reads. This results in the over
 	\label{fig:overlap-graph}
 \end{figure}
 
-Which is the same graph studied in the traveling salesman section \ref{sec:salesman-example}. From the study done in that section, we know that there are six types of cycles in the graph, as shown in table \ref{tbl:salesman-cycles}. In figure \ref{fig:overlap-cycles}, we see how these types of cycles represent different ordinations of our DNA reads, as well as their overlaps and the total length of the resulting chain.
+Which is the same graph studied in the traveling salesman section, \ref{sec:salesman-example}. From the study done in that section, we know that there are six types of cycles in the graph. They are displayedin table \ref{tbl:salesman-cycles}. In figure \ref{fig:overlap-cycles}, we see how these types of cycles represent different ordinations of our DNA reads, as well as their overlaps and the total length of the resulting chain.
 
 \begin{figure}[h]
 	\makebox[\textwidth][c]{
@@ -99,13 +99,6 @@ Leap provides a minute of free QPU time with the (free) developer plan. We may e
 
 For the pourpose of this thesis I used the developer plan. In total, I submitted $104$ jobs to Leap, out of the allowed $106$. I consumed $59.064$ QPU seconds, as can bee seen in Leap's breakdown in figure \ref{fig:leap-breakdown}. The number of jobs and QPU time used in each system can be seen in table \ref{tab:leap-breakdown}.
 
-\begin{figure}[H]
-	\includegraphics[scale=0.5]{experiments/leap-breakdown.png}
-	\centering
-	\caption{Leap monthly usage summary.}
-	\label{fig:leap-breakdown}
-\end{figure}
-
 \begin{table}[H]
 	\centering
 	\begin{tabular}{lrr}
@@ -116,19 +109,23 @@ For the pourpose of this thesis I used the developer plan. In total, I submitted
 		Total			& 104	& 59.064                     
 	\end{tabular}
 	\caption{Leap usage summary breakdown between systems.}
-	\label{tableap-breakdown}
+	\label{tab:leap-breakdown}
 \end{table}
 
+Apart from Leap, in order to reproduce this experiments you will need to install tthe following Python packages, available thorugh \emph{pip}: \textbf{\emph{dimod}}, \textbf{\emph{neal}}, \textbf{\emph{minorminer}}, \textbf{\emph{dwave}} and \textbf{\emph{dwave\_networkx}}. The code I used for this experiments can be found in \cite{thesis-code}, which are inspired on \cite{Sarkar2020}.
 
-Apart from Leap, in order to reproduce this experiments you will need to install tthe following Python packages, available thorugh \emph{pip}: \textbf{\emph{dimod}}, \textbf{\emph{neal}}, \textbf{\emph{minorminer}}, \textbf{\emph{dwave}} and \textbf{\emph{dwave\_networkx}}.
-
-The code I used for this experiments can be found in \cite{thesis-code}, which are inspired on \cite{Sarkar2020}.
+\begin{figure}[H]
+	\includegraphics[scale=0.5]{experiments/leap-breakdown.png}
+	\centering
+	\caption{Leap monthly usage summary.}
+	\label{fig:leap-breakdown}
+\end{figure}
 
 
 \subsection{Experiment 1: Data preparation and exact solving}
 
 
-The first experiment reproduced aims to solve the previously discussed example using an exact solver provided by the Ocean's \emph{dimod} library \cite{Dimod}. The steps taken to transform the given reads to the QUBO matrix that Ocean's classes and functions use will be shared between the simulated annealer and the real quantum solvers. Therefore, the data preparation applied will be shared between experiments. The pseudocode of the experiment can be seen in the following snippet.
+The first experiment aims to solve the previously discussed example using an exact solver provided by the Ocean's \emph{dimod} library \cite{Dimod}. The steps taken to transform the given reads to the QUBO matrix that Ocean's classes and functions use will be shared between the simulated annealer and the real quantum solvers. Therefore, the data preparation applied will be shared between experiments. The pseudocode of the experiment can be seen in the following snippet.
 
 \begin{algorithm}
 	\caption*{\textbf{Experiment 1}}
@@ -146,10 +143,10 @@ The first experiment reproduced aims to solve the previously discussed example u
 		\item Solve the prepared QUBO model using the selected solver.
 	\end{itemize}
 	
-	Print the solutions
+	Present the results.
 \end{algorithm}
 
-As we already know, using quantum annealing does not guarantee that we will obtain the optimal solution for a given cost function. In order to overcome this problem we use multi-sampling: running the experiment multiple times and and look at the best obtained solutions. Ocean already implements different types of \emph{samplers} to facilitate this task \cite{DWave-OceanDoc-Samplers}. In this first experiment we use an \emph{ExactSolver}, which simply check every possible solution. Although time-costly, this method will let us know if our data manipulation before solving the experiment is correct, and how the solutions landscape looks.
+As we already know, using quantum annealing does not guarantee that we will obtain the optimal solution for a given cost function. In order to overcome this problem we use multi-sampling: running the experiment multiple times and and look at the best obtained solutions. Ocean already implements different types of \emph{samplers} to facilitate this task \cite{DWave-OceanDoc-Samplers}. In this first experiment we use an \emph{ExactSolver}, which simply check every possible solution. Although time-costly, this method will let us know if our data manipulation before solving the experiment is correct, and how the solutions landscape looks like.
 
 The third step in data preparation is a formatting step. Ocean requires the QUBO and Ising models to be in an adjacency dictionary instead of a matrix. Let us look at an example of this transformation in order to better understand it. Consider a 2-reads, the associated TSP will have $2^2 = 4$ nodes: $n0t0$, $n0t1$, $n1t0$ and $n1t1$. Suppose the following (inconsistency) matrix is the associated $Q$ matrix:
 
@@ -157,10 +154,10 @@ $$
 Q = 
 \left(
 \begin{array}{cccc}
-	1 & 2 & 0 & -1 \\
-	3 & 4 & 0 & 0 \\
-	0 & 0 & 0 & 0 \\
-	0 & 0 & 100 & 200 
+	1 & 2 & 3 & 4 \\
+	5 & 6 & 7 & 8 \\
+	9 & 10 & 11 & 12 \\
+	13 & 14 & 15 & 16 
 \end{array}
 \right)
 $$
@@ -171,10 +168,10 @@ Then, it will be transformed into the dictionary, with $11$ missing entries:
 quboDict: {
 	('n0t0', 'n0t0'): 1,
 	('n0t0', 'n0t1'): 2,
-	('n0t0', 'n0t2'): 0,
-	('n0t0', 'n0t3'): -1,
+	('n0t0', 'n1t0'): 3,
+	('n0t0', 'n1t1'): 4,
 	...
-	('n3t3', 'n3t3'): 200,
+	('n1t1', 'n1t1'): 16,
 }
 \end{minted}
 
@@ -187,7 +184,7 @@ In particular, this experiment is applied to the already studied example with th
 	\item $r_3 = AATGGCGTGC$
 \end{itemize}
 
-The pair-wise distances are computed, providing a direct measure of much two reads overlap. Then, these values are normalized for easier use. This normalized TSP matrix is transformed into a QUBO matrix using $1.6$ as multi-location and repetition penalties, and $-1.6$ for self-bias, as done in \cite{Sarkar2020}. Finally, we initialize a \emph{ExactSolver} and use it to sample every possible solution.
+The pair-wise distances are computed, providing a direct measure of much two reads overlap. Then, these values are normalized for easier use. The resulting normalized TSP matrix is transformed into a QUBO matrix using $1.6$ as multi-location and repetition penalties, and $-1.6$ for self-bias, as done in \cite{Sarkar2020}. Finally, we initialize an \emph{ExactSolver} and use it to sample every possible solution.
 
 After the execution is completed, we find the lowest energy in the obtained solutions and print every solution with that energy:
 
@@ -229,10 +226,9 @@ Finally, let us plot the landscape of solutions for the given reads. We sort the
 
 \subsection{Experiment 2: Simulated Quantum Annealing}
 
+For our second experiment, we aim to solve our example using Simulated Annealing. Although \emph{dimod} provides a simulated annealing sampler, we use for our final experiments the  \emph{SimulatedAnnealingSampler} from \emph{Ocean}'s \emph{Neal} package as it yields more distributed results and has far better computing time. The same experiment was reproduced $10$ times using both samplers in my machine. Dimod's sampler run in a mean time of $11.76$ seconds while \emph{Neal}'s run in a mean time of $0.0610$ seconds.
 
-For our second experiment we aim to solve our example using Simulated Annealing. Although \emph{dimod} provides a simulated annealing sampler, we use for our final experiments the  \emph{SimulatedAnnealingSampler} from \emph{Ocean}'s \emph{Neal} package as it yields more distributed results and has far better computing time. The same experiment was reproduced $10$ times using both samplers in my machine. Dimod's sampler obtained a mean time of $11.76$ seconds while \emph{Neal}'s obtained a mean of $0.0610$ seconds.
-
-The pseudo-code doesn change much from the first experiment to the second one, we simply change the annealer:
+The pseudo-code does not change much from the first experiment to the second one, we simply change the annealer:
 
 \begin{algorithm}
 	\caption*{\textbf{Experiment 2}}
@@ -243,33 +239,19 @@ The pseudo-code doesn change much from the first experiment to the second one, w
 		\item Transform the TSP adjancency matrix into a QUBO $Q$ matrix, as explained in section \ref{sec:tsp-qubo}.
 		\item Transform the QUBO matrix into an adjacency dictionary.
 	\end{itemize}
-	\begin{table}[H]
-		\centering
-		\begin{tabular}{lrr}
-			\textbf{Cycle type} & \textbf{Occurences} & \textbf{Energy} \\
-			\hline
-			Type A	& 3722	& -7.9811	\\
-			Type C	& 1474	& -7.4541	\\
-			Type D	& 1469	& -7.4541	\\
-			Type F	& 1458	& -7.4541	\\
-			Type E	& 1431	& -7.4541	\\
-			Type B	& 446	& -6.927                             
-		\end{tabular}
-		\caption{Results of experiment 2}
-		\label{tab:exp2}
-	\end{table}
+	
 	Solving:
 	\begin{itemize}
 		\item Initiaize a sampler: \textbf{\emph{neal.SimulatedAnnealingSampler}}.
 		\item \textbf{Sample from} the prepared QUBO model using the selected \textbf{sampler}.
 	\end{itemize}
 	
-	Print the solutions
+	Present the obtained samples.
 \end{algorithm}
 
-It is worth mentioning that we don \emph{solve} the QUBO model in this experiment, we \emph{sample} different results using simulated annealing.
+It is worth mentioning that we do not \emph{solve} the QUBO model in this experiment, we \emph{sample} different results using simulated annealing.
 
-Since \emph{Neal}'s sampler is quite efficient we were able to execute experiments with up to $10.000$ repetitions of the experiment, also called \emph{sample reads} or simply \emph{reads}. We developed an automated and escalable way to check whether a given cycle returned by the annealer was valid, and to recover its type. Using this tools we can easily check the number of occurrences each type of cycle appeared in the obtained sample reads. These resulsts are presented, along with the associated energy to each result, in table \ref{tab:exp2} and figure \ref{fig:exp2-occ}. See fig \ref{fig:overlap-cycles} to recall the cycle types and cost computing.
+Since \emph{Neal}'s sampler is quite efficient we were able to execute experiments with up to $10.000$ repetitions of the experiment, also called \emph{sample reads} or simply \emph{reads}. We developed an automated and scalable way to check whether a given cycle returned by the annealer was valid, and to recover its associated type. Using these tools we can easily check the number of occurrences each type of cycle appeared in the obtained sample reads. These results are presented, along with the associated energy to each result, in table \ref{tab:exp2} and figure \ref{fig:exp2-occ}. See figure \ref{fig:overlap-cycles} to recall the cycle types and cost computing.
 
 \begin{table}[H]
 	\centering
@@ -294,17 +276,17 @@ Since \emph{Neal}'s sampler is quite efficient we were able to execute experimen
 	\label{fig:exp2-occ}
 \end{figure}
 
-We can appreciate in figure \ref{fig:exp2-occ} that best type of cycle agglomerates most of the samples, $37.22\%$. In second place, the four type of cycles that have the exact same energy have each almost exactly the same number of samples. This matches our quantum annealing theory: the phisical system has equal probability of ending in eigen-states with equal eigen-energies.
+We can appreciate in figure \ref{fig:exp2-occ} that the best type of cycle agglomerates most of the samples, $37.22\%$. In the second place, the four types of cycles that have the exact same energy also have almost exactly the same number of samples. This matches our quantum annealing theory: the physical system has an equal probability of ending in eigenstates with equal eigenenergies.
 
-It is worth mentioning that there was not a single sample that encoded an invalid cycle. This means that the penalties values used for the experiment ($1.6$ for multiĺocation and repetition, and $-1.6$ for self-bias) are well-based.
+It is worth mentioning that there was not a single sample that encoded an invalid cycle. This means that the penalties values used for the experiment ($1.6$ for multi-location and repetition, and $-1.6$ for self-bias) are working to prevent invalid cycles.
 
-Now that we are familiar with the type of results and codifications we may find, let us jump to the real Quantum Realm by using the D-Wave's Quantum Computer Systems.
+Now that we are familiar with the type of results and codifications we may find, let us jump to the quantum realm by using the D-Wave's Quantum Computer Systems.
 
 
 \subsection{Experiment 3: Quantum Annealing using D-Wave}
 
 
-For our second experiment we aim to solve our example using D-Wave quantum annealers. For this pourpose, we need to add some extra steps to our data processing. Section \ref{sec:embeddings} explained how not every graph can be directly mapped to the existing Chimera / Pegasus topologies that D-Wave systems use, and how we can overcome this problem by embedding our problems graphs into these topologies. The extra steps in our data processing are related to these embeddings: we will need to embed our graph into the fixed topology that will be used, and then translate the solutions from the embedded graph. Ocean provides a set of utilities to deal with embeddings \cite{DWave-OceanDoc-Embedding}.
+For our third experiment, we aim to solve our example using D-Wave's quantum annealers. For this purpose, we need to add some extra steps to our data processing. Section \ref{sec:embeddings} explained how not every graph can be directly mapped to the existing Chimera / Pegasus topologies that D-Wave systems use, and how we can overcome this problem by embedding our problems graphs into these topologies. The extra steps in our data processing are related to these embeddings: we will need to embed our graph into the fixed topology that will be used. Then, after the anneal takes place, we will translate the solutions from the embedded graph. Ocean provides a set of utilities to deal with these embeddings \cite{DWave-OceanDoc-Embedding}.
 
 Additionally, we will need to connect to Leap to send our jobs to the quantum annealers using a \emph{client}. First, a configuration file is created, which includes your API key and some extra configuration details:
 
@@ -315,7 +297,7 @@ token = DEV-<api key goes here>
 endpoint = https://cloud.dwavesys.com/sapi
 \end{minted}
 
-In our code we initialize a \emph{client} and a \emph{solver} using the configuration file. These are objects that encapsulate the connection functionality and solving problems in the associated machine respectively. We also initialize a sampler as we did before, but this time a production sampler is used: a \emph{DWaveSampler} that also needs our configuration file. The pseudo-code for this experiment looks as follows. Each new step will be explained in detail below.
+In our code we initialize a \emph{client} and a \emph{solver} using the configuration file. These are objects that encapsulate the connection functionality and solving problems in the associated machine respectively. We also initialize a sampler as we did before, but this time a production sampler is used: a \emph{DWaveSampler} that also needs our configuration file. The pseudo-code for this experiment can be found below. Each new step will be explained in detail below.
 
 \begin{algorithm}
 	\caption*{\textbf{Experiment 3}}
@@ -329,9 +311,9 @@ In our code we initialize a \emph{client} and a \emph{solver} using the configur
 	Data preparation:
 	\begin{itemize}
 		\item Compute the distance between every two reads, creating an adjacency matrix.
-		\item Transform the TSP adjancency matrix into a QUBO $Q$ matrix, as explained in section \ref{sec:tsp-qubo}.
+		\item Transform the TSP adjacency matrix into a QUBO $Q$ matrix, as explained in section \ref{sec:tsp-qubo}.
 		\item Transform the QUBO matrix into an adjacency dictionary.
-		\item \textbf{Find an embedding from our graph to the used machine topology (either Chimera or Pegasus)}.
+		\item \textbf{Find an embedding from our graph to the selected machine's topology (either Chimera or Pegasus)}.
 		\item \textbf{Use the previous embedding to create a new QUBO model equivalent for the embedded graph}.
 	\end{itemize}
 	
@@ -346,7 +328,7 @@ In our code we initialize a \emph{client} and a \emph{solver} using the configur
 	\end{itemize}
 \end{algorithm}
 
-The first thing to be notice is that the initialization now needs to be done before the data preparation. This is because in order to find the embedding, we need to know which exact topology the quantum system will have. This information is provided through the \emph{solver}, previously initialized. The initialization step is as simple as follows:
+The first thing to be noticed is that the initialization now needs to be done before the data preparation. This is because, in order to find the embedding, we need to know which exact topology the quantum system will have. This information is provided through the \emph{solver}, previously initialized. The initialization step is as simple as follows:
 
 \begin{minted}[bgcolor=bg]{python}
 import dwave
@@ -358,7 +340,7 @@ solver = client.get_solver()
 dwsampler = system.samplers.DWaveSampler(config_file=config_file)
 \end{minted}
 
-Suposse $Q$ already holds are computed QUBO model. We can compute an embedding an obtained the new associated model as follows:
+Suppose $Q$ already holds are computed QUBO model. We can compute an embedding and obtained the new associated model as follows:
 
 \begin{minted}[bgcolor=bg]{python}
 adjacency_dict = embedding.utils.edgelist_to_adjacency(solver.edges)
@@ -366,7 +348,7 @@ embedding = minorminer.find_embedding(Q, solver.edges)
 Q_embedded = embed_qubo(Q, embedding, adjacency_dict)
 \end{minted}
 
-By using the same configuration file, the sampler already knows what machine it is associated to. We will simply sample from it, with the same sintax as in the second experiment:
+By using the same configuration file, the sampler already knows what machine it is associated to. We will sample from it, with the same syntax as in the second experiment:
 
 \begin{minted}[bgcolor=bg]{python}
 response = dwsampler.sample_qubo(Q_embedded, num_reads=num_reads)
@@ -379,14 +361,14 @@ bqm = dimod.BinaryQuadraticModel.from_qubo(Q)
 unembedded_response = embedding.unembed_sampleset(response, embedding, bqm)
 \end{minted}
 
-For this experiment, the D-Wave 2000Q was used (see section \ref{sec:d-wave-systems} to see its characteristics), since it was the default solver. After running the experiment with the same parameters as the simulated anneling experiment ($10.000$ reads and $(-1.6; 1.6; 1.6)$ for the QUBO parameters), we obtained that more than $90\%$ of the samples were invalid, a huge different with the astonishing $0\%$ obtained in the second experiment.
+For this experiment, the D-Wave 2000Q was used (see section \ref{sec:d-wave-systems} to see its characteristics), since it was the default solver. After running the experiment with the same parameters as the simulated annealing experiment ($10.000$ reads and $(-1.6; 1.6; 1.6)$ for the QUBO parameters), we obtained that more than $90\%$ of the samples were invalid, a huge difference with the astonishing $0\%$ obtained in the second experiment.
 
 My initial hypothesis was that the QUBO parameters were well adjusted for SA but not for QA, and thus allowed further tunning. After many attempts with different parameters values, this hypothesis was discarded. The only other set of parameters worth presenting is $(-1.5; 1.5; 1.5)$. These results are presented in table \ref{tab:exp3}.
 
 \begin{table}[H]
 	\centering
 	\begin{tabular}{lrrr}
-		\textbf{Cycle type} & \textbf{Occurences (1.5)} & \textbf{Occurences (1.6)} & \textbf{Energy} \\
+		\textbf{Cycle type} & \textbf{Occurences (param=1.5)} & \textbf{Occurences (param=1.6)} & \textbf{Energy} \\
 		\hline
 		Type A	& 131	& 50	& -7.9811	\\
 		Type C	& 124	& 46	& -7.4541	\\
@@ -400,9 +382,7 @@ My initial hypothesis was that the QUBO parameters were well adjusted for SA but
 	\label{tab:exp3}
 \end{table}
 
-In figures \ref{fig:exp3-occ1} and \ref{fig:exp3-occ2} we see a comparisson of the distribution between the different type of cycles in both experiments. We cannot see a distribution as we did in \ref{fig:exp2-occ}, potentially due to the low numbers of reads that actually represent a valid cycle. We do know that we are not sampling completely random solutions: in a 4-reads problems with obtain a 16 variables QUBO model, with up to $2^{16}$ possible solutions using our encoding. That is, previous embedding the graph in the topology.
-
-In fact, such distribution between the cycle types is not needed: a single sample with the lowest energy solution will completely solve our genome assembly problem.
+In figures \ref{fig:exp3-occ1} and \ref{fig:exp3-occ2} we see a comparison of the distribution between the different type of cycles in both experiments. We cannot see a distribution as we did in \ref{fig:exp2-occ}, potentially due to the low numbers of reads that actually represent a valid cycle. In fact, such distribution between the cycle types is not needed: a single sample with the lowest energy solution will completely solve our genome assembly problem.
 
 \begin{figure}[H]
 	\includegraphics[scale=0.75]{experiments/experiment3 (1.5).png}
@@ -418,9 +398,11 @@ In fact, such distribution between the cycle types is not needed: a single sampl
 	\label{fig:exp3-occ2}
 \end{figure}
 
-Therefore, we have not find a clear improvement precision-wise in our small example, although QA solves the problem. What about time-wise? In figure \ref{fig:exp3-time} we see the time breakdown provided by Leap after our last experiment. We can see a total QPU sampling time of $2.389$ seconds, while if we repeat the experiment with the same parameters using SA we obtain a mean of $2.525$ sampling seconds, over $10$ experiment repetitions. Keeping in mind that our QA time data comes from a single execution and the small difference between both time measures, we cannot conclude that either approach has any time advantage in such small problems.
+With these results in mind, is it possible that we are sampling completely random solutions? In a 4-reads problem, we obtain a 16 binary variables QUBO model. That means there are up to $2^{16}$ possible solutions using our encoding, even more after we embed it in the Chimera topology. If we were to randomly sample from that solution space, we will never get almost $10\%$ of samples from a subset of $24$ solutions that represent our $6$ valid cycles. So we do know that the quantum system is working, just know as good as expected.
 
-However, does QA actually scales better than SA with the problem size? In the next experiment we will study the Pegasus topology to understand what is the maximum problem size that can be tackled using the Advantage system. Finally, the last experiment will try to answer the scalability comparison inquiry.
+We have not found a clear improvement precision-wise in our small example, although QA does solve the problem. What about time-wise? In figure \ref{fig:exp3-time} we see the time breakdown provided by Leap after our last experiment. We can see a total QPU sampling time of $2.389$ seconds, while if we repeat the experiment with the same parameters using SA we obtain a mean of $2.525$ sampling seconds, over $10$ experiment repetitions. Keeping in mind that our QA time data comes from a single execution and the small difference between both time measures, we cannot conclude that either approach has any time advantage in such small problems.
+
+However, does QA actually scales better than SA with the problem size? In the next experiment, we will study the Pegasus topology to understand what is the maximum problem size that can be tackled using the Advantage system. Finally, the last couple of experiments will try to answer the scalability comparison inquiry.
 
 \begin{figure}[h]
 	\includegraphics[scale=0.5]{experiments/exp3-time.png}
@@ -429,38 +411,44 @@ However, does QA actually scales better than SA with the problem size? In the ne
 	\label{fig:exp3-time}
 \end{figure}
 
-Lastly, let us plot some logical embeddings using the Chimera graph. In figure \ref{fig:exp2_4reads} we see the embedding of a 4-nodes complete graph into the Chimera topology. The grey nodes represent unused nodes while the nodes with the same color represent a sigle logical qubit mapped into multiple phisical qubits.
+
+\subsubsection{Plotting chimera embeddings}
+
+
+Let us plot some logical embeddings using the D-Wave 2000Q system, with relies on a Chimera graph. In figure \ref{fig:exp2_4reads} we see the embedding of a 4-nodes complete graph into the Chimera topology. The grey nodes represent unused nodes while nodes with the same color represent a single logical qubit mapped into multiple physical qubits.
 
 \begin{figure}[h]
-	\includegraphics[scale=0.5]{experiments/exp2_4reads.png}
+	\includegraphics[scale=0.6]{experiments/exp2_4reads.png}
 	\centering
 	\caption{Embedding of a 4-nodes complete graph into a Chimera topology.}
 	\label{fig:exp2_4reads}
 \end{figure}
 
-The last embedding had a \emph{maximum chain length} of $2$. That is, the longest chain in a logical qubit is 2 phisical qubits. This is a critical parameter to be minimized in embeddings: the longer the qubit chain, the more probable it is for the qubits in a logical qubit to desynchornized and end up in different states. Thus, the more difficult it is for the system to stay in the ground state.
+The last embedding had a \emph{maximum chain length} of $2$. That is, the longest chain in a logical qubit is 2 physical qubits. This is a critical parameter to be minimized in embeddings: the longer the qubit chain is, the more probable it is for the qubits in a logical qubit to be desynchronized and end up in different states. Thus, the more difficult it is for the system to stay in the ground state.
 
-In figure \ref{fig:exp2_13reads} we see an embedding of a 13-nodes complete graph into a Chimera topology. In this case, the maximum chain length is $5$, obtained by both the dark blue and cyan logical qubits. In the rest of experiments I looked at the maximum chain length obtained in the pegasus embeddings, obtained lengths up to $15$ qubits. Since I did not have the time to study this characteristic in depth, it will be a future line of work.
+In figure \ref{fig:exp2_13reads} we see an embedding of a 13-nodes complete graph into a Chimera topology. In this case, the maximum chain length is $5$, obtained by both the dark blue, purple, red, dark green, lime, and cyan logical qubits. In the rest of the experiments, I looked at the maximum chain length obtained in the pegasus embeddings, obtained lengths up to $15$ qubits. Since I did not have the time to study this characteristic in-depth, it will be a future line of work.
 
 \begin{figure}[h]
-	\includegraphics[scale=0.5]{experiments/exp2_13reads.png}
+	\includegraphics[scale=0.6]{experiments/exp2_13reads.png}
 	\centering
 	\caption{Embedding of a complete 13-nodes complete graph into a Chimera topology.}
 	\label{fig:exp2_13reads}
 \end{figure}
+
+Recall that in every 16-nodes chimera cell, every node in the vertical axis is connected to every node in the horizontal axis, and to no other node from the vertical axis. For example, take the blue logical qubit, represented by 3 nodes at the very bottom in figure \ref{fig:exp2_13reads}. In the first cell, it connects with lime, pink, dark green, and cyan. In the second cell, it connects with light green, purple, red, and dark blue. In the third cell, it connects to brown, light blue, pink, and yellow. That makes a total of 12 connections, as expected since the embedded started with a complete 13-nodes graph.
 
 
 \FloatBarrier
 \subsection{Experiment 4: D-Wave's Advantage limits}
 
 
-For our fourth experiment we aim to test the limits of the Advantage architecture for our problem. That is, given a number of DNA reads, we will compute the associated QUBO problem and try to embed the obtained graph into the Advantage architecture. We will test these embeddings against a Pegasus 16 ($P_{16}$) topology, since that is the one supported by the Advantage system.
+For our fourth experiment, we aim to test the limits of the Advantage architecture for our problem. That is, given a number of DNA reads, we will compute the associated QUBO problem and try to embed the obtained graph into the Advantage architecture. We will test these embeddings against a Pegasus 16 ($P_{16}$) topology since that is the one supported by the Advantage system.
 
-In fact, given a set of $n$ reads, this is simply finding if a $n^2$-nodes complete graph ($K_{n^2}$) can be embedded into a $P_{16}$. The reads themselves are not relevant for the embedding. However, I have developed an automated  way of creating fake tests, originally for a general porpuse, but it can also be used here.
+In fact, given a set of $n$ reads, this is simply finding if a $n^2$-nodes complete graph ($K_{n^2}$) can be embedded into a $P_{16}$. The reads themselves are not relevant for the embedding. However, I have developed an automated way of creating fake tests, originally for a general-purpose, but it can also be used here.
 
-This automated test production works as follows: Given a number of reads, the size of each chain (default value $150$) and the required overlap between adjacent chains (default value $50$), it randomly creates the original DNA chain, and then chop it using the wanted given parameters. This makes sure that adjacent reads have enough overlap so it is basically impossible for two random reads to overlap more than $50$ bps.
+This automated test production works as follows: Given a number of reads, the size of each chain (default value $150$), and the required overlap between adjacent chains (default value $50$), it randomly creates the original DNA chain, and then chop it using the given parameters. This makes sure that adjacent reads have enough overlap so it is basically impossible for two random reads to overlap more than $50$ bps.
 
-Using these random tests we created graphs of an increasing number of reads until we were unable to find an embedding from $K_{n^2}$ to $P_{16}$. The results of the experiment can be seen in table \ref{tab:exp4}. We can see that a valid embedding was found to problem size up to 14 reads ($K_{196}$ associated graph). The embedding time aswell as the test generation time are also displayed. I decided to display both since, as time grew larger and larger, I was not sure whether the test generation were was adding too much of an overload.
+Using these random tests we created graphs of an increasing number of reads until we were unable to find an embedding from $K_{n^2}$ to $P_{16}$. The results of the experiment can be seen in table \ref{tab:exp4}. We can see that a valid embedding was found to problem size up to 14 reads ($K_{196}$ associated graph). The embedding time, as well as the test generation time, are also displayed. I decided to display both since, as time grew larger and larger, I was not sure whether the test generation was adding too much of an overload.
 
 \begin{table}[H]
 	\centering
@@ -489,19 +477,19 @@ Using these random tests we created graphs of an increasing number of reads unti
 
 It is worth noting that the algorithm used to find the embeddings does not guarantee to find a valid one if it exists. I tried to run the algorithm $50$ times with $15$ reads and could not find a valid embedding.
 
-The reader might have already notice that the embeddings are quite time consuming. In fact, this is a NP problem itself and time will grow exponentially on input size. However, keep in mind that this embedding does not depend on the reads. Once a single embedding from a $K_{196}$ to a $P_{16}$ has been pre-computed it can be used -or further optimized- for different problems.
+The reader might have already noticed that the embeddings are quite time-consuming. In fact, this is an NP problem itself and time will grow exponentially on input size. However, keep in mind that this embedding does not depend on the reads. Once a single embedding from a $K_{196}$ to a $P_{16}$ has been pre-computed it can be used -or further optimized- for different problems.
 
-Now that we now the maximum number of reads that the Advantage system may tackle, let us put it to the test with 'big' input problems in the next experiment.
+Now that we know the maximum number of reads that the Advantage system may tackle, let us put it to the test with 'big' input problems in the next experiment.
 
 
 \subsection{Experiment 5: Scalability comparison between Simulated Annealing and Quantum Annealing}
 
 
-In our fifth experiment we put the D-Wave's quantum annealers to the test with bigger input problems, and study how they behave compared with the simulated annealing experiments. We will start with a $3$ reads and then progresively increase this value, creating tests of this size and trying to solve them using both the simulated annealer and the Advantage system.
+In our fifth experiment, we put the D-Wave's quantum annealers to the test with bigger input problems and study how they behave compared with the simulated annealing experiments. We will start with a $3$ reads and then progressively increase this value, creating tests of this size and trying to solve them using both the simulated annealer and the Advantage system.
 
-For each fixed number of reads we will sample $10.000$ times using the annealers, with the same set of parameters used for the previous experiments. The number of valid solutions (i.e. valied cycles) will be displayed, along with the number of cycles that reached the real solution, which we know in advance since we created the test.
+For each fixed number of reads, we will sample $10.000$ times using the annealers, with the same set of parameters used for the previous experiments. The number of valid solutions (i.e. valid cycles) will be displayed, along with the number of cycles that reached the real solution, which we know in advance since we created the test.
 
-We will also display the energy of the best sample obtained, along with the difference between the real solution energy and the best sample obtained, which I called \emph{energy delta}. Finally, we will also display the sampling time, not including the time it took to create the test and to prepare the data.
+We will also display the energy of the best sample obtained, along with the difference between the real solution energy and the best sample obtained, which I called \emph{energy delta}. Finally, we will also display the sampling time, not including the time it took to create the test nor to prepare the data.
 
 The results of this experiment using the simulated annealer can be seen in table \ref{tab:exp5_1}. 
 
@@ -529,15 +517,15 @@ The results of this experiment using the simulated annealer can be seen in table
 	\label{tab:exp5_1}
 \end{table}
 
-We stopped at 15 reads since that is the maximum value that will be able to compare with using the quantum annealer. In the experiment results we see how the number of valyd cycles out of $10.000$, which turns out to be every single cycle up to 14 reads. However, the number of samples that reached the best solution go down from $95\%$ to ground cero from $11$ reads onward. However, although we do not obtain the real solution, how close are these samples to it?anneal schedule 
+We stopped at 15 reads since that is the maximum value that will be able to compare with using the quantum annealer. In the experiment results, we see how the number of valid cycles out of $10.000$, which turns out to be every single cycle up to 14 reads. However, the number of samples that reached the best solution go down from $95\%$ to ground cero from $11$ reads onward. Although we do not obtain the real solution, how close are these samples to it? 
 
-The columns related to the energy of the solutions try to answer this question. We may see how the energy goes down to around $-26$, which is totally normal: the more reads in our graph, the higher the number of reads overlap, and the lower is the resulting solution energy. As soon as we cannot find the solution, the energy delta starts to increase, going up to around $1.37$. This means the energy of the best sample is quite close to the actual value. Is this enough?
+The columns related to the energy of the solutions try to answer this question. We may see how the solution's energy goes down to around $-26$, which is totally normal: the more reads in our graph, the higher the number of reads overlap, and the lower is the resulting solution energy. As soon as we cannot find the solution, the energy delta starts to increase, going up to around $1.37$. This means the energy of the best sample is quite close to the actual value. Is this enough?
 
-When we tackle a classic TSP, a near optimal solution is a really valid and useful solution. We do not necesarily need the actual minimum. However, although a valid cycle with low energy represents a valid way of sorting and sewing the genome reads, it does not provide the real genome. It does have some value since it could be further tuned to obtain the solution, but it does not solve our problem.
+When we tackle a classic TSP, a near-optimal solution is a really valid and useful solution. We do not necessarily need the actual minimum. However, although a valid cycle with low energy represents a valid way of sorting and sewing the genome reads, it does not provide the real genome the reads came originally from. It has some value since it could be further tuned to obtain the solution, but it does not solve our problem.
 
-Lastly, the sampling time seems to grow linearly withthe number of reads. However, using this simple simulated annealer for a real case with up to 3 Mbps would be simply impossible.
+Lastly, the sampling time seems to grow linearly with the number of reads. However, using this simple simulated annealer for a real case with up to 3 Mbps would be simply impossible.
 
-For the second part of test  I run the same experiment but using the quantum annealer. Some extra steps come with it, like computing the annealer and connecting to Leap, but they have all been explained in previous experiments. We again sample $10.000$ times a maintain the same values for the anneal schedule self-bias, multi-location and repetition parameters. The results of this experiment can be seen in table \ref{tab:exp5_2}.
+For the second part of this experiment, I run the same experiment but using the quantum annealer. Some extra steps come with it, like computing the embedding and connecting to Leap, but they have all been explained in previous experiments. We again sample $10.000$ times a maintain the same values for the annealing schedule self-bias, multi-location, and repetition parameters. The results of this experiment can be seen in table \ref{tab:exp5_2}.
 
 \begin{table}[H]
 	\centering
@@ -559,37 +547,37 @@ For the second part of test  I run the same experiment but using the quantum ann
 	\label{tab:exp5_2}
 \end{table}
 
-The first thing we may notice is that the experiment did not reach 14 reads. That is because is stopped it before it finished. The available QPU time was quite tight at the moment, and seeing the results of the experiment with number of reads up to $10$ showed my that we were not going to learn anything new by letting the experiment finish.
+The first thing we may notice is that the experiment did not reach 14 reads. That is because I manually stopped it before it finished. The available QPU time was quite tight at the moment, and seeing the results of the experiment with a number of reads up to $10$ showed that we were not going to learn anything new by letting the experiment finished and wasting our remaining QPU time.
 
-Back to the results, we can appreciate the number of valid cycles goes rapidly to $0$, and even quicker the number of reads that reached the solution. At 4 reads we see similar results to what we saw in experiment 3: around $700$ valid cycles and $150$ times the real solution (type A cycle in the third experiment) was reached. Although we have developed this experiment in different machines, D-Wave 2000Q and Advantage, keep in mind that the improvements from one generation to another are size-related: we may tackle bigger (and thus harder) problems by using the Advantage system. It does not mean that its computation is somehow better.
+Back to the results, we can appreciate the number of valid cycles rapidly goes down to $0$, and even quicker the number of reads that reached the solution. At 4 reads we see similar results to what we saw in experiment 3: around $700$ valid cycles and $150$ times the real solution (type A cycle in the third experiment) was reached. Although we have developed this experiment in different machines, D-Wave 2000Q and Advantage, keep in mind that the improvements from one generation to another are size-related: we may tackle bigger (and thus harder) problems by using the Advantage system. It does not mean that its computation is somehow better.
 
-Not only the responses are not valid, they are quite far from the solution. We can see that in how the delta grows hugely as we increase the number of reads. Leap provides a graph for each submitted experiment displaying the samples distribution. In figures \ref{fig:exp5_1} and \ref{fig:exp5_2} we see this distribution for $4$ and $10$ reads respectively. 
+Not only the responses are not valid, but they are also quite far from the solution. We can see that in how the delta grows hugely as we increase the number of reads. Leap provides a graph for each submitted experiment displaying the samples' distribution. In figures \ref{fig:exp5_1} and \ref{fig:exp5_2} we see this distribution for $4$ and $10$ reads respectively. 
 
 \begin{figure}[H]
 	\includegraphics[scale=0.5]{experiments/exp5_1.png}
 	\centering
-	\caption{$10.000$ samples distribuition for $4$ reads using the quantum annealer.}
+	\caption{$10.000$ samples' distribuition for $4$ reads using the quantum annealer.}
 	\label{fig:exp5_1}
 \end{figure}
 
 \begin{figure}[H]
 	\includegraphics[scale=0.5]{experiments/exp5_2.png}
 	\centering
-	\caption{$10.000$ samples distribuition for $10$ reads using the quantum annealer.}
+	\caption{$10.000$ samples' distribuition for $10$ reads using the quantum annealer.}
 	\label{fig:exp5_2}
 \end{figure}
 
-We can see how in the $4$ reads experiment, most of the samples group around $0$ energy, an only a very few are actually close to the solution, which is actually reached. However, in the $10$ reads experiment, most of the samples are gathered around $00/150$ energy, this solutions arenot only invalid but just unusable.
+We can see how in the $4$ reads experiment, most of the samples group around $0$ energy, and only a very few are close to the solution, which is actually reached in this execution. However, in the $10$ reads experiment, most of the samples are gathered around $100/150$ energy, these solutions are not only invalid but really far from being so.
 
-Lastly, let us comment the QPU sampling time. This value is provided directly by Leap. From our code we cannot separate the connection and other computations from the actual QPU sampling time. We may appreciate how the time does not grow with the input. This is because the time it takes for the annealer to converge is fixed by the anneal schedule.
+Lastly, let us comment on the QPU sampling time. This value is provided directly by Leap. From our code, we cannot separate the connection overload and other computations from the actual QPU sampling time. We may appreciate how time does not grow with the input. This is because the time it takes for the annealer to converge is fixed by the annealing schedule.
 
-In conclusion, these results are astonishingly awful. The simmulated annealing sampler not only provides closer samples to the solution, but in every seen case it reaches valid samples. My current hypothesis is that either the anneal schedule is not optimal, or that the values of the parameters can be improved for our specific problem. In our last experiment I will spent all our remaining QPU time checking this hypothesis.
+In conclusion, these results are astonishingly awful. The simulated annealing sampler not only provides closer samples to the solution, but in every seen case it reaches valid samples. My current hypothesis is that either the annealing schedule is not optimal, or that the values of the parameters can be improved for our specific problem. In our last experiment, I will spend all our remaining QPU time checking these two hypotheses.
 
 
 \subsection{Experiment 6: Advantage tunning}
 
 
-For our last experiment we aim to test our previous hypothesis, and try to solve a $10$ reads problem using the Advantage system. In the first set of iterations I tried to increase the multi-location and repetition penalties in order to icnrease the number of valid cycles sampled. For this experiment, a single test with $10$ reads was created. Its solution energy was  $-18.994150$. The results of the experiment can be found in table \ref{tab:exp6_1}, where the mentioned parameters are $(self bias, multi-location, repetition)$.
+For our last experiment, we aim to test our previous hypothesis and try to solve a $10$ reads problem using the Advantage system. In the first set of iterations, I tried to increase the multi-location and repetition penalties in order to increase the number of valid cycles sampled. For this experiment, a single test with $10$ reads was created. Its solution energy was  $-18.994150$. The results of the experiment can be found in table \ref{tab:exp6_1}, where the mentioned parameters are \emph{(self-bias, multi-location, repetition)}.
 
 \begin{table}[H]
 	\centering
@@ -610,7 +598,7 @@ For our last experiment we aim to test our previous hypothesis, and try to solve
 	\label{tab:exp6_1}
 \end{table}
 
-As we can see in the table, we did not find a single valid cycles in these iterations. The energy delta naturally increases as we increase the parameter values: each single penalty is greater penalized. However, the energy delta barely increases until our parameters get a value of $10$. This could show how the responses for \emph{parameters} $= (-5, 5, 5)$ incurred in number of penalties. In figure \ref{fig:exp6_1} we find the samples distribution for \emph{parameters} $= (-5, 5, 5)$. The overal energy is much higher than what we saw for \emph{parameters} $= (-1.6, 1.6, 1.6)$ in figure \ref{fig:exp5_2}, which occurs due to the higher penalty. The conclusion of this experiment is that either we have not been able to find the correct values for the parameters, or the parameters values are not the problem.
+As we can see in the table, we did not find a single valid cycle in these iterations. The energy delta naturally increases as we increase the parameter values: every single penalty is greater penalized. However, the energy delta barely increases until our parameters get a value of $10$. This could show how the responses for \emph{parameters} $= (-5, 5, 5)$ incurred in a lower number of penalties. In figure \ref{fig:exp6_1} we find the samples distribution for \emph{parameters} $= (-5, 5, 5)$. The overall energy is much higher than what we saw for \emph{parameters} $= (-1.6, 1.6, 1.6)$ in figure \ref{fig:exp5_2}, which occurs due to the higher penalty. This experiment concludes that either we have not been able to find the correct values for the parameters, or the values of the parameters are not the problem.
 
 \begin{figure}[H]
 	\includegraphics[scale=0.5]{experiments/exp6_1.png}
@@ -619,9 +607,9 @@ As we can see in the table, we did not find a single valid cycles in these itera
 	\label{fig:exp6_1}
 \end{figure}
 
-Finally, we try changing the anneal schedule. There two possible parameters that we may modify in this sense: the \emph{annealing time} -time let for the annealer to converge-, or the \emph{anneal schedule} -which modifies the annealing functions as defined in figure \ref{fig:dwave-annealing-functions}. Since my initial hypothesis was that the annealer did not have enough time to find good solutions, let us focussed on the former tfor our last experiments.
+Finally, we try changing the annealing schedule. There are two possible parameters that we may modify in this sense: the \emph{annealing time} -time let for the annealer to converge-, or the \emph{annealing schedule} -which modifies the annealing functions as defined in figure \ref{fig:dwave-annealing-functions}. Since my initial hypothesis was that the annealer did not have enough time to find good solutions, let us focussed on the former for our last experiment.
 
-The anneal time is sec in microseconds, with a default value of $20$. Although the initial idea was to start with that value and make it progressively higher, at this point I was able to submit only one more worthy experiment, with a anneal time of $40$ microseconds. This was due to a bug in the D-Wave $get_solver()$ function, which did not read the annealing time correctly and led to some invalid experiments in the last minute. We can see the obtained results in table \ref{tab:exp6_2}.
+The anneal time is meassured in microseconds, with a default value of $20$. Although the initial idea was to start with that value and make it progressively higher, at this point I was able to submit only one more worthy experiment, with a anneal time of $40$ microseconds. This was due to a bug in the D-Wave $get\_solver()$ function, which did not read the annealing time correctly and led to some invalid experiments at the last minute. We can see the obtained results in table \ref{tab:exp6_2}.
 
 \begin{table}[H]
 	\centering
