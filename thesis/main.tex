@@ -105,6 +105,7 @@ manychapters,pdfspacing]{classicthesis}
 % Cambiar la caption por defecto de las tablas
 \renewcommand\spanishtablename{Table}
 \renewcommand\spanishfigurename{Figure}
+\renewcommand{\spanishcontentsname}{Table of contents}
 
 \begin{document}
 
@@ -113,23 +114,20 @@ manychapters,pdfspacing]{classicthesis}
 \tableofcontents %TODO: poner nombre en español
 
 
-
-% Part I
-\input{add_ons/resumen}
 % TODO: quitar:  https://grados.ugr.es/informaticaymatematicas/pages/infoacademica/tfg/formato/formato_memoriatfgdg
-% TODO: Resumen y palabras clave
+
+\input{add_ons/summary}
+
 % TODO: Resumen extendido y palabras clave en inglés
-% TODO: Introduction and motivation
-% TODO: Objectives
+% TODO: Introduction and motivation + objectives
 
-
-% Part II
+% Development
 \input{chapters/chapter1_QuantumMechanicsModel}
 \input{chapters/chapter2_QuantumAnnealing}
-\input{chapters/chapter3_GenomeAssembly} %TODO: repasar
+\input{chapters/chapter3_GenomeAssembly}
 
-% Part III
 % TODO: añadir sección de futuras líneas y conclusión
+
 
 % TODO: repasar maquetación
 
