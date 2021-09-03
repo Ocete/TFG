@@ -237,7 +237,8 @@ def solve_qubo_dwave(Q, n_genome_reads, num_reads=100, label='', annealing_time=
 	solver = client.get_solver('Advantage_system1.1')
 	dwsampler = DWaveSampler(solver={'qpu': True,
 									 'topology__type': 'pegasus',
-									 'annealing_time': annealing_time},
+									 'annealing_time': annealing_time}, # Watch out, Leap doesn seem to take into account
+									 # this parameter, you have to give it as  a paramater in the dwsampler.sample() call
 							 token=token, endpoint=endpoint)
 
 	# We need to embed Q into a valid graph for the D-Wave architecture
@@ -247,7 +248,7 @@ def solve_qubo_dwave(Q, n_genome_reads, num_reads=100, label='', annealing_time=
 
 	# Obtain the response from the solver. This is the actual D-Wave execution!
 	start = time.time()
-	response_qpt = dwsampler.sample_qubo(Q_embeded, num_reads=num_reads, label=label)
+	response_qpt = dwsampler.sample_qubo(Q_embeded, num_reads=num_reads, label=label, annealing_time=annealing_time)
 	qpu_time = time.time() - start
 	client.close()
 
@@ -328,7 +329,7 @@ def stress_test(_from=3, _to=15, use_QA=False):
 
 	print('Annealing time\t| Valid cycles\t| Solution reached\t| E_d\t| Best energy\t| Max chain length\t|Time (s)')
 
-	times = [20, 40, 60, 120]
+	times = [40, 60, 120]
 	p = 1.6
 	num_reads = 10
 	_, reads = create_test(num_reads=num_reads)

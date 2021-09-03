@@ -459,7 +459,7 @@ The results of this experiment using the simulated annealer can be seen in table
 	\label{tab:exp5_1}
 \end{table}
 
-We stopped at 15 reads since that is the maximum value that will be able to compare with using the quantum annealer. In the experiment results we see how the number of valyd cycles out of $10.000$, which turns out to be every single cycle up to 14 reads. However, the number of samples that reached the best solution go down from $95\%$ to ground cero from $11$ reads onward. However, although we do not obtain the real solution, how close are these samples to it?
+We stopped at 15 reads since that is the maximum value that will be able to compare with using the quantum annealer. In the experiment results we see how the number of valyd cycles out of $10.000$, which turns out to be every single cycle up to 14 reads. However, the number of samples that reached the best solution go down from $95\%$ to ground cero from $11$ reads onward. However, although we do not obtain the real solution, how close are these samples to it?anneal schedule 
 
 The columns related to the energy of the solutions try to answer this question. We may see how the energy goes down to around $-26$, which is totally normal: the more reads in our graph, the higher the number of reads overlap, and the lower is the resulting solution energy. As soon as we cannot find the solution, the energy delta starts to increase, going up to around $1.37$. This means the energy of the best sample is quite close to the actual value. Is this enough?
 
@@ -467,7 +467,7 @@ When we tackle a classic TSP, a near optimal solution is a really valid and usef
 
 Lastly, the sampling time seems to grow linearly withthe number of reads. However, using this simple simulated annealer for a real case with up to 3 Mbps would be simply impossible.
 
-For the second part of test  I run the same experiment but using the quantum annealer. Some extra steps come with it, like computing the annealer and connecting to Leap, but they have all been explained in previous experiments. We again sample $10.000$ times a maintain the same values for the self-bias, multi-location and repetition parameters. The results of this experiment can be seen in table \ref{tab:exp5_2}.
+For the second part of test  I run the same experiment but using the quantum annealer. Some extra steps come with it, like computing the annealer and connecting to Leap, but they have all been explained in previous experiments. We again sample $10.000$ times a maintain the same values for the anneal schedule self-bias, multi-location and repetition parameters. The results of this experiment can be seen in table \ref{tab:exp5_2}.
 
 \begin{table}[H]
 	\centering
@@ -511,17 +511,15 @@ Not only the responses are not valid, they are quite far from the solution. We c
 
 We can see how in the $4$ reads experiment, most of the samples group around $0$ energy, an only a very few are actually close to the solution, which is actually reached. However, in the $10$ reads experiment, most of the samples are gathered around $00/150$ energy, this solutions arenot only invalid but just unusable.
 
-Lastly, let us comment the QPU sampling time. This value is provided directly by Leap. From our code we cannot separate the connection and other computations from the actual QPU sampling time. We may appreciate how the time does not grow with the input. This is because the time it takes for the annealer to converge is fixed by the anneal schedule. Namely, we may only alter the functions $A(s)$ and $B(s)$ in \ref{fig:dwave-annealing-functions}.
+Lastly, let us comment the QPU sampling time. This value is provided directly by Leap. From our code we cannot separate the connection and other computations from the actual QPU sampling time. We may appreciate how the time does not grow with the input. This is because the time it takes for the annealer to converge is fixed by the anneal schedule.
 
-In conclusion, these results are astonishingly awful. The simmulated annealing sampler not only provides closer samples to the solution, but in every seen case it reaches valid samples. My current hypothesis is that either the anneal schedule is the optimal, or that the values of the parameters can be improved for our specific problem. In our last experiment I will spent all our remaining QPU time checking this hypothesis.
+In conclusion, these results are astonishingly awful. The simmulated annealing sampler not only provides closer samples to the solution, but in every seen case it reaches valid samples. My current hypothesis is that either the anneal schedule is not optimal, or that the values of the parameters can be improved for our specific problem. In our last experiment I will spent all our remaining QPU time checking this hypothesis.
 
 
 \subsection{Experiment 6: Advantage tunning}
 
 
-For our last experiment we aim to test our previous hypothesis, and try to solve a $10$ reads problem using the Advantage system. In the first set of iterations I tried to increase the multi-location and repetition penalties in order to icnrease the number of valid cycles sampled. For this experiment, a single test with $10$ reads was created. Its solution energy was  $-18.994150$. The results of the experiment can be found in table \ref{tab:exp6_1}.
-
-% TODO: comentar la tabla y que significa "Parameters"
+For our last experiment we aim to test our previous hypothesis, and try to solve a $10$ reads problem using the Advantage system. In the first set of iterations I tried to increase the multi-location and repetition penalties in order to icnrease the number of valid cycles sampled. For this experiment, a single test with $10$ reads was created. Its solution energy was  $-18.994150$. The results of the experiment can be found in table \ref{tab:exp6_1}, where the mentioned parameters are $(self bias, multi-location, repetition)$.
 
 \begin{table}[H]
 	\centering
@@ -529,20 +527,31 @@ For our last experiment we aim to test our previous hypothesis, and try to solve
 		\begin{tabular}{ccccc}
 			\textbf{Parameters} & \textbf{Valid cycles} & \textbf{Times sol. reached} & \textbf{Energy delta} & \textbf{Sampling QPU time} \\
 			\hline
-			(-1.6, 1.6, 1.6)	& 0		& 0			& -76.344431	&	0.041731 \\
-			(-3, 3, 3)			& 0		& 0			& -87.263801	&	0.042049 \\
-			(-5, 5, 5)			& 0		& 0			& -83.657639	&	0.036150 \\
-			(-20, 20, 20)		& 0		& 0			& -357.917063	&	0.040047 \\
-			(-50, 50, 50)		& 0		& 0			& -1017.605383 	&	0.035775 \\
-			(-100, 100, 100)	& 0		& 0			& -1418.541757 	&	0.040348
+			(-1.6, 1.6, 1.6)	& 0		& 0			& -76.344431	&	1.500 \\
+			(-3, 3, 3)			& 0		& 0			& -87.263801	&	1.624 \\
+			(-5, 5, 5)			& 0		& 0			& -83.657639	&	1.272 \\
+			(-10, 10, 10)		& 0		& 0			& -258.290739	&	1.248 \\
+			(-20, 20, 20)		& 0		& 0			& -357.917063	&	1.311 \\
+			(-50, 50, 50)		& 0		& 0			& -1017.605383 	&	1.441 \\
+			(-100, 100, 100)	& 0		& 0			& -1418.541757 	&	1.261
 		\end{tabular}
 	}
 	\caption{Results of experiment 6, $10.000$ reads using the quantum annealer for different parameters configurations.}
 	\label{tab:exp6_1}
 \end{table}
 
+As we can see in the table, we did not find a single valid cycles in these iterations. The energy delta naturally increases as we increase the parameter values: each single penalty is greater penalized. However, the energy delta barely increases until our parameters get a value of $10$. This could show how the responses for \emph{parameters} $= (-5, 5, 5)$ incurred in number of penalties. In figure \ref{fig:exp6_1} we find the samples distribution for \emph{parameters} $= (-5, 5, 5)$. The overal energy is much higher than what we saw for \emph{parameters} $= (-1.6, 1.6, 1.6)$ in figure \ref{fig:exp5_2}, which occurs due to the higher penalty. The conclusion of this experiment is that either we have not been able to find the correct values for the parameters, or the parameters values are not the problem.
 
-Energy: $-18.998002$
+\begin{figure}[H]
+	\includegraphics[scale=0.5]{experiments/exp6_1.png}
+	\centering
+	\caption{$10.000$ samples distribuition for \emph{parameters} $= (-5, 5, 5)$.}
+	\label{fig:exp6_1}
+\end{figure}
+
+Finally, we try changing the anneal schedule. There two possible parameters that we may modify in this sense: the \emph{annealing time} -time let for the annealer to converge-, or the \emph{anneal schedule} -which modifies the annealing functions as defined in figure \ref{fig:dwave-annealing-functions}. Since my initial hypothesis was that the annealer did not have enough time to find good solutions, let us focussed on the former tfor our last experiments.
+
+The anneal time is sec in microseconds, with a default value of $20$. Although the initial idea was to start with that value and make it progressively higher, at this point I was able to submit only one more worthy experiment, with a anneal time of $40$ microseconds. This was due to a bug in the D-Wave $get_solver()$ function, which did not read the annealing time correctly and led to some invalid experiments in the last minute. We can see the obtained results in table \ref{tab:exp6_2}.
 
 \begin{table}[H]
 	\centering
@@ -550,15 +559,15 @@ Energy: $-18.998002$
 		\begin{tabular}{ccccc}
 			\textbf{Annealing time ($\mu$s)} & \textbf{Valid cycles} & \textbf{Times sol. reached} & \textbf{Energy delta} & \textbf{Sampling QPU time} \\
 			\hline
-			20	& 0		& 0			& -33.965357	& 0.037458 \\
-			40	& 0		& 0			& -31.430237	& 0.035382 \\
-			60	& 0		& 0			& -72.925782	& 0.043991 \\
-			120	& 0		& 0			& -51.149790	& 0.037740 \\
+			20	& 0		& 0			& -76.344431	& 1.500 \\
+			40	& 0		& 0			& -57.944162	& 1.573
 		\end{tabular}
 	}
-	\caption{Results of experiment 6, $10.000$ reads using the quantum annealer for annealing times.}
+	\caption{Results of experiment 6, $10.000$ reads using different annealing times.}
 	\label{tab:exp6_2}
 \end{table}
+
+Although the energy delta is reduced, the improvement is marginal: we still find no valid cycles and the responses have a high penalty. Probably with even more annealing time we will obtain further refined results.
 
 
 % TODO: añadir al experimento 3 una fotillo de un embedding
