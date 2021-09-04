@@ -145,7 +145,7 @@ Where $\alpha$ and $\beta$ are complex numbers. Thus, we can describe a qubit as
 
 At this point, the reader may ask themselves if a qubit may even physically exist, not just as a mathematical entity. After all, the first postulate states that given a \emph{physical system}, there is an associated state space and vector states that describe the system. However, we define a qubit from state space ($\C^{2}$) without considering a physical system. 
 
-The answer is positive: there are numerous physical systems such that their associated state spaces are ($\C^{2}$). Thus, modeling a qubit. More intuitive examples are provided in section \ref{qubit-examples} and precise physical implementations are briefly discussed in section [TODOref].
+The answer is positive: there are numerous physical systems such that their associated state spaces are ($\C^{2}$). Thus, modeling a qubit. More intuitive examples are provided in section \ref{qubit-examples} and a precise physical implementation is explained in section \ref{sec:quantum-annealing-dwave}.
 
 
 \section{Postulate 2: Measurement}
@@ -361,7 +361,7 @@ This does \textbf{not} represent a coin that has landed somehow on its side, but
 
 On the other hand, this was quite an inaccurate example since the system is not really isolated, although it was interesting intuition-wise. One of the first (accurate) qubit models ever proposed was the Schrodinger's Cat \cite{Schrodinger1935} \cite{Trimmer1980}. In this hypothetical experiment, a cat would be locked in a room for an hour with a device that during that hour would \emph{perhaps} trigger, killing the cat. On the other hand, with equal probability, it would not trigger at all. After the whole hour elapses, the cat would be alive and dead with equal probability, ending up in a halfway state. In this case, our computational bases would be the states alive and dead, and we achieve the state $|+\ra$ after that hour. Once we open the room and check on the cat, our qubit collapses to either state and stays on it until further disturbance.
 
-Although physical implementations are discussed in section [TODOref chapter], we cannot proceed any further without providing a more accurate and reproducible description of a qubit than 'a coin being tossed' and such a hypothetical cat experiment. A possible realization of a qubit is an electron in a single atom's orbit, as seen in Figure \ref{fig 1.1}. An electron in an orbit may be in the so-called \emph{ground} and \emph{excited} states, $|0\ra$ and $|1\ra$ respectively, depending on its energy. By shining light to the electron with a certain energy and for a certain amount of time, one can make the electron move from the ground state to the excited state and vice versa. But most interestingly, one can apply the light to the electron during a smaller amount of time, moving the electron somehow 'halfway' between both states.
+Although a physical implementation is discussed in section \ref{sec:quantum-annealing-dwave}, we cannot proceed any further without providing a more accurate and reproducible description of a qubit than 'a coin being tossed' and such a hypothetical cat experiment. A possible realization of a qubit is an electron in a single atom's orbit, as seen in Figure \ref{fig 1.1}. An electron in an orbit may be in the so-called \emph{ground} and \emph{excited} states, $|0\ra$ and $|1\ra$ respectively, depending on its energy. By shining light to the electron with a certain energy and for a certain amount of time, one can make the electron move from the ground state to the excited state and vice versa. But most interestingly, one can apply the light to the electron during a smaller amount of time, moving the electron somehow 'halfway' between both states.
 
 \begin{figure}[h]
 	\includegraphics[scale=.4]{atom.png}
@@ -418,7 +418,7 @@ Normal operators have significant relevancy thanks to the following result:
 	An operator $A$ is normal if and only if it is diagonalizable.
 \end{theorem}
 \begin{proof}
-	TODO: To be copied, Box 2.2, page 72, Nielsenchen.
+	See Box 2.2 in page 72, \cite{Nielsen2002}.
 \end{proof}
 
 Since Hermitian and unitary operators are normal, it follows the next
@@ -512,13 +512,13 @@ Which is a unitary operator. In fact, any unitary operator $U$ may be expressed 
 
 $$ |\varphi(t_2)\ra = U(t_1, t_2) |\varphi(t_1)\ra $$
 
-Following this procedure, we have proven that there is a one to one correspondence between the continuous time-varying postulate 3' using the Hamiltonian and the more stationary discrete-time version using the unitary operator. Although the discrete-time vision is usually used in quantum computing, Quantum Annealing -the specific application of quantum mechanics used in this thesis- rests mostly on the Hamiltonian point of view. We will deepen in this architecture on section [TODOref].
+Following this procedure, we have proven that there is a one to one correspondence between the continuous time-varying postulate 3' using the Hamiltonian and the more stationary discrete-time version using the unitary operator. Although the discrete-time vision is usually used in quantum computing, Quantum Annealing -the specific application of quantum mechanics used in this thesis- rests mostly on the Hamiltonian point of view. We will deepen in this architecture on section \ref{sec:quantum-annealing-dwave}.
 
 It is worth mentioning that both versions of this postulate assume our physical system to be \emph{closed}. That is, there is no interaction with the system coming from the exterior. In reality, the only real closed system is the universe as a whole. However, we may recreate sufficiently closed systems so that they can be described with approximations as being closed. 
 
 Furthermore, this severely interferes with postulate 2, where an outsider to the system may interfere with it by measuring it. The quantum system will evolve following postulate 3 until measurement is applied. Then they will evolve following the behavior described on postulate 2.
 
-In practice, obtaining the Hamiltonian for a given quantum system is a really laborious work and usually needs experimental data [TODO: add evidence? stated as such in Niel.]. However, for our computational purposes, we will be the ones designing the Hamiltonian such that our system evolves as desired. In particular, chapter [TODOref to QUBO chapter] describes in detail the construction of Hamiltonians for QUBO problems.
+In practice, obtaining the Hamiltonian for a given quantum system is a really laborious work and usually needs experimental data \cite{Nielsen2002}. However, for our computational purposes, we will be the ones designing the Hamiltonian such that our system evolves as desired. In particular, chapter \ref{sec:qubo} describes in detail the construction of Hamiltonians for QUBO problems.
 
 \subsection{Quantum Computing perspective: Quantum Gates}
 
@@ -573,10 +573,11 @@ One of the most important results of classical computation theory is that any bo
 In this case, \{H, CNOT, T\} is called a \emph{universal gate set}. In practice, is it efficient to build such any gate using only this gate set? The answer to the question is positive, as stated by the \textbf{Solovay-Kitaev theorem} \cite{Dawson2006}. However, this is out of the scope of this project. We provide a sketch proof of the previous theorem from \cite{Bayens2019}.
 
 \begin{proof}
-	TODO: copy proof from Bayens, Theorem 4.2
+	See \cite{Bayens2019}, Theorem 4.2
 \end{proof}
 
 Further study of quantum circuits falls out of the scope of this thesis since we will use the D-Wave architecture, which relies on quantum annealing instead of quantum circuits.
+
 
 \section{Postulate 4: Composite systems}
 
@@ -775,7 +776,7 @@ The average value of an operator is usually written as $\la M \ra \equiv \la \va
 	\end{split}
 \end{equation}
 
-This means that if we prepare our state $|\varphi\ra$ multiple times and measure it, the measures will follow a normal distribution with expected value $\la M \ra$ and standard deviation $\Delta(M) = \sqrt{\la M^2 \ra - \la M \ra^2}$. This formulation of standard deviation using observables provides us with an elegant proof of perhaps the most famous quantum mechanics result: The \emph{Heisenberg uncertainty principle}. Such proof can be found in annex [TODOref anexo con la demostracion, copy from Box 2.4 in Niel.].
+This means that if we prepare our state $|\varphi\ra$ multiple times and measure it, the measures will follow a normal distribution with expected value $\la M \ra$ and standard deviation $\Delta(M) = \sqrt{\la M^2 \ra - \la M \ra^2}$. This formulation of standard deviation using observables provides us with an elegant proof of perhaps the most famous quantum mechanics result: The \emph{Heisenberg uncertainty principle}. Such proof can be found in Box 2.4 from \cite{Nielsen2002}.
 
 There are two additional notations worth mentioning regarding projective measurement. Instead of providing an observable $M$, we will sometimes provide a complete set of orthogonal projectors. That is, a set $P_m$ such that $\sum_i P_m = I$ and $P_m P_{m'} = \delta_{mm'} P_m$. The corresponding implicit observable used in this case is $M = \sum_m m P_m$. Finally, another widely used notation is to 'measure in a basis $|m\ra$', where $|m\ra$ form an orthonormal basis. This simply means that the chosen projectors are  $P_m = |m \ra\la m|$ and the observable is $M = \sum_m m |m \ra\la m|$. This is the usual notation in quantum computing.
 

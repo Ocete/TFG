@@ -27,7 +27,7 @@ State of the art algorithms trades off accuracy for speed and memory. Given enou
 
 
 \subsection{De novo reference-free assembly}
-
+\label{sec:de-novo-genome-assembly}
 
 On the other hand, the de novo reference-free method is, as its name suggests, reference free. Meaning, it is based only on the DNA reads. Thus, it has no reference bias but it is more computationally complex. It is usually used the first time a species DNA is read.
 
@@ -85,6 +85,7 @@ As we know, the type of Hamiltonian cycle that minimizes the cost is type A. Thi
 
 
 \section{Experimentation}
+\label{sec:experimentation}
 
 
 In this last section, we will explain the experiments reproduced using the D-Wave systems.
@@ -340,7 +341,7 @@ solver = client.get_solver()
 dwsampler = system.samplers.DWaveSampler(config_file=config_file)
 \end{minted}
 
-Suppose $Q$ already holds are computed QUBO model. We can compute an embedding and obtained the new associated model as follows:
+Suppose $Q$ already holds our computed QUBO model. We can compute an embedding and obtained the new associated model as follows:
 
 \begin{minted}[bgcolor=bg]{python}
 adjacency_dict = embedding.utils.edgelist_to_adjacency(solver.edges)
@@ -412,7 +413,7 @@ However, does QA actually scales better than SA with the problem size? In the ne
 \end{figure}
 
 
-\subsubsection{Plotting chimera embeddings}
+\subsection{Displaying chimera embeddings}
 
 
 Let us plot some logical embeddings using the D-Wave 2000Q system, with relies on a Chimera graph. In figure \ref{fig:exp2_4reads} we see the embedding of a 4-nodes complete graph into the Chimera topology. The grey nodes represent unused nodes while nodes with the same color represent a single logical qubit mapped into multiple physical qubits.

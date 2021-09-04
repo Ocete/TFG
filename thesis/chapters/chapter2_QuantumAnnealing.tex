@@ -163,6 +163,7 @@ The only question remaining is how to encode our cost function in a Hamiltonian.
 
 
 \section{QUBO and Ising models}
+\label{sec:qubo}
 
 
 The QUBO and Ising models can be easily represented with a Hamiltonian. In practice, non-optimization problems are transformed into optimization problems and then codified as either QUBO or Ising to be solved using quantum annealing. Let us explore these types of problems and some examples of these transformations.
@@ -271,14 +272,14 @@ $$
 	\end{pmatrix}
 $$
 
+Keep in mind that quadratic elements in the cost function are divided by two when added to the $Q$ matrix, since after multiplying and adding in equation \ref{eqn:max-cut-function} they appear twice.
+
 Yielding the following compact form:
 
 \begin{equation}
 \label{eqn:max-cut-function}
 	\text{Maximize  } f_Q(x) = x^T Q x
 \end{equation}
-
-Keep in mind that quadratic elements in the cost function are divided by two when added to the $Q$ matrix, since after multiplying and adding in equation \ref{eqn:max-cut-function} they appear twice.
 
 By solving this model using quantum annealing we obtait the minimum value of $f_Q(x)$: $x = (0, 1, 1, 0, 0)$. Thus, vertices $2$ and $3$ are in one set and vertices $1$, $4$ and $5$ are in the other one.
 
@@ -567,7 +568,7 @@ This example is mainly based on \cite{Glover2019}.
 
 In order to formulate our next problem, a couple of extra definitions are needed. Given a graph, a \emph{Hamiltonian path} is a path -a sequence of connected nodes- such that it only passes through each node exactly once. A \emph{cycle}, also called \emph{tour}, is a path that starts and ends in the same node. A \emph{Hamiltonian cycle} is a cycle that passes through each node a single time, except for the first/last node which appears twice in the cycle. Additionally, a weighted graph $G =(V, E, W)$ is a graph with a series of weights $w_e \in \R$, each associated to an edge $e \in E$.
 
-The Travelling Salesman problem is the following: Given a directed weighted graph, find a Hamiltonian cycle with minimum total weight. The problem is sometimes stated with a Hamiltonian path instead of a Hamiltonian cycle, but as it will be seen in section [TODOref], for our purposes the cycle-statement will be of better use.
+The Travelling Salesman problem is the following: Given a directed weighted graph, find a Hamiltonian cycle with minimum total weight. The problem is sometimes stated with a Hamiltonian path instead of a Hamiltonian cycle, but as it will be seen in section \ref{sec:de-novo-genome-assembly}, for our purposes the cycle-statement will be of better use.
 
 We may suppose without losing generality that the graph is complete. That is, there is always an edge from every two nodes in every direction. If the given graph is not complete, we may add the remaining edges with a high enough weight so that they are never used.
 
@@ -657,33 +658,6 @@ Given the following graph:
 \end{figure}
 
 Find a Hamiltonian cycle with minimum cost. 
-
-\begin{table}[H]
-	\centering
-	\makebox[\textwidth][c]{
-		\begin{tabular}{ccc}		
-			\includegraphics[scale=0.2]{salesman-penalties1.png} &
-			\includegraphics[scale=0.2]{salesman-penalties2.png} &
-			\includegraphics[scale=0.2]{salesman-penalties3.png} \\
-			
-			1: Self-bias & 2: Repetition & 3: Colocation \\
-			
-			\includegraphics[scale=0.2]{salesman-penalties4.png} &
-			\includegraphics[scale=0.2]{salesman-penalties5.png} &
-			\includegraphics[scale=0.2]{salesman-penalties6.png} \\
-			
-			4: Type A tours & 5: Type B tours & 6: Type C tours \\
-			
-			\includegraphics[scale=0.2]{salesman-penalties7.png} &
-			\includegraphics[scale=0.2]{salesman-penalties8.png} &
-			\includegraphics[scale=0.2]{salesman-penalties9.png} \\
-			
-			7: Type D tours & 8: Type E tours & 9: Type F tours \\
-		\end{tabular}
-	}
-	\caption{Graphical representation of penalties between interactions \cite{Sarkar2020}}
-	\label{fig:salesman-penalties}
-\end{table}
 
 First of all, let us take a deeper look into our possible solutions. There are $(n-1)!$ cycles in a graph with $n$ nodes. For our $4$-nodes graph there are $3! = 6$ type of cycles:
 
@@ -800,6 +774,13 @@ Which corresponds to the four ways of encoding type A cycles with our notation.
 
 \textbf{D-Wave Systems Inc.} is a Canadian company dedicated to quantum computing. In 2011, they announced the first commercial quantum computer system, D-Wave One. During the following two decades, the D-Wave team has developed a series of quantum computers dedicated to quantum annealing. The last one being the Advantage System (figure \ref{fig:advantage}).
 
+\begin{figure}[H]
+	\includegraphics[scale=.375]{founding.png}
+	\centering
+	\caption{Investment in quantum startups over the past few years \cite{Gibney2019}.}
+	\label{fig:founding}
+\end{figure}
+
 \begin{figure}[h]
 	\includegraphics[scale=.1]{advantage_system.png}
 	\centering
@@ -832,7 +813,7 @@ Since the QPU must be isolated to operate, it is encapsulated in a system at tem
 	\label{fig:QPU}
 \end{figure}
 
-D-Wave provides an easy-to-use software environment to solve problems using quantum annealing. We will explain it in-depth in section [TODOref].
+D-Wave provides an easy-to-use software environment to solve problems using quantum annealing. We will explain it in-depth in section \ref{sec:experimentation}.
 
 
 \subsection{Quantum Annealing in D-Wave}
@@ -874,7 +855,7 @@ Consider a 2-qubits system for the following simple example. There will be three
 	\label{fig:dwave-2qubit-landscape}
 \end{figure}
 
-Let us take a look at the underlying quantum physics of this process. We make use of the Hamiltonian of a quantum system, which describes the evolution of the quantum system as per Postulate 3' [TODOref]. It maps the \emph{eigenstates} of the system to their energies. Only when the system is on an eigenstate, the energy of the system is well defined and called \emph{eigenenergy}, which are just the eigenvalues. The set of eigenstates and eigenenegies is called the \emph{eigenspectrum}. Recall that the lowest energy state is called the \emph{ground state}.
+Let us take a look at the underlying quantum physics of this process. We make use of the Hamiltonian of a quantum system, which describes the evolution of the quantum system as per Postulate 3' (\ref{postulate-3'}). It maps the \emph{eigenstates} of the system to their energies. Only when the system is on an eigenstate, the energy of the system is well defined and called \emph{eigenenergy}, which are just the eigenvalues. The set of eigenstates and eigenenegies is called the \emph{eigenspectrum}. Recall that the lowest energy state is called the \emph{ground state}.
 
 For a D-Wave system, the Hamiltonian may be described as:
 
