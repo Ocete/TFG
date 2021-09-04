@@ -1,14 +1,19 @@
-\chapter*{Resumen}
+\chapter*{Introduction and objectives}
+\addcontentsline{toc}{chapter}{Introduction and objectives} 
 
-Futures lines of work:
+Nowadays, the term \emph{quantum computing} sounds familiar not only to experts but also to the general public. Quantum computing theory began in 1980 when the physicist Paul Benioff proposed a quantum mechanical model of a Turing machine \cite{Benioff1980}. With Peter Shor's development of his integer factoring algorithm in 1994 \cite{Shor1999}, along with the work of several other researchers such as Richard Feynman and Yuri Manin\cite{Feynman1982} \cite{Manin1980}, it was clear that quantum computers had the potential to compute things that a classical computer could not feasible do.
 
-Experimentos:
-	- Más annealing time
-	- Explorar más los parametros
-	- Modificar el anneal
-	- Mejorar los embeddings
-	
+However, it was not until 1995 with Cirac and Zoller's experiments of cold trapped ions that physical implementations of quantum machines were believed by most of the scientific world \cite{Cirac1995}. In recent years, public and private funding to quantum computing research has risen by $400\%$ \cite{Gibney2019}, and in October 2019, Google AI in a partnership with NASA claimed to have performed "quantum computations infeasible on any classical computer" \cite{Pednault2019}. As quantum computing becomes a day-to-day reality, mathematicians, computer scientists, and physicians developt and explore this growing field.
 
+In particular, quantum annealers are a type of quantum computer focussed on optimization. D-Wave Systems is a private commercial quantum company that provides a series of quantum annealers for commercial and educational use. These quantum annealers have proven to be empirically useful for several real-world applications such as control of automated guided vehicles, traffic flow optimization or optimized planning scheduling \cite{Neukart2017} \cite{Ohzeki2019} \cite{Desimone2019}.
 
-- Improved the way the QUBO is tranlated to minimized the variables
-- Reading errors treatment.
+On the other hand, knowing an organism genome is key in multiple fields, including microbiology, biotechnology, and personalized medicine \cite{Costessi2018} \cite{Ginsburg2009} \cite{Abdallah2015}. Its applications range from the production of improved crops, biofuels, and pharmaceutical products to more precise complex disease detection and analysis. \emph{Genome assembly} refers to the process of, given a set of short genome reads, reconstruct the whole genome. This proceeding is a key component of the mentioned applications and as an NP-hard problem supposes a huge bottleneck for those developments. 
+
+For the reasons explained above and inspired by the works \cite{Sohn2018} and \cite{Sarkar2020}  we set out to first gain a deep understanding of quantum computing and quantum annealers and then tackle the de novo genome assembly problem using D-Wave's quantum annealers. The objectives of this work are:
+
+\begin{enumerate}
+	\item To define and understand the theory behind quantum computing: quantum mechanics models. This shall be approached from a mathematic perspective and maintaining perspective of our subsequent application on quantum computing.
+	\item To deeply understand how quantum annealers work, and how to use them to solve problems. This includes understanding quadratic unconstrained binary optimization (QUBO) problems, and how to transform NP-hard problems into such models.
+	\item To theoretically and empirically tackle the de novo genome assembly problem, performing a comparative study between simulated annealing and quantum annealing using D-Wave's annealers.
+\end{enumerate}
+
