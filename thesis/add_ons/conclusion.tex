@@ -1,15 +1,20 @@
 \chapter*{Conclusion and future lines of work}
 \addcontentsline{toc}{chapter}{Conclusion and future lines of work} 
 
-Futures lines of work:
+Throughout this work, we have presented a deep dive into the quantum mechanics model, quantum annealers, and their empirical use. We feel that our initial objectives have been mostly fulfilled:
 
-Experimentos:
-	- Más annealing time
-	- Explorar más los parametros
-	- Modificar el anneal
-	- Mejorar los embeddings
+\begin{enumerate}
+	\item Chapter 1 presented a thorough study of a quantum mechanics model, providing the necessary mathematical background to understand quantum computing and quantum annealers. Thus, fulfilling the first objective.
 	
+	\item Chapter 2 studied quantum annealing and adiabatic evolution. It also explained the QUBO model and provided in-depth examples of well-known NP-hard problems translations to QUBO, such as the graph coloring and the traveling salesman problems. Lastly, the D-Wave architecture is extensively explained, from their qubits implementations and how its use of quantum annealing, to their QPU topologies. This completely covers the second objective.
+	
+	\item Chapter 3 explains the de novo assembly problem, and how it can be encoded as a QUBO model using the previous TSP transformation. Then, a comparative study of simulated annealing and quantum annealing is performed. This objective has been partially accomplished since the restrictions on QPU usage blocked us from tunning the quantum annealers in order to obtain improved results.
+\end{enumerate}
 
+Regarding future areas of development, we present several approaches. Firstly, the quantum annealers can be further tunned to perform better against the presented models. In particular, further improvement of the QUBO model parameters has proven to be a challenging task. Lines of work modifying the current annealing schedule are quite promising.
 
-- Improved the way the QUBO is tranlated to minimized the variables
-- Reading errors treatment.
+Secondly, reducing hardware-related bias in D-Wave annealers would improve the overall performance of the quantum annealers. For the de novo assembly in particular we could make use of three approaches. First, improve the QUBO transformation so the resulting $n^2$-nodes overlap graph from a given set of $n$ reads has a reduced number of nodes. This will translate into easier embeddings. The second approach consists of refining embeddings from complete graphs to the chosen topology. Since this procedure only depends on the number of reads and not on the reads themselves, it is highly reusable, with compensates its time cost. The third approach is problem-dependent and relies on applying heuristic transformations to the final resulting graph to remove certain less promising edges. All of these procedures aim to minimize the maximum chain length in the embeddings, reducing environmental noise and hardware bias. The work of Barbosa, Pelofske, and Hahn et al. explore this line of work \cite{Barbosa2021}.
+
+Thirdly, this work did not take into reading errors. This is a complete field of study, indispensable for the real-life applicability of these techniques. These errors in our input changed the way our distance between reads is defined, the QUBO model we compute, and the interpretation of results. For a deep dive into these inquiries and how they affect the OCL method see \cite{Koren2012} and \cite{Li2012}.
+
+Lastly, D-Wave Systems also provides hybrid solvers, which make use of both classical and quantum resources to solve problems. This line of work is really promising since it has proven to be reliable in the past to solve TSP and genome assembly problems \cite{Sarkar2020} \cite{Warren2021}.
