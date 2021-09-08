@@ -1,0 +1,100 @@
+\RequirePackage{fix-cm}
+\documentclass[10pt, spanish]{beamer}
+
+% OPCIONES DE BEAMER
+
+\definecolor{Maroon}{cmyk}{0, 0.87, 0.88, 0.1}
+\definecolor{teal}{rgb}{0.0, 0.45, 0.45}
+
+\usetheme[block=fill, subsectionpage=progressbar, titleformat section=smallcaps]{metropolis}
+\setbeamertemplate{frametitle continuation}[roman]
+\setbeamertemplate{section in toc}[balls numbered]
+\setbeamertemplate{subsection in toc}[subsections unnumbered]
+%\setsansfont[BviejoFont={Fira Sans SemiBold}]{Fira Sans Book}  % Increase font weigth
+\widowpenalties 1 10000
+\raggedbottom
+
+% COLORES
+\setbeamercolor{palette primary}{bg=teal}
+\setbeamercolor{progress bar}{use=Maroon, fg=Maroon}
+
+% PAQUETES
+
+\usepackage[utf8]{inputenc}
+\usepackage[absolute,overlay]{textpos}
+\usepackage[spanish, es-nodecimaldot]{babel}
+\usepackage{microtype}
+\usepackage{epigraph}
+\usepackage{hyperref}
+\usepackage{amssymb, amsmath, amsthm, amsfonts, amscd}
+\usepackage{listings}
+
+
+\definecolor{backg}{HTML}{F2F2F2} % Fondo
+\definecolor{comments}{HTML}{a8a8a8} % Comentarios
+\definecolor{keywords}{HTML}{08388c} % Palabras clave
+\definecolor{strings}{HTML}{0489B1}  % Strings
+
+\lstset{
+language=scala,
+basicstyle=\footnotesize\ttfamily,
+breaklines=true,
+keywordstyle=\color{keywords},
+commentstyle=\color{comments},
+stringstyle=\color{strings},
+xleftmargin=.5cm,
+tabsize=2,
+% Acentos, ñ, ¿, ¡ (tex.stackexchange.com/questions/24528)
+extendedchars=true
+}
+
+% COMANDOS PERSONALIZADOS
+
+\let\lmin\wedge
+\let\lmax\vee
+\newtheorem{prop}{Proposición}
+\newtheorem{teorema}{Teorema}
+\newtheorem{defi}{Definición}
+\newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}}  % Fracción grande
+
+% Path para las imágenes
+\graphicspath{{../thesis/figures/}}
+
+% TÍTULO
+
+\title{Enfriamiento cuántico para la resolución del problema del genoma}
+\providecommand{\subtitle}[1]{}
+\subtitle{Doble Grado en Ingeniería Informática y Matemáticas}
+\date{14 de Octubre de 2021}
+\author{José Antonio Álvarez Ocete}
+\institute{Trabajo Fin de Grado \\\\\\ \textit{E.T.S de Ingenierías Informática y de Telecomunicación \\ Facultad de Ciencias}}
+
+\titlegraphic{
+  \begin{textblock*}{3cm}(8.5cm,5.8cm)
+    \includegraphics[width=4cm]{ugr.png}
+  \end{textblock*}
+}
+% DOCUMENTO
+
+\begin{document}
+\maketitle
+
+\begin{frame}{Índice de contenidos}  
+	\begin{column}{.5\textwidth}
+	  \tableofcontents
+	\end{column}
+\end{frame}
+
+\section{Sistemas difusos para computación en Big Data}
+
+\begin{frame}{Introducción}
+  El problema de aprendizaje de datos es un tema central en el aprendizaje automático. Una propuesta relevante en este sentido son los sistemas basados en reglas difusas, que permiten resolver problemas de forma aproximada pero efectiva.
+
+  Por otro lado, en la \textit{era de la información} las cantidades de datos que se manejan son cada vez mayores, y surge el concepto de Big Data. ¿Están preparados los algoritmos existentes para tratar grandes cantidades de datos?
+  \vspace{1em}
+
+  {\color{Maroon}\textbf{Solución}:} construir sistemas difusos \textbf{escalables}.
+\end{frame}
+
+
+\end{document}

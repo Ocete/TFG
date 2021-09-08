@@ -1,0 +1,559 @@
+%
+% Copyright (c) 2020 Antonio Coín Castro
+%
+% This work is licensed under a
+% Creative Commons Attribution-ShareAlike 4.0 International License.
+%
+% You should have received a copy of the license along with this
+% work. If not, see <http://creativecommons.org/licenses/by-sa/4.0/>.
+%
+
+\RequirePackage{fix-cm}
+\documentclass[10pt, spanish]{beamer}
+
+% OPCIONES DE BEAMER
+
+\definecolor{Maroon}{cmyk}{0, 0.87, 0.88, 0.1}
+\definecolor{teal}{rgb}{0.0, 0.45, 0.45}
+
+\usetheme[block=fill, subsectionpage=progressbar, titleformat section=smallcaps]{metropolis}
+\setbeamertemplate{frametitle continuation}[roman]
+\setbeamertemplate{section in toc}[balls numbered]
+\setbeamertemplate{subsection in toc}[subsections unnumbered]
+%\setsansfont[BviejoFont={Fira Sans SemiBold}]{Fira Sans Book}  % Increase font weigth
+\widowpenalties 1 10000
+\raggedbottom
+
+% COLORES
+\setbeamercolor{palette primary}{bg=teal}
+\setbeamercolor{progress bar}{use=Maroon, fg=Maroon}
+
+% PAQUETES
+
+\usepackage[utf8]{inputenc}
+\usepackage[absolute,overlay]{textpos}
+\usepackage[spanish, es-nodecimaldot]{babel}
+\usepackage{microtype}
+\usepackage{epigraph}
+\usepackage{hyperref}
+\usepackage{amssymb, amsmath, amsthm, amsfonts, amscd}
+\usepackage{listings}
+
+
+\definecolor{backg}{HTML}{F2F2F2} % Fondo
+\definecolor{comments}{HTML}{a8a8a8} % Comentarios
+\definecolor{keywords}{HTML}{08388c} % Palabras clave
+\definecolor{strings}{HTML}{0489B1}  % Strings
+
+\lstset{
+language=scala,
+basicstyle=\footnotesize\ttfamily,
+breaklines=true,
+keywordstyle=\color{keywords},
+commentstyle=\color{comments},
+stringstyle=\color{strings},
+xleftmargin=.5cm,
+tabsize=2,
+% Acentos, ñ, ¿, ¡ (tex.stackexchange.com/questions/24528)
+extendedchars=true
+}
+
+% COMANDOS PERSONALIZADOS
+
+\let\lmin\wedge
+\let\lmax\vee
+\newtheorem{prop}{Proposición}
+\newtheorem{teorema}{Teorema}
+\newtheorem{defi}{Definición}
+\newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}}  % Fracción grande
+
+% TÍTULO
+
+\title{Enfriamiento cuántico para la resolución del problema del genoma}
+\providecommand{\subtitle}[1]{}
+\subtitle{Doble Grado en Ingeniería Informática y Matemáticas}
+\date{14 de Octubre de 2021}
+\author{José Antonio Álvarez Ocete}
+\institute{Trabajo Fin de Grado \\\\\\ \textit{E.T.S de Ingenierías Informática y de Telecomunicación \\ Facultad de Ciencias}}
+
+\titlegraphic{
+  \begin{textblock*}{3cm}(8.5cm,5.8cm)
+    \includegraphics[width=4cm]{img/ugr.png}
+  \end{textblock*}
+}
+% DOCUMENTO
+
+\begin{document}
+\maketitle
+
+\begin{frame}{Índice de contenidos}
+  \begin{columns}[t]
+    \begin{column}{.5\textwidth}
+      \tableofcontents[sections={1}]
+    \end{column}
+    \begin{column}{.5\textwidth}
+      \tableofcontents[sections={2}]
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\section{Sistemas difusos para computación en Big Data}
+
+\begin{frame}{Introducción}
+  El problema de aprendizaje de datos es un tema central en el aprendizaje automático. Una propuesta relevante en este sentido son los sistemas basados en reglas difusas, que permiten resolver problemas de forma aproximada pero efectiva.
+
+  Por otro lado, en la \textit{era de la información} las cantidades de datos que se manejan son cada vez mayores, y surge el concepto de Big Data. ¿Están preparados los algoritmos existentes para tratar grandes cantidades de datos?
+  \vspace{1em}
+
+  {\color{Maroon}\textbf{Solución}:} construir sistemas difusos \textbf{escalables}.
+\end{frame}
+
+%\begin{frame}{Objetivos}
+%\begin{itemize}
+%\item Estudiar la teoría de conjuntos difusos, la lógica difusa y los sistemas %difusos desde un punto de vista teórico.
+%\item Definir el concepto de Big Data, sus características y la infraestructura asociada.
+%\item Diseñar, implementar y probar una serie de sistemas difusos para computación escalable.
+%\end{itemize}
+%\end{frame}
+
+\subsection{Conjuntos y lógica difusa}
+
+%\begin{frame}{Principio de incompatibilidad}
+%\begin{quote}
+%	``As the complexity of a system increases, our ability to make precise and yet significant statements about its behavior diminishes until a threshold is reached beyond which precision and significance become almost mutually exclusive characteristics.''\\
+%	\vspace{1em}
+%	\textsc {Lofti A. Zadeh}, \textit{Fuzzy Sets} (1965).
+%\end{quote}
+%\end{frame}
+
+\begin{frame}{Conjuntos difusos}
+\begin{definition}[Conjunto difuso]
+	Un conjunto difuso $A$ en $X$ es el conjunto de pares ordenados
+\[
+A = \{ (x, \mu_A(x)) \ | \ x \in X \}
+\]
+El conjunto $A$ queda determinado por la función $\mu_A: X \longrightarrow [0,1]$, que asigna a cada elemento un \textbf{grado de pertenencia}.
+\end{definition}
+
+\vspace{1em}
+Permiten modelar la imprecisión y la ambigüedad.
+\begin{example}
+	$A =$ ``\textit{una persona jóven''}, $B=$ ``\textit{sobre 30 años de edad}''.
+\end{example}
+\end{frame}
+
+\begin{frame}{Reglas difusas de tipo Si-Entonces}
+  \begin{exampleblock}{\vspace*{-3ex}}
+
+	Consideramos $A$ y $B$ valores lingüísticos en dos universos $X$ e $Y$, respectivamente. Estudiaremos reglas del tipo\\
+
+\begin{center}
+	Si $x$ es $A$ entonces $y$ es $B$.
+\end{center}
+\end{exampleblock}
+El razonamiento difuso se puede entender como un \textit{modus ponens} generalizado.
+\vspace{-.5em}
+  \begin{exampleblock}{\vspace*{-3ex}}
+\begin{center}
+	$x$ es $A'$\\
+    si $x$ es $A$ entonces $y$ es $B$\\
+    \rule{5cm}{0.4pt}\\
+    $y$ es $B'$
+\end{center}
+
+Tenemos $B' = A' \circ (A \to B)$, donde $\circ$ es un operador de composición.
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}{Sistemas de inferencia difusos}
+	Un sistema de inferencia difuso recibe una entrada y produce una respuesta utilizando razonamiento difuso. Consta de cuatro componentes.
+
+	\begin{itemize}
+	\item Un \textbf{módulo de fuzzificación} con funciones de pertenencia para transformar la entrada en conjuntos difusos.
+	\item Una \textbf{base de reglas} que contiene un conjunto de reglas difusas de tipo si-entonces.
+	\item Un \textbf{mecanismo de razonamiento}, que realiza el procedimiento de inferencia.
+  \item Un \textbf{mecanismo de defuzzificación} para producir una respuesta nítida (opcional).
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Tipos de sistemas difusos}
+\textbf{Mamdani}. Emplea reglas del tipo
+  \begin{center}
+  si $X_1$ es $A_1$ y $\dots$ y $X_n$ es $A_n$\\
+  entonces $Y_1$ es $B_1$ y $\dots$ y $Y_m$ es $B_m$.
+\end{center}
+\vspace{1em}
+
+\textbf{TSK}. Define reglas de la forma
+\begin{center}
+  si $X_1$ es $A_1$ y $\dots$ y $X_n$ es $A_n$\\
+  entonces $Y_1$ es $f_1(X_1, \dots, X_n)$ y $\dots$ y $Y_m$ es $f_m(X_1, \dots, X_n)$,
+\end{center}
+    donde cada $f_i$ es una función nítida de la entrada.
+
+\end{frame}
+
+\subsection{Fundamentos de Big Data}
+
+\begin{frame}{Características de Big Data}
+  Utilizamos los datos para \textbf{resolver un problema}.
+
+\begin{itemize}
+  \item Volumen
+  \item Velocidad
+  \item Variedad
+  \item Veracidad
+  \item Valor
+\end{itemize}
+\end{frame}
+
+\begin{frame}{MapReduce y Apache Spark}
+  Modelo de programación distribuida propuesto por Google en 2004.
+
+  \begin{figure}
+	\centering
+	\includegraphics[width=.6\textwidth]{img/mapreduce}
+	\caption{\footnotesize Esquema de la arquitectura MapReduce.}
+\end{figure}
+\end{frame}
+
+\subsection{Diseño e implementación de algoritmos}
+
+%\begin{frame}{Algoritmos difusos de aprendizaje}
+%  Se clasifican principalmente en tres tipos:
+
+%  \begin{itemize}
+%    \item Basados en \textbf{particiones}. Crean una partición difusa del espacio para medir cómo encajan en ellas los datos y construir reglas en consecuencia.
+%    \item \textbf{Neurodifusos}. A partir de una estructura inicial de reglas se emplean modelos neuronales para \textit{ajustar} los parámetros de las funciones de pertenencia.
+%    \item \textbf{Genéticos}. Similares a los anteriores, pero se emplean algoritmos genéticos para la fase del ajuste.
+%  \end{itemize}
+%\end{frame}
+
+\begin{frame}{Algoritmo de Wang y Mendel}
+  Propuesto por Wang y Mendel en 1992 para construcción de reglas a partir de datos.
+
+  \textbf{Idea}: Dividir el espacio de entrada y salida en regiones. Construir una regla para cada punto en función de las regiones de máxima pertenencia, eliminando duplicados con una medida de \textit{importancia} de cada regla.
+
+
+  \textbf{Etapa map}. Para cada punto calculamos la regla asociada y su importancia.
+
+  \textbf{Etapa reduce}. Agregamos todas las reglas, eliminando conflictos y duplicados.
+
+\end{frame}
+
+
+\begin{frame}{Algoritmo subtractive clustering}
+  Propuesto por S. Chiu en 1994 para encontrar número y valor incial de centroides en clústering difuso.
+
+  \textbf{Idea}: cada punto es un posible centroide. Se asigna a cada punto un potencial inversamente proporcional a la distancia a todos los demás, que disminuye conforme se eligen centroides.
+
+  \begin{enumerate}
+    \item Verisón \textbf{global}. Para inicializar el potencial se consideran todos los puntos, creando todas las posibles parejas.
+    \item Versión \textbf{local}. Se distribuyen los puntos en particiones y el algoritmo se aplica localmente. Después se concatenan los resultados.
+    \item Versión \textbf{híbrida}. Se aplica la versión local, se crean grupos de particiones y en ellos se aplica la versión global, utilizando los centroides como datos de entrada.
+  \end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Algoritmo Fuzzy C-Means}
+  Propuesto por J. Dunn en 1973 y mejorado por J. Bezdek en 1981, para realizar clústering difuso.
+
+  El $i$-ésimo punto tendrá una pertenencia al $j$-ésimo clúster, digamos $u_{ij}$. Se pretende optimizar la función
+  \[
+    J_m = \sum_{X}\sum_{V} u_{ij}^m\Vert x_i - v_j \Vert^2,
+  \]
+  sujeta a las restricciones
+  \[
+    u_{ij}>0 \ \ \forall i, j, \quad y \quad \sum_{V}u_{ij} =1 \ \ \forall i.
+  \]
+  Se resuelve utilizando los multiplicadores de Lagrange para obtener unas reglas iterativas de actualización.
+
+  \textbf{Escalabilidad:} evitamos guardar en memoria la matriz de pertenencias.
+\end{frame}
+
+\subsection{Estudio comparativo}
+
+\begin{frame}{Resultados en clasificación}
+\begin{columns}[T]
+\begin{column}{.48\textwidth}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=1.1\textwidth]{img/acc-class}
+	\caption{\footnotesize Comparación de la precisión obtenida en los tres conjuntos de datos elegidos para los algoritmos de clasificación.}
+\end{figure}
+\end{column}%
+\hfill%
+\begin{column}{.48\textwidth}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=1.1\textwidth]{img/time-class}
+	\caption{\footnotesize Comparación del tiempo de ejecución en los tres conjuntos de datos elegidos para los algoritmos de clasificación.}
+\end{figure}
+\end{column}%
+\end{columns}
+\end{frame}
+
+\begin{frame}{Resultados en regresión}
+\begin{columns}[T]
+\begin{column}{.48\textwidth}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=1.1\textwidth]{img/mse-reg}
+	\caption{\footnotesize Comparación del Mean Squared Error en los dos conjuntos de datos elegidos para los algoritmos de regresión.}
+\end{figure}
+\end{column}%
+\hfill%
+\begin{column}{.48\textwidth}
+
+  \begin{figure}
+	\centering
+	\includegraphics[width=0.97\textwidth]{img/time-reg}
+	\caption{\footnotesize Comparación del tiempo de ejecución en los dos conjuntos de datos elegidos para los algoritmos de regresión.}
+\end{figure}
+\end{column}%
+\end{columns}
+\end{frame}
+
+\begin{frame}{Conclusiones}
+    \begin{itemize}
+      \item Hemos realizado una aportación original desarrollando algoritmos escalables para aprendizaje de sistemas difusos, justificando su interés teórico y práctico.
+      \item Hemos comprobado que es necesario un diseño cuidadoso para adaptar los algoritmos al escenario Big Data. No basta una mera paralelización.
+      \item Nos hemos familiarizado con el modelo de referencia MapReduce y las herramientas del estado del arte en el Big Data, como Apache Spark y HDFS.
+    \end{itemize}
+\end{frame}
+
+\section{Ecuaciones no resolubles con respecto a la derivada}
+
+
+\begin{frame}{Introducción}
+En un curso básico de ecuaciones diferenciales ordinarias la exposición suele centrarse en ecuaciones explícitas, sin analizar con demasiado detalle el caso en el que la derivada no se puede despejar.
+
+Sin embargo, estas ecuaciones implícitas tienen interés teórico y práctico, pues surgen como resultado de modelar muchos problemas en varias disciplinas.
+
+Por ejemplo, en problemas de minimización de funcionales dentro del cálculo variacional la ecuación de Euler-Lagrange suele aparecer en forma implícita, como es el caso de la \textit{braquistócrona}.
+\end{frame}
+
+\subsection{Ecuaciones diferenciales ordinarias}
+
+\begin{frame}{Campo de direcciones}
+  Cada ecuación $y'=f(x,y)$ define en el plano un campo de direcciones que marca la trayectoria de las curvas solución.
+
+  \begin{figure}
+	\centering
+	\includegraphics[width=.45\textwidth]{../figures/integral-curves-1}
+	\caption{\footnotesize Representación del campo de direcciones de la ecuación $y'=x^2+y$ en un entorno del origen y una curva integral particular.}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Teoremas de existencia y unicidad}
+\begin{teorema}[Peano]
+  Si $f$ es una función continua en un dominio del plano, entonces la ecuación $y'=f(x,y)$ tiene solución.
+\end{teorema}
+
+\begin{teorema}[Picard-Lindelöf]
+  Sea $f$ es una función continua en un dominio $D \subset \mathbb{R}^2$ y localmente lipschitziana respecto de la segunda variable. Entonces, para cada $(x_0,y_0)\in D$ el problema de valores iniciales
+  \[
+    \begin{cases}
+      y'=f(x,y),\\
+      y(x_0)=y_0
+    \end{cases}
+  \]
+  tiene una única solución.
+\end{teorema}
+\end{frame}
+
+\subsection{Ecuaciones implícitas}
+
+\begin{frame}{Expresión local en forma explícita}
+  Las ecuaciones implícitas de primer orden adoptan la forma general
+  \[
+  F(x,y,y')=0.
+  \]
+  Los teoremas de existencia y unicidad no se pueden aplicar.
+  \begin{teorema}
+    Sea $F:D \to \mathbb{R}$ una función de clase $\mathcal C^1$ en un dominio $D$ del espacio $(x,y,p)$. Supongamos que $(x_0,y_0,p_0)\in D$ satisface
+    \begin{itemize}
+      \item $F(x_0,y_0,p_0)=0$,
+      \item $F_p(x_0,y_0,p_0)\neq 0$.
+    \end{itemize}
+    Entonces, existe una única solución $\varphi$ verificando $\varphi(x_0)=y_0$ y $\varphi'(x_0)=p_0$.
+  \end{teorema}
+\end{frame}
+
+\begin{frame}{Acotación del número de soluciones en cada punto}
+  Existe una condición algebraica para asegurar que por cada punto pasan un número finito de soluciones.
+
+  \begin{teorema}
+    Sea $F:D\to \mathbb{R}$ una función continua en un dominio $D$ del espacio $(x,y,p)$. Supongamos que $(x_0,y_0)\in \mathbb{R}^2$ es tal que la ecuación $F(x_0, y_0,p)=0$ tiene $m$ raíces distintas $p_1,\dots,p_m$. Supongamos además que para $i=1,\dots, m$ se verifican las siguientes condiciones:
+    \vspace{-1.5em}
+    \begin{itemize}
+      \item $(x_0,y_0,p_i)\in D$ y $F_p(x_0,y_0,p_i)\neq 0$.
+      \item Existe un entorno $\mathcal R_i$ de $(x_0,y_0,p_i)$ en el que $F$ es de clase $\mathcal C^1$.
+    \end{itemize}
+    Entonces, existe un entorno $\mathcal N$ de $(x_0,y_0)$ tal que exactamente $m$ soluciones de la ecuación $F(x,y,y')=0$ pasan por cada punto del mismo.
+  \end{teorema}
+\end{frame}
+
+\begin{frame}{Idea de la demostración}
+
+\begin{columns}[T]
+\begin{column}{.48\textwidth}
+
+\hspace{0pt}
+\vspace{10mm}
+\begin{itemize}
+  \item Vemos los entornos como cilindros disjuntos cuya base se proyecta sobre el mismo entorno del plano.
+  \item En cada uno de ellos aplicamos el teorema de la función implícita y el teorema de Picard-Lindelöf.
+  \item Proyectamos hacia el plano las $m$ soluciones distintas.
+\end{itemize}
+\vfill
+\hspace{0pt}
+\end{column}%
+\hfill%
+\begin{column}{.48\textwidth}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{../figures/cylinder.pdf}
+	\caption{\footnotesize Esquema de los entornos cilíndricos y su proyección.}
+\end{figure}
+\end{column}%
+\end{columns}
+\end{frame}
+
+\begin{frame}{Interpretación geométrica}
+  Vemos la ecuación $F=0$ como una superficie (diferenciable) $M=F^{-1}(0)$ en el espacio de $1$-jets de funciones $y(x)$.
+
+\vspace{0.75em}
+  \begin{defi}
+    Un \textit{punto regular} de $M$ es un punto donde el plano tangente no es vertical.
+  \end{defi}
+
+  Esto es equivalente a que $F_p\neq 0$. En otro caso se habla de un \textit{punto singular}.
+
+\end{frame}
+
+\begin{frame}{El plano de contacto}
+
+  El plano de contacto en un punto $(x,y,p)$ está formado por los vectores que al proyectar verticalmente en el plano $(x, y)$ producen una recta de pendiente $p$.
+  \begin{figure}
+	\centering
+	\includegraphics[width=.4\textwidth]{../figures/jets}
+	\caption{\footnotesize Esquema del plano de contacto en el espacio de $1$-jets.}
+  \end{figure}
+  Si el plano de contacto es distinto del plano tangente, ambos se cortan en una recta. Surge así un campo de direcciones en $M$.
+
+\end{frame}
+
+\begin{frame}{Proyección del campo de direcciones}
+  En torno a los puntos regulares podemos aplicar el teorema de la función implícita para ver que $M$ es localmente un grafo, digamos $p=f(x,y)$.
+  \vspace{0.5em}
+
+\begin{teorema}
+  En un entorno de un punto regular, el campo de direcciones en $M$ se proyecta en el campo de direcciones de la ecuación $y'=f(x,y)$.
+\end{teorema}
+
+  \vspace{0.5em}
+  Esta construcción proporciona también un método de resolución.
+\end{frame}
+
+\subsection{Puntos y soluciones singulares}
+
+\begin{frame}{Clasificación de puntos singulares}
+  Establecemos una clasificación de puntos singulares en \textit{propios} e \textit{impropios}, según el buen comportamiento que presenten.
+  \vspace{0.5em}
+
+  Dentro de los puntos singulares propios, distinguimos también aquellos que verifican una condición extra de regularidad, llamados \textit{puntos singulares regulares}.
+  \vspace{0.75em}
+  \begin{teorema}[Forma normal]
+    En un entorno de un punto singular regular, la ecuación $F=0$ es equivalente a la ecuación $P^2=X$, con $P=dY/dX$.
+  \end{teorema}
+\end{frame}
+
+\begin{frame}{Soluciones singulares}
+  \begin{defi}
+    Las soluciones singulares son aquellas que están formadas exclusivamente por proyecciones de puntos singulares.
+  \end{defi}
+
+  Las soluciones singulares aparecen en muchas ocasiones como la \textit{envolvente} de la familia de soluciones generales.
+
+  \vspace{0.5em}
+  \begin{defi}
+    La envolvente de una familia de curvas es una curva que es tangente en todo punto a alguna curva de la familia.
+  \end{defi}
+\end{frame}
+
+
+\subsection{Ejemplos clásicos}
+
+
+\begin{frame}{Ecuación de Clairaut}
+  Estudiada por el matemático francés A. Clairaut en 1734, presenta la forma
+  \[
+  y=xy'+f(y')=0.
+  \]
+
+  Tiene una familia de soluciones que son rectas de pendiente arbitraria, y además tiene una solución singular que es la parábola envolvente de esta familia de rectas.
+
+  \begin{figure}
+	\centering
+	\includegraphics[width=.6\textwidth]{../figures/clairaut1}
+	\caption{\footnotesize Soluciones de la ecuación de Clairaut $xy'+(y')^2=0.$}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Ecuación de Lagrange}
+  Debe su nombre a Joseph Louis Lagrange, quien la estudió en 1759. Es una ecuación de la forma
+  \[
+    xf(y')+g(y')=0.
+  \]
+  La solución general se obtiene como solución de una EDO lineal tras introducir el parámetro $p=dy/dx$. Tiene también una familia de rectas solución, que puede ser o no ser singular.
+
+  \begin{figure}
+	\centering
+	\includegraphics[width=.335\textwidth]{../figures/lagrange}
+	\caption{\footnotesize Soluciones de la ecuación de Lagrange $2xy'-(y')^2=0.$}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Ecuación de Chrystal}
+  Introducida por G. Chrystal en 1897, presenta la forma general
+  \[
+(y')^2 + Axy' + By + Cx^2=0.
+  \]
+
+  Se revuelve mediante un adecuado cambio de variable, y se pueden obtener soluciones algebraicas o trascendentales.
+
+  Bajo ciertas condiciones se puede entender como una generalización de la ecuación de Clairaut, y presenta en ese caso una solución singular.
+\end{frame}
+
+\begin{frame}{Conclusiones}
+  \begin{itemize}
+  \item Hemos realizado un estudio en profundidad de las ecuaciones en forma implícita desde la teoría general de aplicaciones diferenciables.
+  \item Hemos aunado en un documento definiciones, conceptos y resultados de diferentes autores, aportando referencias al material original.
+  \item Hemos comprobado cómo poner en práctica esta teoría resolviendo algunas ecuaciones clásicas.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Notas finales}
+El código fuente de la memoria del trabajo junto con el de estas diapositivas se encuentra disponible bajo licencia CC-BY-SA-4.0 en
+\begin{center}
+\url{https://github.com/antcc/tfg},
+\end{center}
+
+y la implementación de código desarrollada está liberada bajo licencia GPLv3 en
+\begin{center}
+\url{https://github.com/antcc/fuzzyspark}.
+\end{center}
+
+\end{frame}
+
+\begin{frame}[standout]
+Gracias por su atención
+\end{frame}
+
+\end{document}
