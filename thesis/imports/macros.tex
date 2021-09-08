@@ -69,3 +69,12 @@
 
 % Para añadir un salto de línea al nuevo párrafo. Use: \newparagraph
 \newcommand{\newparagraph}[1]{\paragraph{#1}\mbox{}\\}
+
+% Para añadir una pagina en blanco despues de la actual usar \afterpage{\blankpage}
+\newcommand{\blankpage}{%
+	\null
+	\thispagestyle{empty}%
+	\addtocounter{page}{-1}%
+	\newpage
+}
+

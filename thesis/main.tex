@@ -50,6 +50,7 @@ cleardoublepage=empty,abstractoff,BCOR=5mm,paper=a4,fontsize=12pt,main=english]{
 \usepackage{placeins} % Para \FloatBarrier
 \usepackage{algorithm} % Para begin{algorithm}
 \usepackage{pseudo}
+\usepackage{afterpage}
 
 \usepackage{minted} % Código fuente.
 \definecolor{bg}{rgb}{0.95,0.95,0.95} % Code background color
@@ -111,10 +112,10 @@ manychapters,pdfspacing]{classicthesis}
 
 \ThisULCornerWallPaper{1}{figures/ugrA4.pdf}
 \maketitle
-\tableofcontents
 
-% Format based on:
-% https://grados.ugr.es/informaticaymatematicas/pages/infoacademica/tfg/formato/formato_memoriatfgdg
+\input{add_ons/dedicatoria}
+
+\tableofcontents
 
 \input{add_ons/summary}
 \input{add_ons/resumen_extendido}
@@ -126,8 +127,6 @@ manychapters,pdfspacing]{classicthesis}
 \input{chapters/chapter3_GenomeAssembly}
 
 \input{add_ons/conclusion}
-
-% TODO: repasar maquetación
 
 % ----------------------- %
 % BIBLIOGRAFÍA

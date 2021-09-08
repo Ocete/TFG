@@ -9,7 +9,7 @@ In this last chapter, we approach the genome assembly problem with the use of qu
 
 The genome of an organism is all its genetic material \cite{Roth2019}. The deoxyribonucleic acid (DNA) is the carrier of that genetic information. It consists of two long chains twisted to form a double helix \cite{Alberts2007}. Each of these chains is composed of a series of nucleotides or bases: adenine (A), guanine (G), cytosine (C), and thymine (T). Since these bases are matched in pairs in the DNA double helix, they are called base pairs (bp).
 
-A genome sequence is the complete list of nucleotides of every chromosome of an organism. With today's technology, automated sequence machines can read up to 1000 bp at a time \cite{Slatko2011} while the human genome contains 3 Mbp, so we cannot simply read the whole genome. This is where genome assembly comes in.
+A genome sequence is the complete list of nucleotides of every chromosome of an organism. With today's technology, automated sequence machines can read up to $10.000$ bp at a time \cite{Reinert1015} while the human genome contains 3 Mbp, so we cannot simply read the whole genome. This is where genome assembly comes in.
 
 Genome assembly refers to the process of, given a large number of short DNA reads, stitch them together to form a large representation of the original chromosome where the reads came from. The two main techniques used to reconstruct these sequences are the ab initio reference-free alignment and the de novo reference-based assembly.
 
@@ -31,7 +31,7 @@ State of the art algorithms trades off accuracy for speed and memory. Given enou
 
 On the other hand, the de novo reference-free method is, as its name suggests, reference free. Meaning, it is based only on the DNA reads. Thus, it has no reference bias but it is more computationally complex. It is usually used the first time a species DNA is read.
 
-In this technique, multiple copies of the same DNA are made before slicing it. After chopping each copy at random places the data is redundant and the different reads overlap, making the assembly easier. There are multiple methods for de novo assembly based on different tools: Overlap-Layout Consensus (OLC) methods, de Bruijn graph (DBG) methods, string graphs, greedy and hybrid methods are some of the most famous examples. Depending on the reading method and the number and length of the DNA reads, different methods excel from the rest. For instance, short-read technologies with a large number of reads favor DBG methods while high-quality long reads favor OCL methods. For our purposes, we will focus on the OCL method.
+In this technique, multiple copies of the same DNA are made before slicing it. After chopping each copy at random places the data is redundant and the different reads overlap, making the assembly easier. There are multiple methods for de novo assembly based on different tools: Overlap-Layout Consensus (OLC) methods, de Bruijn graph (DBG) methods, string graphs, greedy and hybrid methods are some of the most famous examples (for a review see \cite{Sohn2018}). Depending on the reading method and the number and length of the DNA reads, different methods excel from the rest. For instance, short-read technologies with a large number of reads favor DBG methods while high-quality long reads favor OCL methods. For our purposes, we will focus on the OCL method.
 
 In the OLC graph used for the de novo whole-genome assembly, each node represents a different DNA read. Directed edges are associated a weight depending on how well these two reads are stitched together in a certain order. For example, the directed edge going from reading $r_1$ to read $r_2$ will be assigned a weight depending on how well $r_1r_2$ can be stiched.
 
@@ -94,7 +94,7 @@ In this last section, we will explain the experiments reproduced using the D-Wav
 \subsection{How to reproduce the experiments}
 
 
-In order to run configure the samplers and submit jobs to D-Wave quantum annealers we used the \emph{D-Wave Ocean Software}, a suite of tools provided by D-Wave to use their quantum systems \cite{DWave-OceanDoc}. Using python and the provided packages we may connect to \emph{Leap}, a 'quantum' cloud service that provides access the quantum computers \cite{DWave-Leap}.
+In order to configure the samplers and submit jobs to D-Wave quantum annealers we used the \emph{D-Wave Ocean Software}, a suite of tools provided by D-Wave to use their quantum systems \cite{DWave-OceanDoc}. Using python and the provided packages we may connect to \emph{Leap}, a 'quantum' cloud service that provides access the quantum computers \cite{DWave-Leap}.
 
 Leap provides a minute of free QPU time with the (free) developer plan. We may extend this time by obtaining either commercial or research access. This can be done by contacting the Leap team.
 
@@ -113,7 +113,7 @@ For the pourpose of this thesis I used the developer plan. In total, I submitted
 	\label{tab:leap-breakdown}
 \end{table}
 
-Apart from Leap, in order to reproduce this experiments you will need to install tthe following Python packages, available thorugh \emph{pip}: \textbf{\emph{dimod}}, \textbf{\emph{neal}}, \textbf{\emph{minorminer}}, \textbf{\emph{dwave}} and \textbf{\emph{dwave\_networkx}}. The code I used for this experiments can be found in \cite{thesis-code}, which are inspired on \cite{Sarkar2020}.
+Apart from Leap, in order to reproduce these experiments you will need to install tthe following Python packages, available thorugh \emph{pip}: \textbf{\emph{dimod}}, \textbf{\emph{neal}}, \textbf{\emph{minorminer}}, \textbf{\emph{dwave}} and \textbf{\emph{dwave\_networkx}}. The code I used for these experiments can be found in \cite{thesis-code}, which are inspired on \cite{Sarkar2020}.
 
 \begin{figure}[H]
 	\includegraphics[scale=0.5]{experiments/leap-breakdown.png}
@@ -250,7 +250,7 @@ The pseudo-code does not change much from the first experiment to the second one
 	Present the obtained samples.
 \end{algorithm}
 
-It is worth mentioning that we do not \emph{solve} the QUBO model in this experiment, we \emph{sample} different results using simulated annealing.
+It is worth mentioning that we do not \emph{solve} the QUBO model in these experiments, we \emph{sample} different results using simulated annealing.
 
 Since \emph{Neal}'s sampler is quite efficient we were able to execute experiments with up to $10.000$ repetitions of the experiment, also called \emph{sample reads} or simply \emph{reads}. We developed an automated and scalable way to check whether a given cycle returned by the annealer was valid, and to recover its associated type. Using these tools we can easily check the number of occurrences each type of cycle appeared in the obtained sample reads. These results are presented, along with the associated energy to each result, in table \ref{tab:exp2} and figure \ref{fig:exp2-occ}. See figure \ref{fig:overlap-cycles} to recall the cycle types and cost computing.
 
@@ -399,7 +399,7 @@ In figures \ref{fig:exp3-occ1} and \ref{fig:exp3-occ2} we see a comparison of th
 	\label{fig:exp3-occ2}
 \end{figure}
 
-With these results in mind, is it possible that we are sampling completely random solutions? In a 4-reads problem, we obtain a 16 binary variables QUBO model. That means there are up to $2^{16}$ possible solutions using our encoding, even more after we embed it in the Chimera topology. If we were to randomly sample from that solution space, we will never get almost $10\%$ of samples from a subset of $24$ solutions that represent our $6$ valid cycles. So we do know that the quantum system is working, just know as good as expected.
+With these results in mind, is it possible that we are sampling completely random solutions? In a 4-reads problem, we obtain a 16 binary variables QUBO model. That means there are up to $2^{16}$ possible solutions using our encoding, even more after we embed it in the Chimera topology. If we were to randomly sample from that solution space, we will never get almost $10\%$ of samples from a subset of $24$ solutions that represent our $6$ valid cycles. So we do know that the quantum system is working, just not as good as expected.
 
 We have not found a clear improvement precision-wise in our small example, although QA does solve the problem. What about time-wise? In figure \ref{fig:exp3-time} we see the time breakdown provided by Leap after our last experiment. We can see a total QPU sampling time of $2.389$ seconds, while if we repeat the experiment with the same parameters using SA we obtain a mean of $2.525$ sampling seconds, over $10$ experiment repetitions. Keeping in mind that our QA time data comes from a single execution and the small difference between both time measures, we cannot conclude that either approach has any time advantage in such small problems.
 
