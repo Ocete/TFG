@@ -1,2 +1,2 @@
-defense.pdf: defense.tex img/*
+defense.pdf: defense.tex
 	latexmk -lualatex --shell-escape -pdf $<
